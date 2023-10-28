@@ -1,5 +1,7 @@
 using Documenter, Unitful, Dates
 
+ENV["UNITFUL_FANCY_EXPONENTS"] = false
+
 DocMeta.setdocmeta!(Unitful, :DocTestSetup, :(using Unitful))
 
 makedocs(
@@ -25,4 +27,4 @@ makedocs(
     ]
 )
 
-deploydocs(repo = "github.com/PainterQubits/Unitful.jl.git")
+# deploydocs(repo = "github.com/PainterQubits/Unitful.jl.git")
