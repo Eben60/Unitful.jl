@@ -15,4 +15,5 @@ docs/site/
 # environment.
 Manifest.toml
 settings.json
+*/tmp*
 *~
