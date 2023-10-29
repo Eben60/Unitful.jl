@@ -16,5 +16,7 @@ docs/site/
 Manifest.toml
 settings.json
 */tmp*
+/tmp/*
 .gitignore
+.DS_Store
 *~

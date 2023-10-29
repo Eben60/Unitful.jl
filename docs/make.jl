@@ -23,9 +23,8 @@ makedocs(
         "Interoperability with `Dates`" => "dates.md"
         "Extending Unitful" => "extending.md"
         "Troubleshooting" => "trouble.md"
-        # "Default defined units and constants" => "defaultunits.md"
+        "Default defined units and constants" => "defaultunits.md"
         "License" => "LICENSE.md"
-
     ]
 )
 

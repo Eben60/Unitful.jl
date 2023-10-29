@@ -8,14 +8,14 @@ end
 ## Basic dimensions
 
 ### Area
-```@docs
-    Unitful.Area
+```@docs; canonical=false
+Unitful.Area
 ```
 
 #### Units
-```@docs
-    Unitful.a
-    Unitful.b
+```@docs; canonical=false
+Unitful.a
 ```
+
 
 
