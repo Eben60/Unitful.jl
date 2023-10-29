@@ -16,4 +16,5 @@ docs/site/
 Manifest.toml
 settings.json
 */tmp*
+.gitignore
 *~
