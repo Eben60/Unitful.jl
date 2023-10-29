@@ -84,6 +84,11 @@ function unitsdict(physdims, uids)
     return OrderedDict(sort!(ups))
 end
 
+physconstants(uids) = [n for n in uids if 
+    isconst(Unitful, n) && 
+    !(getproperty(Unitful, n) isa Union{Type, Unitful.Units, Unitful.Dimensions, Module, Function}) &&
+    isdocumented(n) ]
+
             
 uids = uful_ids()
 
@@ -91,5 +96,6 @@ uids = uful_ids()
 
 basic_units =  unitsdict(basicdims, uids)
 compound_units = unitsdict(compounddims, uids)
+physical_constants = physconstants(uids)
 
 end # module
