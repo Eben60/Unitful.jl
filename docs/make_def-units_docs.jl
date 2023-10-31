@@ -103,12 +103,26 @@ removerefs(d) = replace(d, r"\[(`[\w\.]+\`)]\(@ref\)" => s"\1")
 
 udoc(s) = removerefs(docstr(s))
 
+function extractname(u)
+    t = typeof(u)
+    ps = getproperty(t, :parameters)
+    u1 = ps[1][1]
+    @assert u1 isa Unitful.Unit
+    t1 = typeof(u1)
+    uname = getproperty(t1, :parameters)[1]
+    return uname
+end
+
+extractname(s::Symbol) = extractname(getproperty(Unitful, s))
+
 function makesectext(sectiontitle, sectiondict, s0="")
     s = s0 * "## $sectiontitle \n\n"
     for (dim, uvec) in sectiondict # e.g. :Amount => [:mol]
+        s *= "### $dim\n\n"
         for u in uvec # e.g. u = :mol 
+            n = extractname(u)
             d = udoc(u) # e.g. d = "```\nUnitful.mol\n```\n\nThe mole, ..."
-            s *= "$d \n\n"
+            s *= "#### $n \n\n$d \n\n"
         end
     end
     return s
