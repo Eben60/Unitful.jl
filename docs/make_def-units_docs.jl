@@ -98,4 +98,8 @@ basic_units =  unitsdict(basicdims, uids)
 compound_units = unitsdict(compounddims, uids)
 physical_constants = physconstants(uids)
 
+removerefs(d) = replace(d, r"\[(`[\w\.]+\`)]\(@ref\)" => s"\1")
+
+unlinkedref(s) = removerefs(docstr(s))
+
 end # module
