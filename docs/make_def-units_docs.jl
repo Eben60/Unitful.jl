@@ -91,15 +91,58 @@ physconstants(uids) = [n for n in uids if
 
             
 uids = uful_ids()
+# ud = unitsdict(dims, uids)
 
 (;basicdims, compounddims) = uids |> getphysdims |> physdims_categories
 
 basic_units =  unitsdict(basicdims, uids)
 compound_units = unitsdict(compounddims, uids)
-physical_constants = physconstants(uids)
+phys_consts = physconstants(uids)
 
 removerefs(d) = replace(d, r"\[(`[\w\.]+\`)]\(@ref\)" => s"\1")
 
-unlinkedref(s) = removerefs(docstr(s))
+udoc(s) = removerefs(docstr(s))
+
+function makesectext(sectiontitle, sectiondict, s0="")
+    s = s0 * "## $sectiontitle \n\n"
+    for (dim, uvec) in sectiondict # e.g. :Amount => [:mol]
+        for u in uvec # e.g. u = :mol 
+            d = udoc(u) # e.g. d = "```\nUnitful.mol\n```\n\nThe mole, ..."
+            s *= "$d \n\n"
+        end
+    end
+    return s
+end
+
+sections = OrderedDict(["Basic dimensions" => basic_units, 
+    "Compound dimensions" => compound_units, ])
+
+function makefulltext(sections, pagetitle="# Title!", footer="that's it")
+    s = pagetitle * "\n\n"
+    for (sectiontitle, sectiondict) in sections
+        println(sectiontitle)
+        s = makesectext(sectiontitle, sectiondict, s)
+    end
+    s *= footer
+    return s
+end
+
+# fulltext = makefulltext(sections)
+mdfile = "src/tmp.md"
+
+function savetext(fulltext, mdfile)
+    open(mdfile,"w") do io
+       write(io, fulltext)
+    end
+    return nothing
+end
+
+function savetext(wr = true)
+    fulltext = makefulltext(sections)
+    wr && savetext(fulltext, mdfile)
+    return fulltext
+end
+    
+export savetext
 
 end # module
