@@ -103,7 +103,7 @@ removerefs(d) = replace(d, r"\[(`[\w\.]+\`)]\(@ref\)" => s"\1")
 
 udoc(s) = removerefs(docstr(s))
 
-function extractname(u)
+function getunitname(u)
     t = typeof(u)
     ps = getproperty(t, :parameters)
     u1 = ps[1][1]
@@ -113,14 +113,14 @@ function extractname(u)
     return uname
 end
 
-extractname(s::Symbol) = extractname(getproperty(Unitful, s))
+getunitname(s::Symbol) = getunitname(getproperty(Unitful, s))
 
 function makesectext(sectiontitle, sectiondict, s0="")
     s = s0 * "## $sectiontitle \n\n"
     for (dim, uvec) in sectiondict # e.g. :Amount => [:mol]
         s *= "### $dim\n\n"
         for u in uvec # e.g. u = :mol 
-            n = extractname(u)
+            n = getunitname(u)
             d = udoc(u) # e.g. d = "```\nUnitful.mol\n```\n\nThe mole, ..."
             s *= "#### $n \n\n$d \n\n"
         end
@@ -134,7 +134,6 @@ sections = OrderedDict(["Basic dimensions" => basic_units,
 function makefulltext(sections, pagetitle="# Title!", footer="that's it")
     s = pagetitle * "\n\n"
     for (sectiontitle, sectiondict) in sections
-        println(sectiontitle)
         s = makesectext(sectiontitle, sectiondict, s)
     end
     s *= footer
