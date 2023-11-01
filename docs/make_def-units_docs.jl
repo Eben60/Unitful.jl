@@ -107,7 +107,8 @@ phys_consts = physconstants(uids)
 
 removerefs(d) = replace(d, r"\[(`[\w\.]+\`)]\(@ref\)" => s"\1")
 
-udoc(s) = removerefs(docstr(s))
+# udoc(s) = removerefs(docstr(s))
+udoc(s) = match(r"(?ms)(.+)\n\nDimension: ", docstr(s)).captures[1]
 
 function nameofunit(u)
     t = typeof(u)

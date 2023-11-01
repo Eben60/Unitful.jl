@@ -25,10 +25,7 @@ help?> Unitful.eV
 Unitful.mol
 ```
 
-The mole, the SI base unit for amount of substance.
-
-Dimension: `Unitful.𝐍`.
- 
+The mole, the SI base unit for amount of substance. 
 
 ### Current
 
@@ -38,10 +35,7 @@ Dimension: `Unitful.𝐍`.
 Unitful.A
 ```
 
-The ampere, the SI base unit of electric current.
-
-Dimension: `Unitful.𝐈`.
- 
+The ampere, the SI base unit of electric current. 
 
 ### Length
 
@@ -52,12 +46,7 @@ Unitful.angstrom
 Unitful.Å
 ```
 
-The angstrom, a metric unit of length defined as 1/10 nm.
-
-Dimension: `Unitful.𝐋`.
-
-See Also: `Unitful.nm`.
- 
+The angstrom, a metric unit of length defined as 1/10 nm. 
 
 #### Foot 
 
@@ -65,12 +54,7 @@ See Also: `Unitful.nm`.
 Unitful.ft
 ```
 
-The foot, a US customary unit of length defined as 12 inch.
-
-Dimension: `Unitful.𝐋`.
-
-See Also: `Unitful.inch`.
- 
+The foot, a US customary unit of length defined as 12 inch. 
 
 #### Inch 
 
@@ -78,12 +62,7 @@ See Also: `Unitful.inch`.
 Unitful.inch
 ```
 
-The inch, a US customary unit of length defined as 2.54 cm.
-
-Dimension: `Unitful.𝐋`.
-
-See Also: `Unitful.cm`.
- 
+The inch, a US customary unit of length defined as 2.54 cm. 
 
 #### Meter 
 
@@ -91,10 +70,7 @@ See Also: `Unitful.cm`.
 Unitful.m
 ```
 
-The meter, the SI base unit of length.
-
-Dimension: `Unitful.𝐋`.
- 
+The meter, the SI base unit of length. 
 
 #### Mile 
 
@@ -102,12 +78,7 @@ Dimension: `Unitful.𝐋`.
 Unitful.mi
 ```
 
-The mile, a US customary unit of length defined as 1760 yd.
-
-Dimension: `Unitful.𝐋`.
-
-See Also: `Unitful.yd`.
- 
+The mile, a US customary unit of length defined as 1760 yd. 
 
 #### Mil 
 
@@ -115,12 +86,7 @@ See Also: `Unitful.yd`.
 Unitful.mil
 ```
 
-The mil, a US customary unit of length defined as 1/1000 inch.
-
-Dimension: `Unitful.𝐋`.
-
-See Also: `Unitful.inch`.
- 
+The mil, a US customary unit of length defined as 1/1000 inch. 
 
 #### Yard 
 
@@ -128,12 +94,7 @@ See Also: `Unitful.inch`.
 Unitful.yd
 ```
 
-The yard, a US customary unit of length defined as 3 ft.
-
-Dimension: `Unitful.𝐋`.
-
-See Also: `Unitful.ft`.
- 
+The yard, a US customary unit of length defined as 3 ft. 
 
 #### Angstrom 
 
@@ -142,12 +103,7 @@ Unitful.angstrom
 Unitful.Å
 ```
 
-The angstrom, a metric unit of length defined as 1/10 nm.
-
-Dimension: `Unitful.𝐋`.
-
-See Also: `Unitful.nm`.
- 
+The angstrom, a metric unit of length defined as 1/10 nm. 
 
 ### Luminosity
 
@@ -157,10 +113,7 @@ See Also: `Unitful.nm`.
 Unitful.cd
 ```
 
-The candela, the SI base unit of luminous intensity.
-
-Dimension: `Unitful.𝐉`.
- 
+The candela, the SI base unit of luminous intensity. 
 
 #### Lumen 
 
@@ -168,12 +121,7 @@ Dimension: `Unitful.𝐉`.
 Unitful.lm
 ```
 
-The lumen, an SI unit of luminous flux, defined as 1 cd × sr.
-
-Dimension: `Unitful.𝐉`.
-
-See also: `Unitful.cd`, `Unitful.sr`.
- 
+The lumen, an SI unit of luminous flux, defined as 1 cd × sr. 
 
 ### Mass
 
@@ -183,12 +131,7 @@ See also: `Unitful.cd`, `Unitful.sr`.
 Unitful.dr
 ```
 
-The dram, a US customary unit of mass defined as 1/16 oz.
-
-Dimension: `Unitful.𝐌`.
-
-See Also: `Unitful.oz`.
- 
+The dram, a US customary unit of mass defined as 1/16 oz. 
 
 #### Grain 
 
@@ -196,12 +139,7 @@ See Also: `Unitful.oz`.
 Unitful.gr
 ```
 
-The grain, a US customary unit of mass defined as 1/7000 lb.
-
-Dimension: `Unitful.𝐌`.
-
-See Also: `Unitful.lb`.
- 
+The grain, a US customary unit of mass defined as 1/7000 lb. 
 
 #### Gram 
 
@@ -209,10 +147,7 @@ See Also: `Unitful.lb`.
 Unitful.kg
 ```
 
-The kilogram, the SI base unit of mass. Note that `kg`, not `g`, is the base unit.
-
-Dimension: `Unitful.𝐌`.
- 
+The kilogram, the SI base unit of mass. Note that `kg`, not `g`, is the base unit. 
 
 #### Pound 
 
@@ -220,12 +155,7 @@ Dimension: `Unitful.𝐌`.
 Unitful.lb
 ```
 
-The pound-mass, a US customary unit of mass defined as exactly 0.453,592,37 kg.
-
-Dimension: `Unitful.𝐌`.
-
-See Also: `Unitful.kg`.
- 
+The pound-mass, a US customary unit of mass defined as exactly 0.453,592,37 kg. 
 
 #### Ounce 
 
@@ -233,12 +163,7 @@ See Also: `Unitful.kg`.
 Unitful.oz
 ```
 
-The ounce, a US customary unit of mass defined as 1/16 lb.
-
-Dimension: `Unitful.𝐌`.
-
-See Also: `Unitful.lb`.
- 
+The ounce, a US customary unit of mass defined as 1/16 lb. 
 
 #### Slug 
 
@@ -246,12 +171,7 @@ See Also: `Unitful.lb`.
 Unitful.slug
 ```
 
-The slug, a US customary unit of mass defined as 1 lbf × s^2 / ft.
-
-Dimension: `Unitful.𝐌`.
-
-See Also: `Unitful.lbf`, `Unitful.s`, `Unitful.ft`.
- 
+The slug, a US customary unit of mass defined as 1 lbf × s^2 / ft. 
 
 #### UnifiedAtomicMassUnit 
 
@@ -259,12 +179,7 @@ See Also: `Unitful.lbf`, `Unitful.s`, `Unitful.ft`.
 Unitful.u
 ```
 
-The unified atomic mass unit, or dalton, a unit of mass defined as 1/12 the mass of an unbound neutral atom of carbon-12, equal to 1.660,539,066,60 × 10^-27 kg (the CODATA 2018 recommended value).
-
-Dimension: `Unitful.𝐌`.
-
-See Also: `Unitful.kg`.
- 
+The unified atomic mass unit, or dalton, a unit of mass defined as 1/12 the mass of an unbound neutral atom of carbon-12, equal to 1.660,539,066,60 × 10^-27 kg (the CODATA 2018 recommended value). 
 
 ### Temperature
 
@@ -274,10 +189,7 @@ See Also: `Unitful.kg`.
 Unitful.K
 ```
 
-The kelvin, the SI base unit of thermodynamic temperature.
-
-Dimension: `Unitful.𝚯`.
- 
+The kelvin, the SI base unit of thermodynamic temperature. 
 
 #### Rankine 
 
@@ -285,12 +197,7 @@ Dimension: `Unitful.𝚯`.
 Unitful.Ra
 ```
 
-The rankine, a US customary unit of temperature defined as 5/9 K.
-
-Dimension: `Unitful.𝚯`.
-
-See Also: `Unitful.K`.
- 
+The rankine, a US customary unit of temperature defined as 5/9 K. 
 
 #### Kelvin 
 
@@ -298,12 +205,7 @@ See Also: `Unitful.K`.
 Unitful.°C
 ```
 
-The degree Celsius, an SI unit of temperature, defined such that 0 °C = 273.15 K.
-
-Dimension: `Unitful.𝚯`.
-
-See also: `Unitful.K`.
- 
+The degree Celsius, an SI unit of temperature, defined such that 0 °C = 273.15 K. 
 
 #### Rankine 
 
@@ -311,12 +213,7 @@ See also: `Unitful.K`.
 Unitful.°F
 ```
 
-The degree Fahrenheit, a US customary unit of temperature, defined such that 0 °F = 459.67 Ra.
-
-Dimension: `Unitful.𝚯`.
-
-See also: `Unitful.Ra`.
- 
+The degree Fahrenheit, a US customary unit of temperature, defined such that 0 °F = 459.67 Ra. 
 
 ### Time
 
@@ -326,12 +223,7 @@ See also: `Unitful.Ra`.
 Unitful.d
 ```
 
-The day, a unit of time defined as 24 hr.
-
-Dimension: `Unitful.𝐓`.
-
-See Also: `Unitful.hr`.
- 
+The day, a unit of time defined as 24 hr. 
 
 #### Hour 
 
@@ -339,12 +231,7 @@ See Also: `Unitful.hr`.
 Unitful.hr
 ```
 
-The hour, a unit of time defined as 60 minutes.
-
-Dimension: `Unitful.𝐓`.
-
-See Also: `Unitful.minute`.
- 
+The hour, a unit of time defined as 60 minutes. 
 
 #### Minute 
 
@@ -352,12 +239,7 @@ See Also: `Unitful.minute`.
 Unitful.minute
 ```
 
-The minute, a unit of time defined as 60 s. The full name `minute` is used instead of the symbol `min` to avoid confusion with the Julia function `min`.
-
-Dimension: `Unitful.𝐓`.
-
-See Also: `Unitful.s`.
- 
+The minute, a unit of time defined as 60 s. The full name `minute` is used instead of the symbol `min` to avoid confusion with the Julia function `min`. 
 
 #### Second 
 
@@ -365,10 +247,7 @@ See Also: `Unitful.s`.
 Unitful.s
 ```
 
-The second, the SI base unit of time.
-
-Dimension: `Unitful.𝐓`.
- 
+The second, the SI base unit of time. 
 
 #### Week 
 
@@ -376,12 +255,7 @@ Dimension: `Unitful.𝐓`.
 Unitful.wk
 ```
 
-The week, a unit of time, defined as 7 d.
-
-Dimension: `Unitful.𝐓`.
-
-See Also: `Unitful.d`.
- 
+The week, a unit of time, defined as 7 d. 
 
 #### Year 
 
@@ -389,12 +263,7 @@ See Also: `Unitful.d`.
 Unitful.yr
 ```
 
-The year, a unit of time, defined as 365.25 d.
-
-Dimension: `Unitful.𝐓`.
-
-See Also: `Unitful.hr`.
- 
+The year, a unit of time, defined as 365.25 d. 
 
 ## Compound dimensions 
 
@@ -406,12 +275,7 @@ See Also: `Unitful.hr`.
 Unitful.Gal
 ```
 
-The gal, a CGS unit of acceleration, defined as 1 cm / s^2.
-
-Dimension: 𝐋 𝐓^-2.
-
-See also: `Unitful.cm`, `Unitful.s`.
- 
+The gal, a CGS unit of acceleration, defined as 1 cm / s^2. 
 
 #### EarthGravity 
 
@@ -421,12 +285,7 @@ Unitful.ge
 
 The nominal acceleration due to gravity in a vacuum near the surface of the earth, a unit of acceleration, defined by standard to be exactly 9.806,65 m / s^2.
 
-`Unitful.gn` is a quantity (with units `m/s^2`) whereas `Unitful.ge` is a unit equal to `gn`.
-
-Dimension: 𝐋 𝐓^-2.
-
-See also: `Unitful.m`, `Unitful.s`.
- 
+[`Unitful.gn`](@ref) is a quantity (with units `m/s^2`) whereas `Unitful.ge` is a unit equal to `gn`. 
 
 ### Area
 
@@ -436,12 +295,7 @@ See also: `Unitful.m`, `Unitful.s`.
 Unitful.a
 ```
 
-The are, a metric unit of area, defined as 100 m^2.
-
-Dimension: 𝐋^2.
-
-See Also: `Unitful.m`.
- 
+The are, a metric unit of area, defined as 100 m^2. 
 
 #### Acre 
 
@@ -449,12 +303,7 @@ See Also: `Unitful.m`.
 Unitful.ac
 ```
 
-The acre, a US customary unit of area defined as 4840 yd^2.
-
-Dimension: 𝐋^2.
-
-See Also: `Unitful.yd`.
- 
+The acre, a US customary unit of area defined as 4840 yd^2. 
 
 #### Barn 
 
@@ -462,12 +311,7 @@ See Also: `Unitful.yd`.
 Unitful.b
 ```
 
-The barn, a metric unit of area, defined as 100 fm^2.
-
-Dimension: 𝐋^2.
-
-See Also: `Unitful.fm`.
- 
+The barn, a metric unit of area, defined as 100 fm^2. 
 
 #### Are 
 
@@ -475,12 +319,7 @@ See Also: `Unitful.fm`.
 Unitful.ha
 ```
 
-The hectare, a metric unit of area, defined as 100 a.
-
-Dimension: 𝐋^2.
-
-See Also: `Unitful.a`.
- 
+The hectare, a metric unit of area, defined as 100 a. 
 
 ### BField
 
@@ -490,12 +329,7 @@ See Also: `Unitful.a`.
 Unitful.Gauss
 ```
 
-The gauss, a CGS unit of magnetic B-field strength, defined as 1 Mx / cm^2.
-
-Dimension: 𝐌 𝐈^-1 𝐓^-2.
-
-See also: `Unitful.cm`, `Unitful.Mx`
- 
+The gauss, a CGS unit of magnetic B-field strength, defined as 1 Mx / cm^2. 
 
 #### Tesla 
 
@@ -503,12 +337,7 @@ See also: `Unitful.cm`, `Unitful.Mx`
 Unitful.T
 ```
 
-The tesla, an SI unit of magnetic B-field strength, defined as 1 kg / (A × s^2).
-
-Dimension: 𝐌 𝐈^-1 𝐓^-2.
-
-See also: `Unitful.kg`, `Unitful.A`, `Unitful.s`.
- 
+The tesla, an SI unit of magnetic B-field strength, defined as 1 kg / (A × s^2). 
 
 ### Capacitance
 
@@ -518,12 +347,7 @@ See also: `Unitful.kg`, `Unitful.A`, `Unitful.s`.
 Unitful.F
 ```
 
-The farad, an SI unit of electrical capacitance, defined as 1 s^4 × A^2 / (kg × m^2).
-
-Dimension: 𝐈^2 𝐓^4 𝐋^-2 𝐌^-1.
-
-See also: `Unitful.s`, `Unitful.A`, `Unitful.kg`, `Unitful.m`.
- 
+The farad, an SI unit of electrical capacitance, defined as 1 s^4 × A^2 / (kg × m^2). 
 
 ### Charge
 
@@ -533,12 +357,7 @@ See also: `Unitful.s`, `Unitful.A`, `Unitful.kg`, `Unitful.m`.
 Unitful.C
 ```
 
-The coulomb, an SI unit of electric charge, defined as 1 A × s.
-
-Dimension: 𝐈 𝐓.
-
-See also: `Unitful.A`, `Unitful.s`.
- 
+The coulomb, an SI unit of electric charge, defined as 1 A × s. 
 
 ### DynamicViscosity
 
@@ -548,12 +367,7 @@ See also: `Unitful.A`, `Unitful.s`.
 Unitful.P
 ```
 
-The poise, a CGS unit of dynamic viscosity, defined as 1 dyn × s / cm^2.
-
-Dimension: 𝐌 𝐋^-1 𝐓^-1.
-
-See also: `Unitful.cm`, `Unitful.dyn`, `Unitful.s`
- 
+The poise, a CGS unit of dynamic viscosity, defined as 1 dyn × s / cm^2. 
 
 ### ElectricalConductance
 
@@ -563,12 +377,7 @@ See also: `Unitful.cm`, `Unitful.dyn`, `Unitful.s`
 Unitful.S
 ```
 
-The siemens, an SI unit of electrical conductance, defined as 1 Ω^-1.
-
-Dimension: 𝐈^2 𝐓^3 𝐋^-2 𝐌^-1.
-
-See also: `Unitful.Ω`
- 
+The siemens, an SI unit of electrical conductance, defined as 1 Ω^-1. 
 
 ### ElectricalResistance
 
@@ -578,12 +387,7 @@ See also: `Unitful.Ω`
 Unitful.Ω
 ```
 
-The ohm, an SI unit of electrical resistance, defined as 1 V / A.
-
-Dimension: 𝐋^2 𝐌 𝐈^-2 𝐓^-3.
-
-See also: `Unitful.V`, `Unitful.A`.
- 
+The ohm, an SI unit of electrical resistance, defined as 1 V / A. 
 
 ### Energy
 
@@ -593,12 +397,7 @@ See also: `Unitful.V`, `Unitful.A`.
 Unitful.btu
 ```
 
-The British thermal unit, a US customary unit of heat defined by ISO 31-4 as exactly 1055.06 J.
-
-Dimension: 𝐋^2 𝐌 𝐓^-2.
-
-See Also: `Unitful.J`.
- 
+The British thermal unit, a US customary unit of heat defined by ISO 31-4 as exactly 1055.06 J. 
 
 #### Calorie 
 
@@ -606,12 +405,7 @@ See Also: `Unitful.J`.
 Unitful.cal
 ```
 
-The calorie, a unit of energy defined as exactly 4.184 J.
-
-Dimension: 𝐋^2 𝐌 𝐓^-2.
-
-See Also: `Unitful.J`.
- 
+The calorie, a unit of energy defined as exactly 4.184 J. 
 
 #### Erg 
 
@@ -619,12 +413,7 @@ See Also: `Unitful.J`.
 Unitful.erg
 ```
 
-The erg, a CGS unit of energy, defined as 1 dyn × cm.
-
-Dimension: 𝐋^2 𝐌 𝐓^-2.
-
-See also: `Unitful.cm`, `Unitful.dyn`
- 
+The erg, a CGS unit of energy, defined as 1 dyn × cm. 
 
 #### eV 
 
@@ -632,12 +421,7 @@ See also: `Unitful.cm`, `Unitful.dyn`
 Unitful.eV
 ```
 
-The electron-volt, a unit of energy, defined as q*V.
-
-Dimension: 𝐋^2 𝐌 𝐓^-2.
-
-See also: `Unitful.q`, `Unitful.V`.
- 
+The electron-volt, a unit of energy, defined as q*V. 
 
 #### Joule 
 
@@ -645,12 +429,7 @@ See also: `Unitful.q`, `Unitful.V`.
 Unitful.J
 ```
 
-The joule, an SI unit of energy, defined as 1 N × m.
-
-Dimension: 𝐋^2 𝐌 𝐓^-2.
-
-See also: `Unitful.N`, `Unitful.m`.
- 
+The joule, an SI unit of energy, defined as 1 N × m. 
 
 ### Force
 
@@ -660,12 +439,7 @@ See also: `Unitful.N`, `Unitful.m`.
 Unitful.dyn
 ```
 
-The dyne, a CGS unit of force, defined as 1 g × cm / s^2.
-
-Dimension: 𝐋 𝐌 𝐓^-2.
-
-See also: `Unitful.cm`, `Unitful.s`, `Unitful.g`.
- 
+The dyne, a CGS unit of force, defined as 1 g × cm / s^2. 
 
 #### PoundsForce 
 
@@ -673,12 +447,7 @@ See also: `Unitful.cm`, `Unitful.s`, `Unitful.g`.
 Unitful.lbf
 ```
 
-The pound-force, a US customary unit of force defined as 1 lb × ge.
-
-Dimension: 𝐋 𝐌 𝐓^-2.
-
-See Also: `Unitful.lb`, `Unitful.ge`.
- 
+The pound-force, a US customary unit of force defined as 1 lb × ge. 
 
 #### Newton 
 
@@ -686,12 +455,7 @@ See Also: `Unitful.lb`, `Unitful.ge`.
 Unitful.N
 ```
 
-The newton, an SI unit of force, defined as 1 kg × m / s^2.
-
-Dimension: 𝐋 𝐌 𝐓^-2.
-
-See also: `Unitful.kg`, `Unitful.m`, `Unitful.s`.
- 
+The newton, an SI unit of force, defined as 1 kg × m / s^2. 
 
 ### Frequency
 
@@ -701,12 +465,7 @@ See also: `Unitful.kg`, `Unitful.m`, `Unitful.s`.
 Unitful.Bq
 ```
 
-The becquerel, an SI unit of radioactivity, defined as 1 nuclear decay per s.
-
-Dimension: 𝐓^-1.
-
-See also: `Unitful.s`.
- 
+The becquerel, an SI unit of radioactivity, defined as 1 nuclear decay per s. 
 
 #### Hertz 
 
@@ -714,12 +473,7 @@ See also: `Unitful.s`.
 Unitful.Hz
 ```
 
-The hertz, an SI unit of frequency, defined as 1 s^-1.
-
-Dimension: 𝐓^-1.
-
-See also: `Unitful.s`.
- 
+The hertz, an SI unit of frequency, defined as 1 s^-1. 
 
 #### AngHertz 
 
@@ -727,12 +481,7 @@ See also: `Unitful.s`.
 Unitful.Hz2π
 ```
 
-A unit for convenience in angular frequency, equal to 2π Hz.
-
-Dimension: 𝐓^-1.
-
-See also: `Unitful.Hz`.
- 
+A unit for convenience in angular frequency, equal to 2π Hz. 
 
 #### RevolutionsPerMinute 
 
@@ -740,12 +489,7 @@ See also: `Unitful.Hz`.
 Unitful.rpm
 ```
 
-Revolutions per minute, a unit of rotational speed, defined as 2π rad / minute.
-
-Dimension: 𝐓^-1.
-
-See Also: `Unitful.minute`, `Unitful.rad`.
- 
+Revolutions per minute, a unit of rotational speed, defined as 2π rad / minute. 
 
 #### RevolutionsPerSecond 
 
@@ -753,12 +497,7 @@ See Also: `Unitful.minute`, `Unitful.rad`.
 Unitful.rps
 ```
 
-Revolutions per second, a unit of rotational speed, defined as 2π rad / s.
-
-Dimension: 𝐓^-1.
-
-See Also: `Unitful.rad`, `Unitful.s`.
- 
+Revolutions per second, a unit of rotational speed, defined as 2π rad / s. 
 
 ### HField
 
@@ -768,12 +507,7 @@ See Also: `Unitful.rad`, `Unitful.s`.
 Unitful.Oe
 ```
 
-The oersted, a CGS unit of magnetic H-field strength, defined as 1000 A / (4π × m).
-
-Dimension: 𝐈 𝐋^-1.
-
-See also: `Unitful.A`, `Unitful.m`
- 
+The oersted, a CGS unit of magnetic H-field strength, defined as 1000 A / (4π × m). 
 
 ### Inductance
 
@@ -783,12 +517,7 @@ See also: `Unitful.A`, `Unitful.m`
 Unitful.H
 ```
 
-The henry, an SI unit of electrical inductance, defined as 1 J / A^2.
-
-Dimension: 𝐋^2 𝐌 𝐈^-2 𝐓^-2.
-
-See also: `Unitful.J`, `Unitful.A`.
- 
+The henry, an SI unit of electrical inductance, defined as 1 J / A^2. 
 
 ### KinematicViscosity
 
@@ -798,12 +527,7 @@ See also: `Unitful.J`, `Unitful.A`.
 Unitful.St
 ```
 
-The stokes, a CGS unit of kinematic viscosity, defined as 1 cm^2 / s.
-
-Dimension: 𝐌^2 𝐓^-1.
-
-See also: `Unitful.cm`, `Unitful.s`
- 
+The stokes, a CGS unit of kinematic viscosity, defined as 1 cm^2 / s. 
 
 ### MagneticFlux
 
@@ -813,12 +537,7 @@ See also: `Unitful.cm`, `Unitful.s`
 Unitful.Mx
 ```
 
-The maxwell, a CGS unit of magnetic flux, defined as 1 Gauss × cm^2.
-
-Dimension: 𝐋^2 𝐌 𝐈^-1 𝐓^-2.
-
-See also: `Unitful.cm`, `Unitful.Gauss`
- 
+The maxwell, a CGS unit of magnetic flux, defined as 1 Gauss × cm^2. 
 
 #### Weber 
 
@@ -826,12 +545,7 @@ See also: `Unitful.cm`, `Unitful.Gauss`
 Unitful.Wb
 ```
 
-The weber, an SI unit of magnetic flux, defined as 1 kg × m^2 / (A × s^2).
-
-Dimension: 𝐋^2 𝐌 𝐈^-1 𝐓^-2.
-
-See also: `Unitful.kg`, `Unitful.m`, `Unitful.A`, `Unitful.s`.
- 
+The weber, an SI unit of magnetic flux, defined as 1 kg × m^2 / (A × s^2). 
 
 ### MolarFlow
 
@@ -841,12 +555,7 @@ See also: `Unitful.kg`, `Unitful.m`, `Unitful.A`, `Unitful.s`.
 Unitful.kat
 ```
 
-The katal, an SI unit of catalytic activity, defined as 1 mol of catalyzed substrate per s.
-
-Dimension: 𝐍 𝐓^-1.
-
-See also: `Unitful.mol`, `Unitful.s`.
- 
+The katal, an SI unit of catalytic activity, defined as 1 mol of catalyzed substrate per s. 
 
 ### Molarity
 
@@ -856,12 +565,7 @@ See also: `Unitful.mol`, `Unitful.s`.
 Unitful.M
 ```
 
-A unit for measuring molar concentration, equal to 1 mol/L.
-
-Dimension: 𝐍 𝐋^-3.
-
-See Also: `Unitful.L`, `Unitful.mol`.
- 
+A unit for measuring molar concentration, equal to 1 mol/L. 
 
 ### Power
 
@@ -871,12 +575,7 @@ See Also: `Unitful.L`, `Unitful.mol`.
 Unitful.W
 ```
 
-The watt, an SI unit of power, defined as 1 J / s.
-
-Dimension: 𝐋^2 𝐌 𝐓^-3.
-
-See also: `Unitful.J`, `Unitful.s`.
- 
+The watt, an SI unit of power, defined as 1 J / s. 
 
 ### Pressure
 
@@ -886,12 +585,7 @@ See also: `Unitful.J`, `Unitful.s`.
 Unitful.atm
 ```
 
-The standard atmosphere, a unit of pressure, defined as 101,325 Pa.
-
-Dimension: 𝐌 𝐋^-1 𝐓^-2.
-
-See also: `Unitful.Pa`.
- 
+The standard atmosphere, a unit of pressure, defined as 101,325 Pa. 
 
 #### Barye 
 
@@ -899,12 +593,7 @@ See also: `Unitful.Pa`.
 Unitful.Ba
 ```
 
-The barye, a CGS unit of pressure, defined as 1 dyn / cm^2.
-
-Dimension: 𝐌 𝐋^-1 𝐓^-2.
-
-See also: `Unitful.cm`, `Unitful.dyn`
- 
+The barye, a CGS unit of pressure, defined as 1 dyn / cm^2. 
 
 #### Bar 
 
@@ -912,12 +601,7 @@ See also: `Unitful.cm`, `Unitful.dyn`
 Unitful.bar
 ```
 
-The bar, a metric unit of pressure, defined as 100 kPa.
-
-Dimension: 𝐌 𝐋^-1 𝐓^-2.
-
-See also: `Unitful.kPa`.
- 
+The bar, a metric unit of pressure, defined as 100 kPa. 
 
 #### Pascal 
 
@@ -925,12 +609,7 @@ See also: `Unitful.kPa`.
 Unitful.Pa
 ```
 
-The pascal, an SI unit of pressure, defined as 1 N / m^2.
-
-Dimension: 𝐌 𝐋^-1 𝐓^-2.
-
-See also: `Unitful.N`, `Unitful.m`.
- 
+The pascal, an SI unit of pressure, defined as 1 N / m^2. 
 
 #### PoundsPerSquareInch 
 
@@ -938,12 +617,7 @@ See also: `Unitful.N`, `Unitful.m`.
 Unitful.psi
 ```
 
-Pounds per square inch, a US customary unit of pressure defined as 1 lbf / inch^2.
-
-Dimension: 𝐌 𝐋^-1 𝐓^-2.
-
-See Also: `Unitful.lbf`, `Unitful.inch`.
- 
+Pounds per square inch, a US customary unit of pressure defined as 1 lbf / inch^2. 
 
 #### Torr 
 
@@ -951,12 +625,7 @@ See Also: `Unitful.lbf`, `Unitful.inch`.
 Unitful.Torr
 ```
 
-The torr, a unit of pressure, defined as 1/760 atm.
-
-Dimension: 𝐌 𝐋^-1 𝐓^-2.
-
-See also: `Unitful.atm`.
- 
+The torr, a unit of pressure, defined as 1/760 atm. 
 
 ### Velocity
 
@@ -968,12 +637,7 @@ Unitful.c
 
 The speed of light in a vacuum, a unit of speed, defined as exactly 2.997,924,58 × 10^8 m/s.
 
-`Unitful.c0` is a quantity (with units `m/s`) whereas `Unitful.c` is a unit equal to `c0`.
-
-Dimension: 𝐋 𝐓^-1.
-
-See also: `Unitful.m`, `Unitful.s`.
- 
+[`Unitful.c0`](@ref) is a quantity (with units `m/s`) whereas `Unitful.c` is a unit equal to `c0`. 
 
 ### Voltage
 
@@ -983,12 +647,7 @@ See also: `Unitful.m`, `Unitful.s`.
 Unitful.V
 ```
 
-The volt, an SI unit of electric potential, defined as 1 W / A.
-
-Dimension: 𝐋^2 𝐌 𝐈^-1 𝐓^-3.
-
-See also: `Unitful.W`, `Unitful.A`
- 
+The volt, an SI unit of electric potential, defined as 1 W / A. 
 
 ### Volume
 
@@ -999,12 +658,7 @@ Unitful.L
 Unitful.l
 ```
 
-The liter, a metric unit of volume, defined as 1000 cm^3.
-
-Dimension: 𝐋^3.
-
-See Also: `Unitful.cm`.
- 
+The liter, a metric unit of volume, defined as 1000 cm^3. 
 
 
 ---------
