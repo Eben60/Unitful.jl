@@ -2,6 +2,11 @@ module MakeDefUnitsDocs
 
 using Unitful, OrderedCollections
 
+mdfile = "docs/src/defaultunits.md"
+mdprolog = "docs/src/assets/defaultunits-prolog.md"
+mdepilog = "docs/src/assets/defaultunits-epilog.md"
+
+
 regularid(n) = ! startswith(string(n), r"#|@")
 
 uful_ids() = [n for n in names(Unitful; all=true) if regularid(n)]
@@ -78,6 +83,7 @@ function unitsdict(physdims, uids)
         end
         if !isempty(units) 
             sort!(units; by = x -> lowercase(string(x)))
+            unique!(x -> string(x) |> lowercase, units) # special case: Liter is l as well as L
             push!(ups, d => units)
         end
     end
@@ -103,25 +109,25 @@ removerefs(d) = replace(d, r"\[(`[\w\.]+\`)]\(@ref\)" => s"\1")
 
 udoc(s) = removerefs(docstr(s))
 
-function getunitname(u)
+function nameofunit(u)
     t = typeof(u)
     ps = getproperty(t, :parameters)
     u1 = ps[1][1]
     @assert u1 isa Unitful.Unit
     t1 = typeof(u1)
     uname = getproperty(t1, :parameters)[1]
-    return uname
+    return string(uname)
 end
 
-getunitname(s::Symbol) = getunitname(getproperty(Unitful, s))
+nameofunit(s::Symbol) = nameofunit(getproperty(Unitful, s))
 
 function makesectext(sectiontitle, sectiondict, s0="")
     s = s0 * "## $sectiontitle \n\n"
-    for (dim, uvec) in sectiondict # e.g. :Amount => [:mol]
+    for (dim, uvec) in sectiondict 
         s *= "### $dim\n\n"
-        for u in uvec # e.g. u = :mol 
-            n = getunitname(u)
-            d = udoc(u) # e.g. d = "```\nUnitful.mol\n```\n\nThe mole, ..."
+        for u in uvec 
+            n = nameofunit(u)
+            d = udoc(u) 
             s *= "#### $n \n\n$d \n\n"
         end
     end
@@ -131,17 +137,19 @@ end
 sections = OrderedDict(["Basic dimensions" => basic_units, 
     "Compound dimensions" => compound_units, ])
 
-function makefulltext(sections, pagetitle="# Title!", footer="that's it")
-    s = pagetitle * "\n\n"
+function makefulltext(sections)
+    s = prolog() * "\n\n"
     for (sectiontitle, sectiondict) in sections
         s = makesectext(sectiontitle, sectiondict, s)
     end
-    s *= footer
+    s *= epylog()
     return s
 end
 
 # fulltext = makefulltext(sections)
-mdfile = "src/tmp.md"
+
+prolog() = read(mdprolog) |> String
+epylog() = read(mdepilog) |> String
 
 function savetext(fulltext, mdfile)
     open(mdfile,"w") do io
