@@ -1,4 +1,19 @@
-a bit of blablabla
+# Units and сonstants pre-defined in the `Unitful` package
+
+In the following, only non-prefixed units are listed. To get a more detailed information about a unit, and to get information about prefixed units, use `Julia` help, e.g.
+
+```
+help?> Unitful.kW
+  Unitful.kW
+
+  A prefixed unit, equal to 10^3 W.
+
+  Dimension: 𝐋² 𝐌 𝐓⁻³
+
+  See also: Unitful.W.
+```
+
+For prefixes, see [below](#Metric-(SI)-Prefixes).
 
 
 ## Basic dimensions 
@@ -271,7 +286,7 @@ Unitful.ge
 
 The nominal acceleration due to gravity in a vacuum near the surface of the earth, a unit of acceleration, defined by standard to be exactly 9.806,65 m / s^2.
 
-[`Unitful.gn`](@ref) is a quantity (with units `m/s^2`) whereas `Unitful.ge` is a unit equal to `gn`. 
+`Unitful.gn` is a quantity (with units `m/s^2`) whereas `Unitful.ge` is a unit equal to `gn`. 
 
 ### Area
 
@@ -623,7 +638,7 @@ Unitful.c
 
 The speed of light in a vacuum, a unit of speed, defined as exactly 2.997,924,58 × 10^8 m/s.
 
-[`Unitful.c0`](@ref) is a quantity (with units `m/s`) whereas `Unitful.c` is a unit equal to `c0`. 
+`Unitful.c0` is a quantity (with units `m/s`) whereas `Unitful.c` is a unit equal to `c0`. 
 
 ### Voltage
 
