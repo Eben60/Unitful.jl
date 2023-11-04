@@ -1,18 +1,4 @@
-# Units and Constants pre-defined in the `Unitful` package
-
-Some explanations about units to follow. See example
-
-```
-help?> Unitful.eV
-
-  Unitful.eV
-
-  The electron-volt, a unit of energy, defined as q*V.
-
-  Dimension: 𝐋^2 𝐌 𝐓^-2.
-
-  See also: Unitful.q, Unitful.V.
-```
+a bit of blablabla
 
 
 ## Basic dimensions 
@@ -660,6 +646,30 @@ Unitful.l
 
 The liter, a metric unit of volume, defined as 1000 cm^3. 
 
+## Metric (SI) Prefixes
+
+| Prefix | Name | Power of Ten |
+|--------|--------|--------|
+| y | yocto | -24 | 
+| z | zepto | -21 | 
+| a | atto | -18 | 
+| f | femto | -15 | 
+| p | pico | -12 | 
+| n | nano | -9 | 
+| μ | micro | -6 | 
+| m | milli | -3 | 
+| c | centi | -2 | 
+| d | deci | -1 | 
+| da | deca | 1 | 
+| h | hecto | 2 | 
+| k | kilo | 3 | 
+| M | mega | 6 | 
+| G | giga | 9 | 
+| T | tera | 12 | 
+| P | peta | 15 | 
+| E | exa | 18 | 
+| Z | zetta | 21 | 
+| Y | yotta | 24 | 
 
 ---------
 

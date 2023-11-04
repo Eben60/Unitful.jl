@@ -143,6 +143,7 @@ function makefulltext(sections)
     for (sectiontitle, sectiondict) in sections
         s = makesectext(sectiontitle, sectiondict, s)
     end
+    s = makeprefixsec(prefnamesvals(), s)
     s *= epylog()
     return s
 end
@@ -166,5 +167,56 @@ function savetext(wr = true)
 end
     
 export savetext
+
+function prefnamesvals()
+    prefixnamestable = [
+    ("quetta" ,  "Q" ,  1E+030 ) , 
+    ("ronna" ,  "R" ,  1E+027 ) , 
+    ("yotta" ,  "Y" ,  1E+024 ) , 
+    ("zetta" ,  "Z" ,  1E+021 ) , 
+    ("exa" ,  "E" ,  1E+018 ) , 
+    ("peta" ,  "P" ,  1000000000000000 ) , 
+    ("tera" ,  "T" ,  1000000000000 ) , 
+    ("giga" ,  "G" ,  1000000000 ) , 
+    ("mega" ,  "M" ,  1000000 ) , 
+    ("kilo" ,  "k" ,  1000 ) , 
+    ("hecto" ,  "h" ,  100 ) , 
+    ("deca" ,  "da" ,  10 ) , 
+    ("deci" ,  "d" ,  0.1 ) , 
+    ("centi" ,  "c" ,  0.01 ) , 
+    ("milli" ,  "m" ,  0.001 ) , 
+    ("micro" ,  "μ" ,  0.000001 ) , 
+    ("nano" ,  "n" ,  0.000000001 ) , 
+    ("pico" ,  "p" ,  1E-12 ) , 
+    ("femto" ,  "f" ,  1E-15 ) , 
+    ("atto" ,  "a" ,  1E-18 ) , 
+    ("zepto" ,  "z" ,  1E-21 ) , 
+    ("yocto" ,  "y" ,  1E-24 ) , 
+    ("ronto" ,  "r" ,  1E-27 ) , 
+    ]
+    pd = Unitful.prefixdict
+    sxp = sort(collect(keys(pd)))
+
+    pnn = Dict([p[2] => p[1] for p in prefixnamestable])
+    pnv = Dict([p[2] => p[3] for p in prefixnamestable])
+
+    @assert all([log10(pnv[v]) == k for (k, v) in pd if pd[k] != ""])
+    return OrderedDict([pd[k] => (pnn[pd[k]], k) for k in sxp if pd[k] != ""])  
+end
+# pnv = prefnamesvals()
+
+function makeprefixsec(pnv, s0="")
+    s = s0 * """
+## Metric (SI) Prefixes
+
+| Prefix | Name | Power of Ten |
+|--------|--------|--------|
+"""
+    for (k,v) in pnv
+        s *= "| $k | $(v[1]) | $(v[2]) | \n"
+    end
+
+    return s
+end
 
 end # module
