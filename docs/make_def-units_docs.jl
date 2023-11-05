@@ -122,24 +122,38 @@ end
 
 nameofunit(s::Symbol) = nameofunit(getproperty(Unitful, s))
 
-function makesectext(sectiontitle, sectiondict, s0="")
+function make_subsection_text(uvec, s0="")
+    s = s0
+    for u in uvec 
+        n = nameofunit(u)
+        d = udoc(u) 
+        s *= "#### $n \n\n$d \n\n"
+    end
+    return s
+end
+
+function make_struc_section_text(sectiontitle, sectiondict, s0="")
     s = s0 * "## $sectiontitle \n\n"
     for (dim, uvec) in sectiondict 
         s *= "### $dim\n\n"
-        for u in uvec 
-            n = nameofunit(u)
-            d = udoc(u) 
-            s *= "#### $n \n\n$d \n\n"
-        end
+        s = make_subsection_text(uvec, s)
     end
+    return s
+end
+
+
+function make_simple_section_text(sectiontitle, uvec, s0="")
+    s = s0 * "## $sectiontitle \n\n"
+    s = make_subsection_text(uvec, s)
     return s
 end
 
 function makefulltext(sections)
     s = prolog() * "\n\n"
     for (sectiontitle, sectiondict) in sections
-        s = makesectext(sectiontitle, sectiondict, s)
+        s = make_struc_section_text(sectiontitle, sectiondict, s)
     end
+    s = make_simple_section_text("Dimensionless units", nodims_units, s)
     s = makeprefixsec(prefnamesvals(), s)
     s *= epylog()
     return s
@@ -223,9 +237,9 @@ uids = uful_ids()
 
 basic_units =  unitsdict(basicdims, uids)
 compound_units = unitsdict(compounddims, uids)
-sections = OrderedDict(["Basic dimensions" => basic_units, 
-    "Compound dimensions" => compound_units, ])
 nodims_units = nodimsunits(uids) 
+sections = OrderedDict(["Basic dimensions" => basic_units, 
+    "Compound dimensions" => compound_units])
 phys_consts = physconstants(uids)
 
 end # module

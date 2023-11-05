@@ -661,6 +661,56 @@ Unitful.l
 
 The liter, a metric unit of volume, defined as 1000 cm^3. 
 
+## Dimensionless units 
+
+#### Percent 
+
+```
+Unitful.percent
+```
+
+Percent, a unit meaning parts per hundred. Printed as "%". 
+
+#### Permille 
+
+```
+Unitful.permille
+```
+
+Permille, a unit meaning parts per thousand. Printed as "‰". 
+
+#### Pertenthousand 
+
+```
+Unitful.pertenthousand
+```
+
+Permyriad, a unit meaning parts per ten thousand. Printed as "‱". 
+
+#### Radian 
+
+```
+Unitful.rad
+```
+
+The radian, a unit of angle. There are 2π rad in a circle. 
+
+#### Steradian 
+
+```
+Unitful.sr
+```
+
+The steradian, a unit of spherical angle. There are 4π sr in a sphere. 
+
+#### Degree 
+
+```
+Unitful.°
+```
+
+The degree, a unit of angle. There are 360° in a circle. 
+
 ## Metric (SI) Prefixes
 
 | Prefix | Name | Power of Ten |
