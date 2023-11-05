@@ -142,7 +142,7 @@ Unitful.gr
 
 The grain, a US customary unit of mass defined as 1/7000 lb. 
 
-#### Gram 
+#### Kilogram 
 
 ```
 Unitful.kg
@@ -314,7 +314,7 @@ Unitful.b
 
 The barn, a metric unit of area, defined as 100 fm^2. 
 
-#### Are 
+#### Hectare 
 
 ```
 Unitful.ha

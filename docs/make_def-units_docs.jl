@@ -111,6 +111,8 @@ removerefs(d) = replace(d, r"\[(`[\w\.]+\`)]\(@ref\)" => s"\1")
 udoc(s) = match(r"(?ms)(.+)\n\nDimension: ", docstr(s)).captures[1] |> removerefs
 
 function nameofunit(u)
+    special = Dict(Unitful.ha => "Hectare", Unitful.kg => "Kilogram")
+    u in keys(special) && return special[u]
     t = typeof(u)
     ps = getproperty(t, :parameters)
     u1 = ps[1][1]
