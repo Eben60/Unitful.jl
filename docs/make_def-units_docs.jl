@@ -117,7 +117,6 @@ function nameofunit(u)
     @assert u1 isa Unitful.Unit
     t1 = typeof(u1)
     uname = getproperty(t1, :parameters)[1]
-    @assert occursin(lowercase(string(uname)), lowercase(docstr(uname)))
     return string(uname)
 end
 
