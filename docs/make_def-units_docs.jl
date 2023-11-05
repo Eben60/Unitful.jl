@@ -95,15 +95,13 @@ physconstants(uids) = [n for n in uids if
     !(getproperty(Unitful, n) isa Union{Type, Unitful.Units, Unitful.Dimensions, Module, Function}) &&
     isdocumented(n) ]
 
-            
-uids = uful_ids()
-# ud = unitsdict(dims, uids)
+nodimsunits(uids) = [n for n in uids if isnodims(n) && isdocumented(n) && !isprefixed(n) && n != :NoUnits]
 
-(;basicdims, compounddims) = uids |> getphysdims |> physdims_categories
-
-basic_units =  unitsdict(basicdims, uids)
-compound_units = unitsdict(compounddims, uids)
-phys_consts = physconstants(uids)
+function isnodims(u) 
+    u isa Unitful.FreeUnits || return false
+    return getproperty(typeof(u), :parameters)[2] == NoDims
+end
+isnodims(u::Symbol) = isnodims(getproperty(Unitful, u))
 
 removerefs(d) = replace(d, r"\[(`[\w\.]+\`)]\(@ref\)" => s"\1")
 
@@ -136,9 +134,6 @@ function makesectext(sectiontitle, sectiondict, s0="")
     end
     return s
 end
-
-sections = OrderedDict(["Basic dimensions" => basic_units, 
-    "Compound dimensions" => compound_units, ])
 
 function makefulltext(sections)
     s = prolog() * "\n\n"
@@ -220,5 +215,17 @@ function makeprefixsec(pnv, s0="")
 
     return s
 end
+
+uids = uful_ids()
+# ud = unitsdict(dims, uids)
+
+(;basicdims, compounddims) = uids |> getphysdims |> physdims_categories
+
+basic_units =  unitsdict(basicdims, uids)
+compound_units = unitsdict(compounddims, uids)
+sections = OrderedDict(["Basic dimensions" => basic_units, 
+    "Compound dimensions" => compound_units, ])
+nodims_units = nodimsunits(uids) 
+phys_consts = physconstants(uids)
 
 end # module
