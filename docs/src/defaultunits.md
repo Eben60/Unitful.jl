@@ -97,15 +97,6 @@ Unitful.yd
 
 The yard, a US customary unit of length defined as 3 ft. 
 
-#### Angstrom 
-
-```
-Unitful.angstrom
-Unitful.Å
-```
-
-The angstrom, a metric unit of length defined as 1/10 nm. 
-
 ### Luminosity
 
 #### Candela 
@@ -200,7 +191,7 @@ Unitful.Ra
 
 The rankine, a US customary unit of temperature defined as 5/9 K. 
 
-#### Kelvin 
+#### Degree Celcius 
 
 ```
 Unitful.°C
@@ -208,7 +199,7 @@ Unitful.°C
 
 The degree Celsius, an SI unit of temperature, defined such that 0 °C = 273.15 K. 
 
-#### Rankine 
+#### Degree Fahrenheit 
 
 ```
 Unitful.°F

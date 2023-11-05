@@ -83,7 +83,7 @@ function unitsdict(physdims, uids)
         end
         if !isempty(units) 
             sort!(units; by = x -> lowercase(string(x)))
-            unique!(x -> string(x) |> lowercase, units) # special case: Liter is l as well as L
+            unique!(nameofunit, units) # special cases: Liter, Angstrom
             push!(ups, d => units)
         end
     end
@@ -109,7 +109,7 @@ removerefs(d) = replace(d, r"\[(`[\w\.]+\`)]\(@ref\)" => s"\1")
 udoc(s) = match(r"(?ms)(.+)\n\nDimension: ", docstr(s)).captures[1] |> removerefs
 
 function nameofunit(u)
-    special = Dict(Unitful.ha => "Hectare", Unitful.kg => "Kilogram")
+    special = Dict(u"ha" => "Hectare", u"kg" => "Kilogram", u"°F" => "Degree Fahrenheit", u"°C" => "Degree Celcius")
     u in keys(special) && return special[u]
     t = typeof(u)
     ps = getproperty(t, :parameters)
@@ -117,6 +117,7 @@ function nameofunit(u)
     @assert u1 isa Unitful.Unit
     t1 = typeof(u1)
     uname = getproperty(t1, :parameters)[1]
+    @assert occursin(lowercase(string(uname)), lowercase(docstr(uname)))
     return string(uname)
 end
 
