@@ -11,11 +11,20 @@ regularid(n) = ! startswith(string(n), r"#|@")
 
 uful_ids() = [n for n in names(Unitful; all=true) if regularid(n)]
 
-
 docstr(n) = Base.Docs.doc(Base.Docs.Binding(Unitful, n)) |> string
+
+isprefixed(u) = occursin("A prefixed unit, equal", docstr(u))
 
 isdocumented(n) = ! startswith(docstr(n), "No documentation found.")
 
+"""
+# Examples
+```julia-repl
+julia> gettypes(Unitful.Power)
+1-element Vector{DataType}:
+ Quantity{T, 𝐋^2 𝐌 𝐓^-3, U}
+```
+"""
 function gettypes(x::Type)
     if x isa UnionAll
         return gettypes(x.body)
@@ -31,18 +40,34 @@ function gettypes(x::Type)
     end
 end
 
-isprefixed(u) = occursin("A prefixed unit, equal", docstr(u))
 
+"""
+    getphysdims(uids)
+Filters the list of `Unitful` identifiers to return those which denote physical dimensions (e.g. `Area`, `Power`)
+"""
 getphysdims(uids) = [n for n in uids 
         if (getproperty(Unitful, n) isa UnionAll) && 
             ! endswith(string(n), "Units") &&
             ! occursin("Scale", string(n)) &&
             !isempty(gettypes(getproperty(Unitful, n)))]
 
-
+"""
+# Examples
+```julia-repl
+julia> MDU.getdim(Unitful.Area)
+𝐋^2
+```
+"""
 getdim(x::Type) = gettypes(x)[1].parameters[2]
-
 getdim(x::Symbol) = getdim(getproperty(Unitful, x))
+
+"""
+# Examples
+```julia-repl
+julia> MDU.getdimpars(Unitful.Power)
+svec((Unitful.Dimension{:Length}(2//1), Unitful.Dimension{:Mass}(1//1), Unitful.Dimension{:Time}(-3//1)))
+```
+"""
 getdimpars(x) = getproperty(typeof(getdim(x)), :parameters)
 getdimpar(x) = getdimpars(x)[1][1]
 getdimpow(x) = getdimpar(x).power
@@ -72,14 +97,13 @@ function unitsdict(physdims, uids)
     for d in physdims
         dm = getproperty(Unitful, d)
         units = Symbol[]
-        for unm in uids
-            u = getproperty(Unitful, unm)
+        for uname in uids
+            u = getproperty(Unitful, uname)
             if (u isa Unitful.Units) 
-                if (1*u isa dm) && !isprefixed(unm) && isdocumented(unm)
-                    push!(units, unm)
+                if (1*u isa dm) && !isprefixed(uname) && isdocumented(uname)
+                    push!(units, uname)
                 end
             end
-
         end
         if !isempty(units) 
             sort!(units; by = x -> lowercase(string(x)))
@@ -95,17 +119,16 @@ physconstants(uids) = [n for n in uids if
     !(getproperty(Unitful, n) isa Union{Type, Unitful.Units, Unitful.Dimensions, Module, Function}) &&
     isdocumented(n) ]
 
-nodimsunits(uids) = [n for n in uids if isnodims(n) && isdocumented(n) && !isprefixed(n) && n != :NoUnits]
-
 function isnodims(u) 
     u isa Unitful.FreeUnits || return false
     return getproperty(typeof(u), :parameters)[2] == NoDims
 end
 isnodims(u::Symbol) = isnodims(getproperty(Unitful, u))
 
+nodimsunits(uids) = [n for n in uids if isnodims(n) && isdocumented(n) && !isprefixed(n) && n != :NoUnits]
+
 removerefs(d) = replace(d, r"\[(`[\w\.]+\`)]\(@ref\)" => s"\1")
 
-# udoc(s) = removerefs(docstr(s))
 udoc(s) = match(r"(?ms)(.+)\n\nDimension: ", docstr(s)).captures[1] |> removerefs
 
 function nameofunit(u)
@@ -176,8 +199,6 @@ function savetext(wr = true)
     wr && savetext(fulltext, mdfile)
     return fulltext
 end
-    
-export savetext
 
 function prefnamesvals()
     prefixnamestable = [
@@ -214,7 +235,6 @@ function prefnamesvals()
     @assert all([log10(pnv[v]) == k for (k, v) in pd if pd[k] != ""])
     return OrderedDict([pd[k] => (pnn[pd[k]], k) for k in sxp if pd[k] != ""])  
 end
-# pnv = prefnamesvals()
 
 function makeprefixsec(pnv, s0="")
     s = s0 * """
@@ -241,5 +261,7 @@ nodims_units = nodimsunits(uids)
 sections = OrderedDict(["Basic dimensions" => basic_units, 
     "Compound dimensions" => compound_units])
 phys_consts = physconstants(uids)
+
+export savetext
 
 end # module
