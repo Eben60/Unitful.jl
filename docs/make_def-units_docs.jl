@@ -7,6 +7,51 @@ mdprolog = "docs/src/assets/defaultunits-prolog.md"
 mdepilog = "docs/src/assets/defaultunits-epilog.md"
 
 
+"""
+# Examples
+```julia-repl
+julia> prefnamesvals()
+OrderedCollections.OrderedDict{String, Tuple{String, Int64}} with 20 entries:
+  "y"  => ("yocto", -24)
+  "z"  => ("zepto", -21)
+  ⋮    => ⋮
+"""
+function prefnamesvals()
+    prefixnamestable = [
+    ("quetta" ,  "Q" ,  1E+030 ) , 
+    ("ronna" ,  "R" ,  1E+027 ) , 
+    ("yotta" ,  "Y" ,  1E+024 ) , 
+    ("zetta" ,  "Z" ,  1E+021 ) , 
+    ("exa" ,  "E" ,  1E+018 ) , 
+    ("peta" ,  "P" ,  1000000000000000 ) , 
+    ("tera" ,  "T" ,  1000000000000 ) , 
+    ("giga" ,  "G" ,  1000000000 ) , 
+    ("mega" ,  "M" ,  1000000 ) , 
+    ("kilo" ,  "k" ,  1000 ) , 
+    ("hecto" ,  "h" ,  100 ) , 
+    ("deca" ,  "da" ,  10 ) , 
+    ("deci" ,  "d" ,  0.1 ) , 
+    ("centi" ,  "c" ,  0.01 ) , 
+    ("milli" ,  "m" ,  0.001 ) , 
+    ("micro" ,  "μ" ,  0.000001 ) , 
+    ("nano" ,  "n" ,  0.000000001 ) , 
+    ("pico" ,  "p" ,  1E-12 ) , 
+    ("femto" ,  "f" ,  1E-15 ) , 
+    ("atto" ,  "a" ,  1E-18 ) , 
+    ("zepto" ,  "z" ,  1E-21 ) , 
+    ("yocto" ,  "y" ,  1E-24 ) , 
+    ("ronto" ,  "r" ,  1E-27 ) , 
+    ]
+    pd = Unitful.prefixdict
+    sxp = sort(collect(keys(pd)))
+
+    pnn = Dict([p[2] => p[1] for p in prefixnamestable])
+    pnv = Dict([p[2] => p[3] for p in prefixnamestable])
+
+    @assert all([log10(pnv[v]) == k for (k, v) in pd if pd[k] != ""])
+    return OrderedDict([pd[k] => (pnn[pd[k]], k) for k in sxp if pd[k] != ""])  
+end
+
 regularid(n) = ! startswith(string(n), r"#|@")
 
 uful_ids() = [n for n in names(Unitful; all=true) if regularid(n)]
@@ -54,7 +99,7 @@ getphysdims(uids) = [n for n in uids
 """
 # Examples
 ```julia-repl
-julia> MDU.getdim(Unitful.Area)
+julia> getdim(Unitful.Area)
 𝐋^2
 ```
 """
@@ -64,7 +109,7 @@ getdim(x::Symbol) = getdim(getproperty(Unitful, x))
 """
 # Examples
 ```julia-repl
-julia> MDU.getdimpars(Unitful.Power)
+julia> getdimpars(Unitful.Power)
 svec((Unitful.Dimension{:Length}(2//1), Unitful.Dimension{:Mass}(1//1), Unitful.Dimension{:Time}(-3//1)))
 ```
 """
@@ -145,8 +190,8 @@ end
 
 nameofunit(s::Symbol) = nameofunit(getproperty(Unitful, s))
 
-function make_subsection_text(uvec, s0="")
-    s = s0
+function make_subsection_text(uvec)
+    s = ""
     for u in uvec 
         n = nameofunit(u)
         d = udoc(u) 
@@ -155,37 +200,49 @@ function make_subsection_text(uvec, s0="")
     return s
 end
 
-function make_struc_section_text(sectiontitle, sectiondict, s0="")
-    s = s0 * "## $sectiontitle \n\n"
+function make_struc_section_text(sectiontitle, sectiondict)
+    s = "## $sectiontitle \n\n"
     for (dim, uvec) in sectiondict 
         s *= "### $dim\n\n"
-        s = make_subsection_text(uvec, s)
+        s *= make_subsection_text(uvec)
     end
     return s
 end
 
-
-function make_simple_section_text(sectiontitle, uvec, s0="")
-    s = s0 * "## $sectiontitle \n\n"
-    s = make_subsection_text(uvec, s)
+function make_simple_section_text(sectiontitle, uvec)
+    s = "## $sectiontitle \n\n"
+    s *= make_subsection_text(uvec)
     return s
 end
+
+function makeprefixsection(pnv, s="")
+    s = s * """
+## Metric (SI) Prefixes
+
+| Prefix | Name | Power of Ten |
+|--------|--------|--------|
+"""
+    for (k,v) in pnv
+        s *= "| $k | $(v[1]) | $(v[2]) | \n"
+    end
+
+    return s
+end
+
+
+prolog() = read(mdprolog, String) 
+epilog() = read(mdepilog, String) 
 
 function makefulltext(sections)
     s = prolog() * "\n\n"
     for (sectiontitle, sectiondict) in sections
-        s = make_struc_section_text(sectiontitle, sectiondict, s)
+        s *= make_struc_section_text(sectiontitle, sectiondict)
     end
-    s = make_simple_section_text("Dimensionless units", nodims_units, s)
-    s = makeprefixsec(prefnamesvals(), s)
+    s *= make_simple_section_text("Dimensionless units", nodims_units)
+    s *= makeprefixsection(prefnamesvals())
     s *= epilog()
     return s
 end
-
-# fulltext = makefulltext(sections)
-
-prolog() = read(mdprolog, String) 
-epilog() = read(mdepilog, String) 
 
 function savetext(fulltext, mdfile)
     open(mdfile,"w") do io
@@ -198,56 +255,6 @@ function savetext(wr = true)
     fulltext = makefulltext(sections)
     wr && savetext(fulltext, mdfile)
     return fulltext
-end
-
-function prefnamesvals()
-    prefixnamestable = [
-    ("quetta" ,  "Q" ,  1E+030 ) , 
-    ("ronna" ,  "R" ,  1E+027 ) , 
-    ("yotta" ,  "Y" ,  1E+024 ) , 
-    ("zetta" ,  "Z" ,  1E+021 ) , 
-    ("exa" ,  "E" ,  1E+018 ) , 
-    ("peta" ,  "P" ,  1000000000000000 ) , 
-    ("tera" ,  "T" ,  1000000000000 ) , 
-    ("giga" ,  "G" ,  1000000000 ) , 
-    ("mega" ,  "M" ,  1000000 ) , 
-    ("kilo" ,  "k" ,  1000 ) , 
-    ("hecto" ,  "h" ,  100 ) , 
-    ("deca" ,  "da" ,  10 ) , 
-    ("deci" ,  "d" ,  0.1 ) , 
-    ("centi" ,  "c" ,  0.01 ) , 
-    ("milli" ,  "m" ,  0.001 ) , 
-    ("micro" ,  "μ" ,  0.000001 ) , 
-    ("nano" ,  "n" ,  0.000000001 ) , 
-    ("pico" ,  "p" ,  1E-12 ) , 
-    ("femto" ,  "f" ,  1E-15 ) , 
-    ("atto" ,  "a" ,  1E-18 ) , 
-    ("zepto" ,  "z" ,  1E-21 ) , 
-    ("yocto" ,  "y" ,  1E-24 ) , 
-    ("ronto" ,  "r" ,  1E-27 ) , 
-    ]
-    pd = Unitful.prefixdict
-    sxp = sort(collect(keys(pd)))
-
-    pnn = Dict([p[2] => p[1] for p in prefixnamestable])
-    pnv = Dict([p[2] => p[3] for p in prefixnamestable])
-
-    @assert all([log10(pnv[v]) == k for (k, v) in pd if pd[k] != ""])
-    return OrderedDict([pd[k] => (pnn[pd[k]], k) for k in sxp if pd[k] != ""])  
-end
-
-function makeprefixsec(pnv, s0="")
-    s = s0 * """
-## Metric (SI) Prefixes
-
-| Prefix | Name | Power of Ten |
-|--------|--------|--------|
-"""
-    for (k,v) in pnv
-        s *= "| $k | $(v[1]) | $(v[2]) | \n"
-    end
-
-    return s
 end
 
 uids = uful_ids()
