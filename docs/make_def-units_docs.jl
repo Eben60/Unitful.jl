@@ -155,14 +155,14 @@ function makefulltext(sections)
     end
     s = make_simple_section_text("Dimensionless units", nodims_units, s)
     s = makeprefixsec(prefnamesvals(), s)
-    s *= epylog()
+    s *= epilog()
     return s
 end
 
 # fulltext = makefulltext(sections)
 
-prolog() = read(mdprolog) |> String
-epylog() = read(mdepilog) |> String
+prolog() = read(mdprolog, String) 
+epilog() = read(mdepilog, String) 
 
 function savetext(fulltext, mdfile)
     open(mdfile,"w") do io
