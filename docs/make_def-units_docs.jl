@@ -174,6 +174,7 @@ nodimsunits(uids) = [n for n in uids if isnodims(n) && isdocumented(n) && !ispre
 
 removerefs(d) = replace(d, r"\[(`[\w\.]+\`)]\(@ref\)" => s"\1")
 
+"Truncates documentation and removes references"
 udoc(s) = match(r"(?ms)(.+)\n\nDimension: ", docstr(s)).captures[1] |> removerefs
 
 function nameofunit(u)
@@ -215,8 +216,8 @@ function make_simple_section_text(sectiontitle, uvec)
     return s
 end
 
-function makeprefixsection(pnv, s="")
-    s = s * """
+function makeprefixsection(pnv)
+    s = """
 ## Metric (SI) Prefixes
 
 | Prefix | Name | Power of Ten |
