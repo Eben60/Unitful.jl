@@ -3,8 +3,8 @@ module MakeDefUnitsDocs
 using Unitful, OrderedCollections
 
 mdfile = "docs/src/defaultunits.md"
-mdprolog = "docs/src/assets/defaultunits-prolog.md"
-mdepilog = "docs/src/assets/defaultunits-epilog.md"
+mdheader = "docs/src/assets/defaultunits-header.md"
+mdfooter = "docs/src/assets/defaultunits-footer.md"
 
 
 """
@@ -231,17 +231,17 @@ function makeprefixsection(pnv)
 end
 
 
-prolog() = read(mdprolog, String) 
-epilog() = read(mdepilog, String) 
+header() = read(mdheader, String) 
+footer() = read(mdfooter, String) 
 
 function makefulltext(sections)
-    s = prolog() * "\n\n"
+    s = header() * "\n\n"
     for (sectiontitle, sectiondict) in sections
         s *= make_struc_section_text(sectiontitle, sectiondict)
     end
     s *= make_simple_section_text("Dimensionless units", nodims_units)
     s *= makeprefixsection(prefnamesvals())
-    s *= epilog()
+    s *= footer()
     return s
 end
 
