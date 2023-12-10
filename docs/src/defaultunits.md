@@ -702,6 +702,27 @@ Unitful.°
 
 The degree, a unit of angle. There are 360° in a circle. 
 
+## Logarithmic units 
+
+| Unit           | Name                            |
+|----------------|---------------------------------|
+| `dB`       |        Decibel |
+| `B`        |         Bel |
+| `Np`       |        Neper |
+| `cNp`      |       Centineper |
+
+### "Dimensionful" logarithmic units
+| Unit           | Reference level                            |
+|----------------|---------------------------------|
+| `dBHz`       |         1Hz |
+| `dBm`          |         1mW |
+| `dBV`          |         1V |
+| `dBu`          |         sqrt(0.6)V |
+| `dBμV`        |         1μV |
+| `dBSPL`      |         20μPa |
+| `dBFS`        |         RootPowerRatio(1) |
+| `dBΩ`          |         1Ω |
+| `dBS`          |         1S |
 ## Metric (SI) Prefixes
 
 | Prefix | Name | Power of Ten |
@@ -726,7 +747,3 @@ The degree, a unit of angle. There are 360° in a circle.
 | E | exa | 18 | 
 | Z | zetta | 21 | 
 | Y | yotta | 24 | 
-
----------
-
-and nothing more to tell you.

@@ -5,6 +5,7 @@ using Unitful, OrderedCollections
 mdfile = "docs/src/defaultunits.md"
 mdheader = "docs/src/assets/defaultunits-header.md"
 mdfooter = "docs/src/assets/defaultunits-footer.md"
+mdlogunits = "docs/src/assets/defaultunits-logunits.md"
 vfile = "docs/src/assets/vfile.txt"
 
 """
@@ -232,7 +233,8 @@ end
 
 
 header() = read(mdheader, String) 
-footer() = read(mdfooter, String) 
+# footer() = read(mdfooter, String) 
+logunits() = read(mdlogunits, String)
 
 function makefulltext(sections)
     s = header() * "\n\n"
@@ -240,8 +242,9 @@ function makefulltext(sections)
         s *= make_struc_section_text(sectiontitle, sectiondict)
     end
     s *= make_simple_section_text("Dimensionless units", nodims_units)
+    s *= logunits()
     s *= makeprefixsection(prefnamesvals())
-    s *= footer()
+    # s *= footer()
     return s
 end
 
@@ -290,9 +293,3 @@ phys_consts = physconstants(uids)
 export savetext
 
 end # module
-
-"""
-TODO: pkgdefaults.jl # # Logarithmic scales and units
-julia> Unitful.dBμV isa Unitful.MixedUnits
-true
-"""
