@@ -4,6 +4,13 @@ ENV["UNITFUL_FANCY_EXPONENTS"] = false
 
 DocMeta.setdocmeta!(Unitful, :DocTestSetup, :(using Unitful))
 
+function check_defaultunits_version()
+    vfile = "docs/src/assets/vfile.txt"
+    r = readline(vfile)
+    @assert VersionNumber(r) == pkgversion(Unitful)
+    return nothing
+end
+
 makedocs(
     sitename = "Unitful.jl",
     format = Documenter.HTML(prettyurls = get(ENV, "CI", nothing) == "true"),

@@ -5,7 +5,7 @@ using Unitful, OrderedCollections
 mdfile = "docs/src/defaultunits.md"
 mdheader = "docs/src/assets/defaultunits-header.md"
 mdfooter = "docs/src/assets/defaultunits-footer.md"
-
+vfile = "docs/src/assets/vfile.txt"
 
 """
 # Examples
@@ -245,17 +245,34 @@ function makefulltext(sections)
     return s
 end
 
-function savetext(fulltext, mdfile)
-    open(mdfile,"w") do io
-       write(io, fulltext)
+function write_unitful_v(vfile)
+    open(vfile, "w") do io
+        println(io, pkgversion(Unitful))
     end
     return nothing
 end
 
+function savetext(fulltext, mdfile)
+    open(mdfile,"w") do io
+       write(io, fulltext)
+    end
+    write_unitful_v(vfile)
+    return nothing
+end
+
+"""
+    savetext(wr = true)
+Generates the text of the `Pre-defined units and constants` documentation section 
+and writes it into the file or returns the generated text, depending on value of `wr`
+"""
 function savetext(wr = true)
     fulltext = makefulltext(sections)
-    wr && savetext(fulltext, mdfile)
-    return fulltext
+    if wr 
+        savetext(fulltext, mdfile)
+        return nothing
+    else
+        return fulltext
+    end
 end
 
 uids = uful_ids()
@@ -273,3 +290,9 @@ phys_consts = physconstants(uids)
 export savetext
 
 end # module
+
+"""
+TODO: pkgdefaults.jl # # Logarithmic scales and units
+julia> Unitful.dBμV isa Unitful.MixedUnits
+true
+"""
