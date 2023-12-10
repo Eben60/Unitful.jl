@@ -192,10 +192,14 @@ end
 
 nameofunit(s::Symbol) = nameofunit(getproperty(Unitful, s))
 
-function make_subsection_text(uvec)
+function make_subsection_text(uvec; isunit=true)
     s = ""
     for u in uvec 
-        n = nameofunit(u)
+        if isunit
+            n = nameofunit(u)
+        else
+            n = string(u)
+        end
         d = udoc(u) 
         s *= "#### $n \n\n$d \n\n"
     end
@@ -211,9 +215,9 @@ function make_struc_section_text(sectiontitle, sectiondict)
     return s
 end
 
-function make_simple_section_text(sectiontitle, uvec)
+function make_simple_section_text(sectiontitle, uvec; isunit=true)
     s = "## $sectiontitle \n\n"
-    s *= make_subsection_text(uvec)
+    s *= make_subsection_text(uvec; isunit)
     return s
 end
 
@@ -243,6 +247,7 @@ function makefulltext(sections)
     end
     s *= make_simple_section_text("Dimensionless units", nodims_units)
     s *= logunits()
+    s *= make_simple_section_text("Physical constants", phys_consts; isunit=false)
     s *= makeprefixsection(prefnamesvals())
     # s *= footer()
     return s
