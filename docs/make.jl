@@ -7,7 +7,11 @@ DocMeta.setdocmeta!(Unitful, :DocTestSetup, :(using Unitful))
 function check_defaultunits_version()
     vfile = "docs/src/assets/vfile.txt"
     r = readline(vfile)
-    @assert VersionNumber(r) == pkgversion(Unitful)
+    docs_v = VersionNumber(r)
+    pkg_v = pkgversion(Unitful)
+    docs_v == pkg_v || error("Docs chapter on default units built with the wrong version of Unitful \
+    (docs built for $docs_v vs current Unitful version $pkg_v). \
+    Please run the script on the local computer with the proper Unitful version")
     return nothing
 end
 
