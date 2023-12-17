@@ -160,10 +160,14 @@ function unitsdict(physdims, uids)
     return OrderedDict(sort!(ups))
 end
 
-physconstants(uids) = [n for n in uids if 
+function physconstants(uids) 
+    ph_consts = [n for n in uids if 
     isconst(Unitful, n) && 
     !(getproperty(Unitful, n) isa Union{Type, Unitful.Units, Unitful.Dimensions, Module, Function}) &&
     isdocumented(n) ]
+    sort!(ph_consts)
+    return ph_consts
+end
 
 function isnodims(u) 
     u isa Unitful.FreeUnits || return false
@@ -293,7 +297,7 @@ compound_units = unitsdict(compounddims, uids)
 nodims_units = nodimsunits(uids) 
 sections = OrderedDict(["Basic dimensions" => basic_units, 
     "Compound dimensions" => compound_units])
-phys_consts = physconstants(uids)
+phys_consts = physconstants(uids) #[begin:end-1]
 
 export savetext
 
