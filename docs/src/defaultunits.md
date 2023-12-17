@@ -654,6 +654,14 @@ The liter, a metric unit of volume, defined as 1000 cm^3.
 
 ## Dimensionless units 
 
+#### Percentmille 
+
+```
+Unitful.pcm
+```
+
+Percentmille, a unit meaning parts per hundred thousand. 
+
 #### Percent 
 
 ```
@@ -677,6 +685,38 @@ Unitful.pertenthousand
 ```
 
 Permyriad, a unit meaning parts per ten thousand. Printed as "‱". 
+
+#### Perbillion 
+
+```
+Unitful.ppb
+```
+
+Perbillion, a unit meaning parts per billion (in the short-scale sense), i.e., 10^-9. 
+
+#### Permillion 
+
+```
+Unitful.ppm
+```
+
+Permillion, a unit meaning parts per million. 
+
+#### Perquadrillion 
+
+```
+Unitful.ppq
+```
+
+Perquadrillion, a unit meaning parts per quadrillion (in the short-scale sense), i.e., 10^-15. 
+
+#### Pertrillion 
+
+```
+Unitful.ppt
+```
+
+Pertrillion, a unit meaning parts per trillion (in the short-scale sense), i.e., 10^-12. 
 
 #### Radian 
 
