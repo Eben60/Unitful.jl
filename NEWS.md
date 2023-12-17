@@ -1,5 +1,13 @@
 # Unitful.jl changelog
 
+## v1.19.0 (2023-11-29)
+
+* ![Feature:](https://img.shields.io/badge/-feature-green) The dimensionless units parts per cent mille (`pcm`, 10^-5), parts per million (`ppm`, 10^-6), parts per billion (`ppb`, 10^-9), parts per trillion (`ppt`, 10^-12), and parts per quadrillion (`ppq`, 10^-15) are added ([#699](https://github.com/PainterQubits/Unitful.jl/pull/699)).
+
+## v1.18.0 (2023-11-13)
+
+* ![Feature:](https://img.shields.io/badge/-feature-green) The two-argument versions of `nextfloat` and `prefloat` now allow quantities as their first argument ([#692](https://github.com/PainterQubits/Unitful.jl/pull/692)).
+
 ## v1.17.0 (2023-08-24)
 
 * ![Feature:](https://img.shields.io/badge/-feature-green) The standard atmosphere (`atm`) now accepts SI prefixes, e.g., `μatm` is defined ([#664](https://github.com/PainterQubits/Unitful.jl/pull/664)).

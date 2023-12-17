@@ -55,6 +55,8 @@ macro test_or_throws(extype, ex)
     )
 end
 
+is_finite_nonzero(x) = isfinite(x) && !iszero(x)
+
 @testset "Construction" begin
     @test isa(NoUnits, FreeUnits)
     @test typeof(𝐋) === Unitful.Dimensions{(Unitful.Dimension{:Length}(1),)}
@@ -225,7 +227,6 @@ end
             # return NaN, Inf, or 0 in these cases, i.e. either returns a finite
             # result or throws an error indicating that it cannot handle the
             # conversion.
-            is_finite_nonzero(x) = isfinite(x) && !iszero(x)
             @test_or_throws ArgumentError is_finite_nonzero(uconvert(u"kb^12", 1u"b^12"))
             @test_or_throws ArgumentError is_finite_nonzero(uconvert(u"ab^11", 1u"Tb^11"))
             @test_or_throws ArgumentError is_finite_nonzero(uconvert(u"Tb^11", 1u"ab^11"))
@@ -842,7 +843,11 @@ Base.:(<=)(x::Issue399, y::Issue399) = x.num <= y.num
         @test !isapprox(1.0u"m",5)
         @test frexp(1.5m) == (0.75m, 1.0)
         @test unit(nextfloat(0.0m)) == m
+        @test unit(nextfloat(0.0m, 4)) == m
+        @test ustrip(nextfloat(0.0m, 4)) == nextfloat(0.0, 4)
         @test unit(prevfloat(0.0m)) == m
+        @test unit(prevfloat(0.0m, 4)) == m
+        @test ustrip(prevfloat(0.0m, 4)) == prevfloat(0.0, 4)
 
         # NaN behavior
         @test NaN*m != NaN*m
@@ -2137,6 +2142,8 @@ module DocUnits
     @unit dFoo "dFoo" DFoo 1*dRefFoo*u"m" true true
 end
 
+using REPL # This is necessary to make `@doc` work correctly
+
 @testset "Docs" begin
     @test string(@doc(Unitful.L)) == string(@doc(Unitful.l))
     @test string(@doc(Unitful.cL)) == string(@doc(Unitful.cl))
@@ -2249,4 +2256,4 @@ end
 
 using Aqua
 
-Aqua.test_all(Unitful, ambiguities=VERSION≥v"1.1", unbound_args=false, piracy=VERSION≥v"1.8", project_toml_formatting=VERSION≥v"1.8")
+Aqua.test_all(Unitful, ambiguities=VERSION≥v"1.1", unbound_args=false, piracies=VERSION≥v"1.8")
