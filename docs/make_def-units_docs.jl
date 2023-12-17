@@ -4,7 +4,7 @@ using Unitful, OrderedCollections
 
 mdfile = "docs/src/defaultunits.md"
 mdheader = "docs/src/assets/defaultunits-header.md"
-mdfooter = "docs/src/assets/defaultunits-footer.md"
+# mdfooter = "docs/src/assets/defaultunits-footer.md"
 mdlogunits = "docs/src/assets/defaultunits-logunits.md"
 vfile = "docs/src/assets/vfile.txt"
 
@@ -244,7 +244,7 @@ header() = read(mdheader, String)
 # footer() = read(mdfooter, String) 
 logunits() = read(mdlogunits, String)
 
-function makefulltext(sections)
+function makefulltext(sections, nodims_units, phys_consts)
     s = header() * "\n\n"
     for (sectiontitle, sectiondict) in sections
         s *= make_struc_section_text(sectiontitle, sectiondict)
@@ -273,32 +273,33 @@ function savetext(fulltext, mdfile)
 end
 
 """
-    savetext(wr = true)
+make_chapter(wr = true)
 Generates the text of the `Pre-defined units and constants` documentation section 
 and writes it into the file or returns the generated text, depending on value of `wr`
 """
-function savetext(wr = true)
-    fulltext = makefulltext(sections)
-    if wr 
-        savetext(fulltext, mdfile)
-        return nothing
+function make_chapter(wr = true; verbose = false)
+    uids = uful_ids()
+
+    (;basicdims, compounddims) = uids |> getphysdims |> physdims_categories
+
+    basic_units =  unitsdict(basicdims, uids)
+    compound_units = unitsdict(compounddims, uids)
+    nodims_units = nodimsunits(uids) 
+    sections = OrderedDict(["Basic dimensions" => basic_units, 
+        "Compound dimensions" => compound_units])
+    phys_consts = physconstants(uids)
+
+    fulltext = makefulltext(sections, nodims_units, phys_consts)
+
+    wr && savetext(fulltext, mdfile)
+
+    if verbose
+        return (;fulltext, sections, nodims_units, phys_consts)
     else
-        return fulltext
+        return nothing
     end
 end
 
-uids = uful_ids()
-# ud = unitsdict(dims, uids)
-
-(;basicdims, compounddims) = uids |> getphysdims |> physdims_categories
-
-basic_units =  unitsdict(basicdims, uids)
-compound_units = unitsdict(compounddims, uids)
-nodims_units = nodimsunits(uids) 
-sections = OrderedDict(["Basic dimensions" => basic_units, 
-    "Compound dimensions" => compound_units])
-phys_consts = physconstants(uids) #[begin:end-1]
-
-export savetext
+export make_chapter
 
 end # module
