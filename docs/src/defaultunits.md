@@ -125,6 +125,14 @@ Unitful.dr
 
 The dram, a US customary unit of mass defined as 1/16 oz. 
 
+#### Gram 
+
+```
+Unitful.g
+```
+
+A prefixed unit, equal to 10^-3 kg. Note that `kg`, not `g`, is the base unit. 
+
 #### Grain 
 
 ```

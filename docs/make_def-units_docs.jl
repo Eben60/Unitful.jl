@@ -146,7 +146,7 @@ function unitsdict(physdims, uids)
         for uname in uids
             u = getproperty(Unitful, uname)
             if (u isa Unitful.Units) 
-                if (1*u isa dm) && !isprefixed(uname) && isdocumented(uname)
+                if (1*u isa dm) && (!isprefixed(uname) || uname == :g) && isdocumented(uname) # gram considered prefixed unit
                     push!(units, uname)
                 end
             end
