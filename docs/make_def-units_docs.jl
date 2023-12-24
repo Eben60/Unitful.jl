@@ -57,11 +57,11 @@ regularid(n) = ! startswith(string(n), r"#|@")
 
 uful_ids() = [n for n in names(Unitful; all=true) if regularid(n)]
 
-docstr(n) = Base.Docs.doc(Base.Docs.Binding(Unitful, n)) |> string
+docstr(n::Symbol) = Base.Docs.doc(Base.Docs.Binding(Unitful, n)) |> string
 
-isprefixed(u) = occursin("A prefixed unit, equal", docstr(u))
+isprefixed(u::Symbol) = occursin("A prefixed unit, equal", docstr(u))
 
-isdocumented(n) = ! startswith(docstr(n), "No documentation found.")
+isdocumented(n::Symbol) = ! startswith(docstr(n), "No documentation found.")
 
 """
 # Examples
@@ -88,7 +88,7 @@ end
 
 
 """
-    getphysdims(uids)
+    getphysdims(uids::Vector{Symbol})
 Filters the list of `Unitful` identifiers to return those which denote physical dimensions (e.g. `Area`, `Power`)
 """
 getphysdims(uids) = [n for n in uids 
@@ -138,6 +138,20 @@ function physdims_categories(physdims)
     return (;basicdims, compounddims, otherdims, )
 end
 
+"""
+# Examples
+```julia-repl
+julia> unitsdict(basicdims, uids)
+OrderedCollections.OrderedDict{Symbol, Vector{Symbol}} with 7 entries:
+  :Amount      => [:mol]
+  :Current     => [:A]
+  :Length      => [:angstrom, :ft, :inch, :m, :mi, :mil, :yd]
+  :Luminosity  => [:cd, :lm]
+  :Mass        => [:dr, :g, :gr, :kg, :lb, :oz, :slug, :u]
+  :Temperature => [:K, :Ra, :°C, :°F]
+  :Time        => [:d, :hr, :minute, :s, :wk, :yr]
+```
+"""
 function unitsdict(physdims, uids)
     ups = []
     for d in physdims
@@ -179,7 +193,10 @@ nodimsunits(uids) = [n for n in uids if isnodims(n) && isdocumented(n) && !ispre
 
 removerefs(d) = replace(d, r"\[(`[\w\.]+\`)]\(@ref\)" => s"\1")
 
-"Truncates documentation and removes references"
+"""
+    udoc(s)
+Truncates documentation and removes references
+"""
 udoc(s) = match(r"(?ms)(.+)\n\nDimension: ", docstr(s)).captures[1] |> removerefs
 
 function nameofunit(u)
@@ -210,18 +227,18 @@ function make_subsection_text(uvec; isunit=true)
     return s
 end
 
-function make_struc_section_text(sectiontitle, sectiondict)
+function make_simple_section_text(sectiontitle, uvec; isunit=true)
+    s = "## $sectiontitle \n\n"
+    s *= make_subsection_text(uvec; isunit)
+    return s
+end
+
+function make_structured_section_text(sectiontitle, sectiondict)
     s = "## $sectiontitle \n\n"
     for (dim, uvec) in sectiondict 
         s *= "### $dim\n\n"
         s *= make_subsection_text(uvec)
     end
-    return s
-end
-
-function make_simple_section_text(sectiontitle, uvec; isunit=true)
-    s = "## $sectiontitle \n\n"
-    s *= make_subsection_text(uvec; isunit)
     return s
 end
 
@@ -247,7 +264,7 @@ logunits() = read(mdlogunits, String)
 function makefulltext(sections, nodims_units, phys_consts)
     s = header() * "\n\n"
     for (sectiontitle, sectiondict) in sections
-        s *= make_struc_section_text(sectiontitle, sectiondict)
+        s *= make_structured_section_text(sectiontitle, sectiondict)
     end
     s *= make_simple_section_text("Dimensionless units", nodims_units)
     s *= logunits()
@@ -273,9 +290,9 @@ function savetext(fulltext, mdfile)
 end
 
 """
-make_chapter(wr = true)
+    make_chapter(wr = true; verbose = false)
 Generates the text of the `Pre-defined units and constants` documentation section 
-and writes it into the file or returns the generated text, depending on value of `wr`
+and writes it into the file if `wr==true`
 """
 function make_chapter(wr = true; verbose = false)
     uids = uful_ids()
