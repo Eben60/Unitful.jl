@@ -20,6 +20,12 @@ For prefixes, see [below](#Metric-(SI)-Prefixes).
 
 ### Amount
 
+```
+Unitful.Amount
+```
+
+Supertype for quantities and levels of dimension `Unitful.𝐍`
+
 #### Mole
 
 ```
@@ -30,6 +36,12 @@ The mole, the SI base unit for amount of substance.
 
 ### Current
 
+```
+Unitful.Current
+```
+
+Supertype for quantities and levels of dimension `Unitful.𝐈`
+
 #### Ampere
 
 ```
@@ -39,6 +51,12 @@ Unitful.A
 The ampere, the SI base unit of electric current.
 
 ### Length
+
+```
+Unitful.Length
+```
+
+Supertype for quantities and levels of dimension `Unitful.𝐋`
 
 #### Angstrom
 
@@ -99,6 +117,12 @@ The yard, a US customary unit of length defined as 3 ft.
 
 ### Luminosity
 
+```
+Unitful.Luminosity
+```
+
+Supertype for quantities and levels of dimension `Unitful.𝐉`
+
 #### Candela
 
 ```
@@ -107,7 +131,21 @@ Unitful.cd
 
 The candela, the SI base unit of luminous intensity.
 
+#### Lumen
+
+```
+Unitful.lm
+```
+
+The lumen, an SI unit of luminous flux, defined as 1 cd × sr.
+
 ### Mass
+
+```
+Unitful.Mass
+```
+
+Supertype for quantities and levels of dimension `Unitful.𝐌`
 
 #### Dram
 
@@ -175,6 +213,12 @@ The unified atomic mass unit, or dalton, a unit of mass defined as 1/12 the mass
 
 ### Temperature
 
+```
+Unitful.Temperature
+```
+
+Supertype for quantities and levels of dimension `Unitful.𝚯`
+
 #### Kelvin
 
 ```
@@ -208,6 +252,12 @@ Unitful.°F
 The degree Fahrenheit, a US customary unit of temperature, defined such that 0 °F = 459.67 Ra.
 
 ### Time
+
+```
+Unitful.Time
+```
+
+Supertype for quantities and levels of dimension `Unitful.𝐓`
 
 #### Day
 
@@ -261,6 +311,12 @@ The year, a unit of time, defined as 365.25 d.
 
 ### Acceleration
 
+```
+Unitful.Acceleration
+```
+
+Supertype for quantities and levels of dimension `𝐋 / 𝐓 ^ 2`
+
 #### Gal
 
 ```
@@ -280,6 +336,12 @@ The nominal acceleration due to gravity in a vacuum near the surface of the eart
 `Unitful.gn` is a quantity (with units `m/s^2`) whereas `Unitful.ge` is a unit equal to `gn`.
 
 ### Area
+
+```
+Unitful.Area
+```
+
+Supertype for quantities and levels of dimension `𝐋 ^ 2`
 
 #### Are
 
@@ -315,6 +377,12 @@ The hectare, a metric unit of area, defined as 100 a.
 
 ### BField
 
+```
+Unitful.BField
+```
+
+Supertype for quantities and levels of dimension `𝐈 ^ -1 * 𝐌 * 𝐓 ^ -2`
+
 #### Gauss
 
 ```
@@ -333,6 +401,12 @@ The tesla, an SI unit of magnetic B-field strength, defined as 1 kg / (A × s^2)
 
 ### Capacitance
 
+```
+Unitful.Capacitance
+```
+
+Supertype for quantities and levels of dimension `𝐈 ^ 2 * 𝐋 ^ -2 * 𝐌 ^ -1 * 𝐓 ^ 4`
+
 #### Farad
 
 ```
@@ -342,6 +416,12 @@ Unitful.F
 The farad, an SI unit of electrical capacitance, defined as 1 s^4 × A^2 / (kg × m^2).
 
 ### Charge
+
+```
+Unitful.Charge
+```
+
+Supertype for quantities and levels of dimension `𝐈 * 𝐓`
 
 #### Coulomb
 
@@ -353,6 +433,12 @@ The coulomb, an SI unit of electric charge, defined as 1 A × s.
 
 ### DynamicViscosity
 
+```
+Unitful.DynamicViscosity
+```
+
+Supertype for quantities and levels of dimension `𝐌 * 𝐋 ^ -1 * 𝐓 ^ -1`
+
 #### Poise
 
 ```
@@ -362,6 +448,12 @@ Unitful.P
 The poise, a CGS unit of dynamic viscosity, defined as 1 dyn × s / cm^2.
 
 ### ElectricalConductance
+
+```
+Unitful.ElectricalConductance
+```
+
+Supertype for quantities and levels of dimension `𝐈 ^ 2 * 𝐋 ^ -2 * 𝐌 ^ -1 * 𝐓 ^ 3`
 
 #### Siemens
 
@@ -373,6 +465,12 @@ The siemens, an SI unit of electrical conductance, defined as 1 Ω^-1.
 
 ### ElectricalResistance
 
+```
+Unitful.ElectricalResistance
+```
+
+Supertype for quantities and levels of dimension `𝐈 ^ -2 * 𝐋 ^ 2 * 𝐌 * 𝐓 ^ -3`
+
 #### Ohm
 
 ```
@@ -382,6 +480,12 @@ Unitful.Ω
 The ohm, an SI unit of electrical resistance, defined as 1 V / A.
 
 ### Energy
+
+```
+Unitful.Energy
+```
+
+Supertype for quantities and levels of dimension `(𝐌 * 𝐋 ^ 2) / 𝐓 ^ 2`
 
 #### BritishThermalUnit
 
@@ -425,6 +529,12 @@ The joule, an SI unit of energy, defined as 1 N × m.
 
 ### Force
 
+```
+Unitful.Force
+```
+
+Supertype for quantities and levels of dimension `(𝐌 * 𝐋) / 𝐓 ^ 2`
+
 #### Dyne
 
 ```
@@ -450,6 +560,12 @@ Unitful.N
 The newton, an SI unit of force, defined as 1 kg × m / s^2.
 
 ### Frequency
+
+```
+Unitful.Frequency
+```
+
+Supertype for quantities and levels of dimension `inv(𝐓)`
 
 #### Becquerel
 
@@ -493,6 +609,12 @@ Revolutions per second, a unit of rotational speed, defined as 2π rad / s.
 
 ### HField
 
+```
+Unitful.HField
+```
+
+Supertype for quantities and levels of dimension `𝐈 / 𝐋`
+
 #### Oersted
 
 ```
@@ -502,6 +624,12 @@ Unitful.Oe
 The oersted, a CGS unit of magnetic H-field strength, defined as 1000 A / (4π × m).
 
 ### Inductance
+
+```
+Unitful.Inductance
+```
+
+Supertype for quantities and levels of dimension `𝐈 ^ -2 * 𝐋 ^ 2 * 𝐌 * 𝐓 ^ -2`
 
 #### Henry
 
@@ -513,6 +641,12 @@ The henry, an SI unit of electrical inductance, defined as 1 J / A^2.
 
 ### KinematicViscosity
 
+```
+Unitful.KinematicViscosity
+```
+
+Supertype for quantities and levels of dimension `𝐋 ^ 2 * 𝐓 ^ -1`
+
 #### Stokes
 
 ```
@@ -521,17 +655,13 @@ Unitful.St
 
 The stokes, a CGS unit of kinematic viscosity, defined as 1 cm^2 / s.
 
-### Luminous flux
-
-#### Lumen
-
-```
-Unitful.lm
-```
-
-The lumen, an SI unit of luminous flux, defined as 1 cd × sr.
-
 ### MagneticFlux
+
+```
+Unitful.MagneticFlux
+```
+
+Supertype for quantities and levels of dimension `𝐈 ^ -1 * 𝐋 ^ 2 * 𝐌 * 𝐓 ^ -2`
 
 #### Maxwell
 
@@ -551,6 +681,12 @@ The weber, an SI unit of magnetic flux, defined as 1 kg × m^2 / (A × s^2).
 
 ### MolarFlow
 
+```
+Unitful.MolarFlow
+```
+
+Supertype for quantities and levels of dimension `𝐍 / 𝐓`
+
 #### Katal
 
 ```
@@ -560,6 +696,12 @@ Unitful.kat
 The katal, an SI unit of catalytic activity, defined as 1 mol of catalyzed substrate per s.
 
 ### Molarity
+
+```
+Unitful.Molarity
+```
+
+Supertype for quantities and levels of dimension `𝐍 / 𝐋 ^ 3`
 
 #### Molar
 
@@ -571,6 +713,12 @@ A unit for measuring molar concentration, equal to 1 mol/L.
 
 ### Power
 
+```
+Unitful.Power
+```
+
+Supertype for quantities and levels of dimension `𝐋 ^ 2 * 𝐌 * 𝐓 ^ -3`
+
 #### Watt
 
 ```
@@ -580,6 +728,12 @@ Unitful.W
 The watt, an SI unit of power, defined as 1 J / s.
 
 ### Pressure
+
+```
+Unitful.Pressure
+```
+
+Supertype for quantities and levels of dimension `𝐌 * 𝐋 ^ -1 * 𝐓 ^ -2`
 
 #### Atmosphere
 
@@ -631,6 +785,12 @@ The torr, a unit of pressure, defined as 1/760 atm.
 
 ### Velocity
 
+```
+Unitful.Velocity
+```
+
+Supertype for quantities and levels of dimension `𝐋 / 𝐓`
+
 #### SpeedOfLight
 
 ```
@@ -643,6 +803,12 @@ The speed of light in a vacuum, a unit of speed, defined as exactly 2.997,924,58
 
 ### Voltage
 
+```
+Unitful.Voltage
+```
+
+Supertype for quantities and levels of dimension `𝐈 ^ -1 * 𝐋 ^ 2 * 𝐌 * 𝐓 ^ -3`
+
 #### Volt
 
 ```
@@ -652,6 +818,12 @@ Unitful.V
 The volt, an SI unit of electric potential, defined as 1 W / A.
 
 ### Volume
+
+```
+Unitful.Volume
+```
+
+Supertype for quantities and levels of dimension `𝐋 ^ 3`
 
 #### Liter
 
@@ -773,7 +945,20 @@ The degree, a unit of angle. There are 360° in a circle.
 | `dBFS`        |         RootPowerRatio(1) |
 | `dBΩ`          |         1Ω |
 | `dBS`          |         1S |
+
 ## Physical constants
+
+#### B
+
+B is undocumented
+
+#### B_p
+
+B_p is undocumented
+
+#### B_rp
+
+B_rp is undocumented
 
 #### G
 
@@ -790,6 +975,18 @@ Unitful.Na
 ```
 
 A quantity representing Avogadro's constant, defined as exactly 6.022,140,76 × 10^23 / mol.
+
+#### Np
+
+Np is undocumented
+
+#### Np_p
+
+Np_p is undocumented
+
+#### Np_rp
+
+Np_rp is undocumented
 
 #### R
 
@@ -815,6 +1012,14 @@ Unitful.Z0
 
 A quantity representing the impedance of free space, a constant defined as μ0 × c.
 
+#### allowed_funcs
+
+allowed_funcs is undocumented
+
+#### basefactors
+
+basefactors is undocumented
+
 #### c0
 
 ```
@@ -824,6 +1029,66 @@ Unitful.c0
 A quantity representing the speed of light in a vacuum, defined as exactly 2.997,924,58 × 10^8 m/s.
 
 `Unitful.c0` is a quantity (with units `m/s`) whereas `Unitful.c` is a unit equal to `c0`.
+
+#### cNp
+
+cNp is undocumented
+
+#### cNp_p
+
+cNp_p is undocumented
+
+#### cNp_rp
+
+cNp_rp is undocumented
+
+#### dB
+
+dB is undocumented
+
+#### dBFS
+
+dBFS is undocumented
+
+#### dBHz
+
+dBHz is undocumented
+
+#### dBS
+
+dBS is undocumented
+
+#### dBSPL
+
+dBSPL is undocumented
+
+#### dBV
+
+dBV is undocumented
+
+#### dB_p
+
+dB_p is undocumented
+
+#### dB_rp
+
+dB_rp is undocumented
+
+#### dBm
+
+dBm is undocumented
+
+#### dBu
+
+dBu is undocumented
+
+#### dBΩ
+
+dBΩ is undocumented
+
+#### dBμV
+
+dBμV is undocumented
 
 #### gn
 
@@ -875,6 +1140,14 @@ Unitful.mp
 
 A quantity representing the rest mass of a proton, equal to 1.672,621,923,69 × 10^-27 kg (the CODATA 2018 recommended value).
 
+#### prefixdict
+
+prefixdict is undocumented
+
+#### promotion
+
+promotion is undocumented
+
 #### q
 
 ```
@@ -882,6 +1155,18 @@ Unitful.q
 ```
 
 A quantity equal to the elementary charge, the charge of a single electron, with a value of exactly 1.602,176,634 × 10^-19 C. The letter `q` is used instead of `e` to avoid confusion with Euler's number.
+
+#### si_no_prefix
+
+si_no_prefix is undocumented
+
+#### si_prefixes
+
+si_prefixes is undocumented
+
+#### unitmodules
+
+unitmodules is undocumented
 
 #### ħ
 
@@ -899,7 +1184,7 @@ Unitful.Φ0
 
 A quantity representing the superconducting magnetic flux quantum, defined as h / (2 × q).
 
-#### ε0, ϵ0
+#### ε0
 
 ```
 Unitful.ε0
@@ -931,6 +1216,15 @@ Unitful.σ
 ```
 
 A quantity representing the Stefan-Boltzmann constant, defined as π^2 × k^4 / (60 × ħ^3 × c^2).
+
+#### ϵ0
+
+```
+Unitful.ε0
+Unitful.ϵ0
+```
+
+A quantity representing the vacuum permittivity constant, defined as 1 / (μ0 × c^2).
 
 ## Metric (SI) Prefixes
 

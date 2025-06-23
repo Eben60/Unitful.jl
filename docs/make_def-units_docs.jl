@@ -177,7 +177,14 @@ removerefs(d) = replace(d, r"\[(`[\w\.]+\`)]\(@ref\)" => s"\1")
     udoc(s::Symbol)
 Truncates documentation of a unit and removes references
 """
-udoc(s) = match(r"(?ms)(.+)\n\nDimension: ", docstr(s)).captures[1] |> removerefs
+function udoc(s)
+    try
+        return match(r"(?ms)(.+)\n\nDimension: ", docstr(s)).captures[1] |> removerefs
+    catch e
+        return "$s is undocumented"
+    end
+end
+
 
 """
     dimdoc(s::Symbol)
@@ -185,15 +192,19 @@ udoc(s) = match(r"(?ms)(.+)\n\nDimension: ", docstr(s)).captures[1] |> removeref
 Truncates documentation of a dimension and removes references
 """
 function dimdoc(s::Symbol) 
-    doctxt = ""
-    try
-        doctxt = match(r"(supertype for .+)with a value", docstr(s)).captures[1] |> removerefs |> strip
-    catch e
-        @show s
-        rethrow(e)
-    end
-    return "```\nUnitful.$s\n```\n\n$(doctxt)"
+    doctxt = match(r"(supertype for .+)with a value", docstr(s)).captures[1] |> removerefs |> strip |> uppercasefirst
+    return "```\nUnitful.$s\n```\n\n$(doctxt)\n\n"
 end
+# function dimdoc(s::Symbol) 
+#     doctxt = ""
+#     try
+#         doctxt = match(r"(supertype for .+)with a value", docstr(s)).captures[1] |> removerefs |> strip |> uppercasefirst
+#     catch e
+#         @show s
+#         rethrow(e)
+#     end
+#     return "```\nUnitful.$s\n```\n\n$(doctxt)\n\n"
+# end
 
 dimdoc(s::AbstractString) = dimdoc(s |> Symbol)
 
@@ -232,7 +243,7 @@ function make_structured_section_text(sectiontitle, sectiondict)
     s = "## $sectiontitle\n\n" 
     for (dim, uvec) in sectiondict 
         s *= "### $dim\n\n"
-       #  s *= dimdoc(dim)
+        s *= dimdoc(dim)
         s *= make_subsection_text(uvec)
     end
     return s
