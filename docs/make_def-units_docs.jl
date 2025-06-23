@@ -1,6 +1,13 @@
 module MakeDefUnitsDocs
 
-using Unitful, OrderedCollections
+## TODO remove later on
+using ShareAdd
+@usingany OrderedCollections
+using Unitful
+##
+
+# using Unitful, OrderedCollections
+## TODO uncomment later on
 
 mdfile = "docs/src/defaultunits.md"
 mdheader = "docs/src/assets/defaultunits-header.md"
@@ -167,10 +174,28 @@ nodimsunits(uids) = [n for n in uids if isnodims(n) && isdocumented(n) && !ispre
 removerefs(d) = replace(d, r"\[(`[\w\.]+\`)]\(@ref\)" => s"\1")
 
 """
-    udoc(s)
-Truncates documentation and removes references
+    udoc(s::Symbol)
+Truncates documentation of a unit and removes references
 """
 udoc(s) = match(r"(?ms)(.+)\n\nDimension: ", docstr(s)).captures[1] |> removerefs
+
+"""
+    dimdoc(s::Symbol)
+    dimdoc(s::AbstractString)
+Truncates documentation of a dimension and removes references
+"""
+function dimdoc(s::Symbol) 
+    doctxt = ""
+    try
+        doctxt = match(r"(supertype for .+)with a value", docstr(s)).captures[1] |> removerefs |> strip
+    catch e
+        @show s
+        rethrow(e)
+    end
+    return "```\nUnitful.$s\n```\n\n$(doctxt)"
+end
+
+dimdoc(s::AbstractString) = dimdoc(s |> Symbol)
 
 function nameofunit(u)
     special = Dict(u"ha" => "Hectare", u"kg" => "Kilogram", u"°F" => "Degree Fahrenheit", u"°C" => "Degree Celcius")
@@ -204,9 +229,10 @@ function make_simple_section_text(sectiontitle, uvec; isunit=true)
 end
 
 function make_structured_section_text(sectiontitle, sectiondict)
-    s = "## $sectiontitle\n\n"
+    s = "## $sectiontitle\n\n" 
     for (dim, uvec) in sectiondict 
         s *= "### $dim\n\n"
+       #  s *= dimdoc(dim)
         s *= make_subsection_text(uvec)
     end
     return s
