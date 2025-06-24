@@ -154,13 +154,44 @@ function unitsdict(physdims, uids)
     return OrderedDict(sort!(ups))
 end
 
+mutable struct PhysConst
+    symbol::Symbol
+    allsymbols::Set{Symbol}
+    mark4del::Bool
+end
+
 function physconstants(uids) 
     ph_consts = [n for n in uids if 
         isconst(Unitful, n) && 
         (getproperty(Unitful, n) isa Quantity) &&
         isdocumented(n) ]
-    sort!(ph_consts)
+    sort!(ph_consts, by = x -> lowercase(string(x)))
     return ph_consts
+end
+
+# function nonunique(pc0, pcarr)
+#     v0 = getproperty(Unitful, pc0.symbol)
+#     for pc in pcarr
+#         v0 === getproperty(Unitful, pc.symbol) && return true
+#     end
+#     return false
+# end
+
+equiv(pc1::PhysConst, pc2::PhysConst) = getproperty(Unitful, pc1.symbol) === getproperty(Unitful, pc2.symbol)
+
+function merge_duplicate_constants(ph_consts)
+    pcarr = [PhysConst(s, Set([s]), false) for s in ph_consts]
+    for i in 1:lastindex(pcarr)-1
+        pcarr[i].mark4del && continue
+        for j in i+1:lastindex(pcarr)
+            pcarr[j].mark4del && continue
+            if equiv(pcarr[i], pcarr[j])
+                push!(pcarr[i].allsymbols, pcarr[j].symbol)
+                pcarr[j].mark4del=true
+            end
+        end
+    end
+    filter!(pc -> !pc.mark4del, pcarr)
 end
 
 function isnodims(u) 
