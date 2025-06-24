@@ -154,12 +154,6 @@ function unitsdict(physdims, uids)
     return OrderedDict(sort!(ups))
 end
 
-mutable struct PhysConst
-    symbol::Symbol
-    allsymbols::Set{Symbol}
-    mark4del::Bool
-end
-
 function physconstants(uids) 
     ph_consts = [n for n in uids if 
         isconst(Unitful, n) && 
@@ -169,15 +163,15 @@ function physconstants(uids)
     return ph_consts
 end
 
-# function nonunique(pc0, pcarr)
-#     v0 = getproperty(Unitful, pc0.symbol)
-#     for pc in pcarr
-#         v0 === getproperty(Unitful, pc.symbol) && return true
-#     end
-#     return false
-# end
+mutable struct PhysConst
+    symbol::Symbol
+    allsymbols::Set{Symbol}
+    mark4del::Bool
+end
 
 equiv(pc1::PhysConst, pc2::PhysConst) = getproperty(Unitful, pc1.symbol) === getproperty(Unitful, pc2.symbol)
+
+Base.string(pc::PhysConst) = join((pc.allsymbols |> collect .|> string |> sort), ", ")
 
 function merge_duplicate_constants(ph_consts)
     pcarr = [PhysConst(s, Set([s]), false) for s in ph_consts]
@@ -213,6 +207,8 @@ function udoc(s)
     isnothing(m) && return nothing
     return m.captures[1] |> removerefs
 end
+
+udoc(pc::PhysConst) = udoc(pc.symbol)
 
 """
     dimdoc(s::Symbol)
@@ -293,7 +289,7 @@ function makefulltext(sections, nodims_units, phys_consts)
     end
     s *= make_simple_section_text("Dimensionless units", nodims_units)
     s *= logunits()
-    s *= make_simple_section_text("Physical constants", phys_consts; isunit=false)
+    s *= make_simple_section_text("Physical constants", phys_consts |> merge_duplicate_constants; isunit=false)
     s *= makeprefixsection(prefnamesvals())
     s *= footer()
     return s
