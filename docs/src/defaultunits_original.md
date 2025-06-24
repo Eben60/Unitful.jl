@@ -376,7 +376,7 @@ The siemens, an SI unit of electrical conductance, defined as 1 Ω^-1.
 #### Ohm
 
 ```
-Unitful.Ω
+Unitful.Ω
 ```
 
 The ohm, an SI unit of electrical resistance, defined as 1 V / A.
