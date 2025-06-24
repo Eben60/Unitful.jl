@@ -948,18 +948,6 @@ The degree, a unit of angle. There are 360° in a circle.
 
 ## Physical constants
 
-#### B
-
-B is undocumented
-
-#### B_p
-
-B_p is undocumented
-
-#### B_rp
-
-B_rp is undocumented
-
 #### G
 
 ```
@@ -975,18 +963,6 @@ Unitful.Na
 ```
 
 A quantity representing Avogadro's constant, defined as exactly 6.022,140,76 × 10^23 / mol.
-
-#### Np
-
-Np is undocumented
-
-#### Np_p
-
-Np_p is undocumented
-
-#### Np_rp
-
-Np_rp is undocumented
 
 #### R
 
@@ -1012,14 +988,6 @@ Unitful.Z0
 
 A quantity representing the impedance of free space, a constant defined as μ0 × c.
 
-#### allowed_funcs
-
-allowed_funcs is undocumented
-
-#### basefactors
-
-basefactors is undocumented
-
 #### c0
 
 ```
@@ -1029,66 +997,6 @@ Unitful.c0
 A quantity representing the speed of light in a vacuum, defined as exactly 2.997,924,58 × 10^8 m/s.
 
 `Unitful.c0` is a quantity (with units `m/s`) whereas `Unitful.c` is a unit equal to `c0`.
-
-#### cNp
-
-cNp is undocumented
-
-#### cNp_p
-
-cNp_p is undocumented
-
-#### cNp_rp
-
-cNp_rp is undocumented
-
-#### dB
-
-dB is undocumented
-
-#### dBFS
-
-dBFS is undocumented
-
-#### dBHz
-
-dBHz is undocumented
-
-#### dBS
-
-dBS is undocumented
-
-#### dBSPL
-
-dBSPL is undocumented
-
-#### dBV
-
-dBV is undocumented
-
-#### dB_p
-
-dB_p is undocumented
-
-#### dB_rp
-
-dB_rp is undocumented
-
-#### dBm
-
-dBm is undocumented
-
-#### dBu
-
-dBu is undocumented
-
-#### dBΩ
-
-dBΩ is undocumented
-
-#### dBμV
-
-dBμV is undocumented
 
 #### gn
 
@@ -1140,14 +1048,6 @@ Unitful.mp
 
 A quantity representing the rest mass of a proton, equal to 1.672,621,923,69 × 10^-27 kg (the CODATA 2018 recommended value).
 
-#### prefixdict
-
-prefixdict is undocumented
-
-#### promotion
-
-promotion is undocumented
-
 #### q
 
 ```
@@ -1155,18 +1055,6 @@ Unitful.q
 ```
 
 A quantity equal to the elementary charge, the charge of a single electron, with a value of exactly 1.602,176,634 × 10^-19 C. The letter `q` is used instead of `e` to avoid confusion with Euler's number.
-
-#### si_no_prefix
-
-si_no_prefix is undocumented
-
-#### si_prefixes
-
-si_prefixes is undocumented
-
-#### unitmodules
-
-unitmodules is undocumented
 
 #### ħ
 

@@ -64,7 +64,7 @@ docstr(n::Symbol) = Base.Docs.doc(Base.Docs.Binding(Unitful, n)) |> string
 
 isprefixed(u::Symbol) = occursin("A prefixed unit, equal", docstr(u))
 
-isdocumented(n::Symbol) = !startswith(docstr(n), "No documentation found.")
+isdocumented(n::Symbol) = !startswith(docstr(n), "No documentation found")
 
 """
     getphysdims(uids::Vector{Symbol})
@@ -156,9 +156,9 @@ end
 
 function physconstants(uids) 
     ph_consts = [n for n in uids if 
-    isconst(Unitful, n) && 
-    !(getproperty(Unitful, n) isa Union{Type, Unitful.Units, Unitful.Dimensions, Module, Function}) &&
-    isdocumented(n) ]
+        isconst(Unitful, n) && 
+        (getproperty(Unitful, n) isa Quantity) &&
+        isdocumented(n) ]
     sort!(ph_consts)
     return ph_consts
 end
@@ -178,13 +178,10 @@ removerefs(d) = replace(d, r"\[(`[\w\.]+\`)]\(@ref\)" => s"\1")
 Truncates documentation of a unit and removes references
 """
 function udoc(s)
-    try
-        return match(r"(?ms)(.+)\n\nDimension: ", docstr(s)).captures[1] |> removerefs
-    catch e
-        return "$s is undocumented"
-    end
+    m = match(r"(?ms)(.+)\n\nDimension: ", docstr(s))
+    isnothing(m) && return nothing
+    return m.captures[1] |> removerefs
 end
-
 
 """
     dimdoc(s::Symbol)
@@ -195,16 +192,6 @@ function dimdoc(s::Symbol)
     doctxt = match(r"(supertype for .+)with a value", docstr(s)).captures[1] |> removerefs |> strip |> uppercasefirst
     return "```\nUnitful.$s\n```\n\n$(doctxt)\n\n"
 end
-# function dimdoc(s::Symbol) 
-#     doctxt = ""
-#     try
-#         doctxt = match(r"(supertype for .+)with a value", docstr(s)).captures[1] |> removerefs |> strip |> uppercasefirst
-#     catch e
-#         @show s
-#         rethrow(e)
-#     end
-#     return "```\nUnitful.$s\n```\n\n$(doctxt)\n\n"
-# end
 
 dimdoc(s::AbstractString) = dimdoc(s |> Symbol)
 
@@ -327,3 +314,12 @@ end
 export make_chapter
 
 end # module
+
+"""
+julia> typeof(Unitful.Na)
+Quantity{Float64, 𝐍⁻¹, Unitful.FreeUnits{(mol⁻¹,), 𝐍⁻¹, nothing}}
+
+julia> typeof(Unitful.Np)
+Unitful.MixedUnits{Gain{Unitful.LogInfo{:Neper, ℯ, 1//2}, :?}, Unitful.FreeUnits{(), NoDims, nothing}}
+
+"""
