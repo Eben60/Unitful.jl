@@ -1,6 +1,8 @@
-module MakeDefUnitsDocs
+module CollectNames
 
-using Unitful, OrderedCollections
+using Unitful
+using ShareAdd
+@usingany OrderedCollections
 
 mdfile = "docs/src/defaultunits.md"
 mdheader = "docs/src/assets/defaultunits-header.md"
@@ -125,7 +127,7 @@ OrderedCollections.OrderedDict{Symbol, Vector{Symbol}} with 7 entries:
   :Time        => [:d, :hr, :minute, :s, :wk, :yr]
 ```
 """
-function unitsdict(physdims, uids)
+function unitsdict(physdims, uids; debug=false)
     ups = []
     for d in physdims
         dm = getproperty(Unitful, d)
@@ -133,16 +135,20 @@ function unitsdict(physdims, uids)
         for uname in uids
             u = getproperty(Unitful, uname)
             if (u isa Unitful.Units) 
-                if (1*u isa dm) && (!isprefixed(uname) || uname == :g) && isdocumented(uname) # gram considered prefixed unit
+                # if (1*u isa dm) && (true || !isprefixed(uname) || uname == :g) && isdocumented(uname) # gram considered prefixed unit
+                if (1*u isa dm) && isdocumented(uname)
+                    debug && isprefixed(uname) && println(uname)
                     push!(units, uname)
+                    debug && println(length(units))
                 end
             end
         end
         if !isempty(units) 
             sort!(units; by = x -> lowercase(string(x)))
-            unique!(nameofunit, units) # special cases: Liter, Angstrom
+            # unique!(nameofunit, units) # special cases: Liter, Angstrom
             push!(ups, d => units)
         end
+        debug && break
     end
     return OrderedDict(sort!(ups))
 end
@@ -308,29 +314,25 @@ end
 Generates the text of the `Pre-defined units and constants` documentation section 
 and writes it into the file if `wr==true`
 """
-function make_chapter(wr = true; verbose = false)
+function collect_pubnames()
     uids = uful_ids()
 
     (;basicdims, compounddims) = uids |> getphysdims |> physdims_categories
 
-    basic_units =  unitsdict(basicdims, uids)
-    compound_units = unitsdict(compounddims, uids)
+    bu =  unitsdict(basicdims, uids) |> values
+    basic_units = reduce(vcat, bu)
+
+    cu = unitsdict(compounddims, uids) |> values
+    compound_units = reduce(vcat, cu)
     nodims_units = nodimsunits(uids) 
-    sections = OrderedDict(["Base dimensions" => basic_units,
-        "Derived dimensions" => compound_units])
     phys_consts = physconstants(uids)
+    # log_units = logunits()
+    public_names = union(basic_units, compound_units, nodims_units, phys_consts, basicdims, compounddims)
+    other_names = setdiff(uids, public_names)
 
-    fulltext = makefulltext(sections, nodims_units, phys_consts)
-
-    wr && savetext(fulltext, mdfile)
-
-    if verbose
-        return (;fulltext, sections, nodims_units, phys_consts)
-    else
-        return nothing
-    end
+    return (;uids, other_names, basic_units, compound_units, nodims_units, phys_consts, basicdims, compounddims #=log_units=#)
 end
 
-export make_chapter
+
 
 end # module
