@@ -206,7 +206,7 @@ function collect_pubnames()
     dim_abbreviations = fnm(x -> x isa Unitful.Dimensions)
 
     quantities = fnm(isquantity,; assymbol=true)
-    unittypes = fnm(isunittype; assymbol=true)
+    unit_types = fnm(isunittype; assymbol=true)
 
     log_units = fnm(x -> x isa Unitful.MixedUnits)
     other_types = fnm(x -> x isa Type)
@@ -216,8 +216,32 @@ function collect_pubnames()
     return (;
     uids, other_names, _internal_names, module_names, base_names, exported_names,
     nodims_units, phys_consts, basic_dims, compound_dims, unit_names, 
-    basic_units, compound_units, dim_abbreviations, quantities, unittypes,
+    basic_units, compound_units, dim_abbreviations, quantities, unit_types,
     log_units, other_types, private_fns)
+end
+
+function public_string(a, publics=true; maxlength=90)
+    strings = String[]
+    line = publics ? "public " : "    "
+    for s in a
+        nextword = string(s)
+        if length(line) + length(nextword) + 2 > maxlength
+            push!(strings, line)
+            line = "    "
+        end
+        line = line * nextword
+        if s != last(a)
+            line = line * ", "
+        end
+    end
+    push!(strings, line)
+
+    if !publics
+        push!(strings, "\""^3)
+        pushfirst!(strings, "\""^3)
+    end
+
+    return strings
 end
 
 end # module
