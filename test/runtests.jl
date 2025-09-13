@@ -80,7 +80,7 @@ if VERSION >= v"1.11.0-DEV.469"
         public_names = filter(x -> Base.ispublic(Unitful, x), unitful_ids)
         other_names = setdiff(unitful_ids, union(private_names, exported_names, base_overloaded_names, public_names))
         isempty(other_names) ||
-            @warn """$other_names should be either declared as public or exported, or added to a list of private varieables in testset "public variables" """ 
+            @warn """For variables in $(other_names): declare as public or exported, or prepend underscore, or add to a private variables list in testset "public variables" """ 
 
         @test isempty(other_names)
     end
