@@ -27,7 +27,7 @@ jobs:
   Documentation:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: julia-actions/setup-julia@v2
         with:
           version: 1
@@ -35,3 +35,8 @@ jobs:
       - uses: julia-actions/julia-docdeploy@v1
         env:
           DOCUMENTER_KEY: ${{ secrets.DOCUMENTER_KEY }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: documentation-build
+          path: docs/build
+          retention-days: 90

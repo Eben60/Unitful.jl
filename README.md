@@ -1,6 +1,6 @@
-[![CI](https://github.com/PainterQubits/Unitful.jl/workflows/CI/badge.svg)](https://github.com/PainterQubits/Unitful.jl/actions?query=workflow%3ACI)
-[![Coverage Status](https://coveralls.io/repos/github/PainterQubits/Unitful.jl/badge.svg?branch=master)](https://coveralls.io/github/PainterQubits/Unitful.jl?branch=master)
-[![codecov.io](https://codecov.io/github/PainterQubits/Unitful.jl/coverage.svg?branch=master)](https://codecov.io/github/PainterQubits/Unitful.jl?branch=master)
+[![CI](https://github.com/JuliaPhysics/Unitful.jl/workflows/CI/badge.svg)](https://github.com/JuliaPhysics/Unitful.jl/actions?query=workflow%3ACI)
+[![Coverage Status](https://coveralls.io/repos/github/JuliaPhysics/Unitful.jl/badge.svg?branch=master)](https://coveralls.io/github/JuliaPhysics/Unitful.jl?branch=master)
+[![codecov.io](https://codecov.io/github/JuliaPhysics/Unitful.jl/coverage.svg?branch=master)](https://codecov.io/github/JuliaPhysics/Unitful.jl?branch=master)
 
 
 
@@ -12,7 +12,7 @@ cases eliminate the run-time penalty of units. There should be facilities
 for dimensional analysis. All of this should integrate easily with the usual
 mathematical operations and collections that are found in Julia base.
 
-### Documentation: [![](https://img.shields.io/badge/docs-stable-blue.svg)](https://PainterQubits.github.io/Unitful.jl/stable) [![](https://img.shields.io/badge/docs-dev-blue.svg)](https://PainterQubits.github.io/Unitful.jl/dev)
+### Documentation: [![](https://img.shields.io/badge/docs-stable-blue.svg)](https://JuliaPhysics.github.io/Unitful.jl/stable) [![](https://img.shields.io/badge/docs-dev-blue.svg)](https://JuliaPhysics.github.io/Unitful.jl/dev)
 
 
 ## Other packages in the Unitful family
@@ -30,7 +30,6 @@ mathematical operations and collections that are found in Julia base.
 ### Feature additions
 
 - [UnitfulEquivalences.jl](https://github.com/sostock/UnitfulEquivalences.jl): Enables conversion between equivalent quantities of different dimensions, e.g. between energy and wavelength of a photon.
-- [UnitfulLatexify.jl](https://github.com/gustaphe/UnitfulLatexify.jl): Pretty print units and quantities in LaTeX format.
 - [UnitfulParsableString.jl](https://github.com/michikawa07/UnitfulParsableString.jl): Add a `Base.string` method that converts quantities and units to parsable strings.
 - [UnitfulBuckinghamPi.jl](https://github.com/rmsrosa/UnitfulBuckinghamPi.jl): Solves for the adimensional Pi groups in a list of Unitful parameters, according to the Buckingham-Pi Theorem.
 - [NaturallyUnitful.jl](https://github.com/MasonProtter/NaturallyUnitful.jl): Convert to and from natural units in physics.
@@ -38,6 +37,7 @@ mathematical operations and collections that are found in Julia base.
 - [DimensionfulAngles.jl](https://github.com/cmichelenstrofer/DimensionfulAngles.jl): Adds angle as a dimension. This allows dispatching on angles and derived quantities.
 - [Dimensionless.jl](https://github.com/martinkosch/Dimensionless.jl): Contains tools to switch between dimensional bases, conduct dimensional analysis and solve similitude problems.
 - [UnitfulRecipes.jl](https://github.com/jw3126/UnitfulRecipes.jl) (deprecated): Adds automatic labels and supports plot axes with units for [Plots.jl](https://github.com/JuliaPlots/Plots.jl). (UnitfulRecipes.jl is now included in Plots.jl.)
+- [UnitfulLatexify.jl](https://github.com/gustaphe/UnitfulLatexify.jl) (deprecated): Pretty print units and quantities in LaTeX format. (This package is now an extension to Unitful, so that loading both Unitful and [Latexify.jl](https://github.com/korsbo/Latexify.jl) loads this functionality.)
 
 
 ## Related packages

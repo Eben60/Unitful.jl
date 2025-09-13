@@ -4,13 +4,15 @@ import Unitful: DimensionError, AffineError
 import Unitful: LogScaled, LogInfo, Level, Gain, MixedUnits, Decibel
 import Unitful: FreeUnits, ContextUnits, FixedUnits, AffineUnits, AffineQuantity
 import ForwardDiff
+import Latexify: Latexify, latexify, @latexify, FancyNumberFormatter, SiunitxNumberFormatter
+import LaTeXStrings: LaTeXString, @L_str
 
 import Unitful:
     nm, μm, mm, cm, m, km, inch, ft, mi,
     ac,
     mg, g, kg,
     Ra, °F, °C, K,
-    rad, mrad, °,
+    rad, mrad, °, deg,
     ms, s, minute, hr, d, yr, Hz,
     J, A, N, mol, V, mJ, eV, dyn, mN,
     mW, W,
@@ -734,6 +736,7 @@ Base.:(<=)(x::Issue399, y::Issue399) = x.num <= y.num
         @test zero(Quantity{Int, 𝐋}) isa Quantity{Int}
         @test @inferred(π/2*u"rad" + 90u"°") ≈ π        # Dimless quantities
         @test @inferred(π/2*u"rad" - 90u"°") ≈ 0        # Dimless quantities
+        @test @inferred(90u"deg" - 90u"°") == 0
         @test_throws DimensionError 1+1m                # Dim mismatched
         @test_throws DimensionError 1-1m
     end
@@ -877,13 +880,9 @@ Base.:(<=)(x::Issue399, y::Issue399) = x.num <= y.num
         @test @inferred(cospi(1rad)) == -1
         @test @inferred(sinc(1rad)) === 0
         @test @inferred(cosc(1ft/3inch)) === 0.25
-        if isdefined(Base, :cispi)
-            @test @inferred(cispi(rad/2)) === complex(0.0, 1.0)
-            @test @inferred(cispi(rad/2 + im*rad)) ≈ complex(0.0, exp(-π))
-        end
-        if isdefined(Base, :sincospi)
-            @test @inferred(sincospi(rad/2)) === (1.0, 0.0)
-        end
+        @test @inferred(cispi(rad/2)) === complex(0.0, 1.0)
+        @test @inferred(cispi(rad/2 + im*rad)) ≈ complex(0.0, exp(-π))
+        @test @inferred(sincospi(rad/2)) === (1.0, 0.0)
         if isdefined(Base, :tanpi)
             @test @inferred(tanpi(1f0rad)) === tanpi(1f0)
             @test @inferred(tanpi(250mrad)) === tanpi(0.25)
@@ -897,9 +896,7 @@ Base.:(<=)(x::Issue399, y::Issue399) = x.num <= y.num
         @test_throws DimensionError atan(m*sqrt(3),1e+3s)
         @test @inferred(angle((3im)*V)) ≈ 90°
 
-        if isdefined(Base, :sincosd)
-            @test @inferred(sincosd(5°)) == sincos(5°) == (sind(5°), cosd(5°))
-        end
+        @test @inferred(sincosd(5°)) == sincos(5°) == (sind(5°), cosd(5°))
     end
     @testset "> Exponentials and logarithms" begin
         for f in (exp, exp10, exp2, expm1, log, log10, log1p, log2)
@@ -1708,17 +1705,8 @@ end
 
 @testset "Display" begin
     withenv("UNITFUL_FANCY_EXPONENTS" => false) do
-        @static if VERSION ≥ v"1.6.0-DEV.770"
-            @test string(typeof(1.0m/s)) ==
-                "Quantity{Float64, 𝐋 𝐓^-1, FreeUnits{(m, s^-1), 𝐋 𝐓^-1, nothing}}"
-            @test string(typeof(m/s)) ==
-                "FreeUnits{(m, s^-1), 𝐋 𝐓^-1, nothing}"
-        else
-            @test string(typeof(1.0m/s)) ==
-                "Quantity{Float64,𝐋 𝐓^-1,FreeUnits{(m, s^-1),𝐋 𝐓^-1,nothing}}"
-            @test string(typeof(m/s)) ==
-                "FreeUnits{(m, s^-1),𝐋 𝐓^-1,nothing}"
-        end
+        @test string(typeof(1.0m/s)) == "Quantity{Float64, 𝐋 𝐓^-1, FreeUnits{(m, s^-1), 𝐋 𝐓^-1, nothing}}"
+        @test string(typeof(m/s)) == "FreeUnits{(m, s^-1), 𝐋 𝐓^-1, nothing}"
         @test string(dimension(1u"m/s")) == "𝐋 𝐓^-1"
         @test string(NoDims) == "NoDims"
     end
@@ -1763,13 +1751,8 @@ Base.show(io::IO, ::MIME"text/plain", ::Foo) = print(io, "42.0")
         @test repr(StepRange(1.0u"°C", 1.0u"K", 3.0u"°C")) == "(1.0:1.0:3.0) °C"
         @test repr(StepRange((0//1)u"°F", 1u"K", (9//1)u"°F")) == "(0//1:9//5:9//1) °F"
         @test repr(StepRangeLen{typeof(1.0u"°C"),typeof(1.0u"°C"),typeof(1u"K")}(1.0u"°C", 1u"K", 3, 1)) == "(1.0:1.0:3.0) °C"
-        @static if VERSION < v"1.5"
-            @test_broken repr(StepRangeLen{typeof(1u"°C"),typeof(1u"°C"),typeof(1u"K")}(1u"°C", 1u"K", 3, 1)) == "(1:1:3) °C"
-            @test_broken repr(StepRangeLen{typeof(1.0u"°F"),typeof(1.0u"°F"),typeof(1u"K")}(0.0u"°F", 1u"K", 6)) == "(0.0:1.8:9.0) °F"
-        else
-            @test repr(StepRangeLen{typeof(1u"°C"),typeof(1u"°C"),typeof(1u"K")}(1u"°C", 1u"K", 3, 1)) == "(1:1:3) °C"
-            @test repr(StepRangeLen{typeof(1.0u"°F"),typeof(1.0u"°F"),typeof(1u"K")}(0.0u"°F", 1u"K", 6)) == "(0.0:1.8:9.0) °F"
-        end
+        @test repr(StepRangeLen{typeof(1u"°C"),typeof(1u"°C"),typeof(1u"K")}(1u"°C", 1u"K", 3, 1)) == "(1:1:3) °C"
+        @test repr(StepRangeLen{typeof(1.0u"°F"),typeof(1.0u"°F"),typeof(1u"K")}(0.0u"°F", 1u"K", 6)) == "(0.0:1.8:9.0) °F"
     end
     withenv("UNITFUL_FANCY_EXPONENTS" => true) do
         @test repr(1.0 * u"m * s * kg^(-1//2)") == "1.0 m s kg⁻¹ᐟ²"
@@ -1789,6 +1772,137 @@ end
 VERSION ≥ v"1.9.0" && @testset "printf" begin
     @test (@sprintf "%f %d %.2f %05d" 1.23u"m" 123.4u"°" 0.1234u"W" 12.34u"km") == "1.230000 m 123° 0.12 W 00012 km"
 end
+
+isdefined(Base, :get_extension) && @testset "Latexify extension" begin
+
+function unitfullatexifytest(val, mathrmexpected, siunitxexpected, siunitxsimpleexpected)
+    @test latexify(val; fmt=FancyNumberFormatter()) ==
+        LaTeXString(replace(mathrmexpected, "\r\n" => "\n"))
+    @test latexify(val; fmt=SiunitxNumberFormatter()) ==
+        LaTeXString(replace(siunitxexpected, "\r\n" => "\n"))
+    @test latexify(val; fmt=SiunitxNumberFormatter(simple=true)) ==
+        LaTeXString(replace(siunitxsimpleexpected, "\r\n"=>"\n"))
+end
+
+@testset "Latexify units" begin
+    unitfullatexifytest(
+        u"H*J/kg",
+        raw"$\mathrm{H}\,\mathrm{J}\,\mathrm{kg}^{-1}$",
+        raw"\unit{\henry\joule\per\kilo\gram}",
+        raw"\unit{H.J.kg^{-1}}",
+    )
+    unitfullatexifytest(
+        24.7e9u"Gm/s^2",
+        raw"$2.47 \cdot 10^{10}\;\mathrm{Gm}\,\mathrm{s}^{-2}$",
+        raw"\qty{2.47e10}{\giga\meter\per\second\tothe{2}}",
+        raw"\qty{2.47e10}{Gm.s^{-2}}",
+    )
+    unitfullatexifytest(
+        u"percent", raw"$\mathrm{\%}$", raw"\unit{\percent}", raw"\unit{\%}"
+    )
+    unitfullatexifytest(
+        2u"°C", raw"$2\;\mathrm{^\circ C}$", raw"\qty{2}{\celsius}", raw"\qty{2}{\celsius}"
+    )
+    unitfullatexifytest(
+        1u"°", raw"$1\mathrm{^{\circ}}$", raw"\qty{1}{\degree}", raw"\qty{1}{\degree}"
+    )
+    unitfullatexifytest(
+        [1, 2, 3]*m,
+        raw"""
+        \begin{equation}
+        \left[
+        \begin{array}{c}
+        1 \\
+        2 \\
+        3 \\
+        \end{array}
+        \right]\;\mathrm{m}
+        \end{equation}
+        """,
+        raw"""
+        \begin{equation}
+        \left[
+        \begin{array}{c}
+        \num{1} \\
+        \num{2} \\
+        \num{3} \\
+        \end{array}
+        \right]\;\unit{\meter}
+        \end{equation}
+        """,
+        raw"""
+        \begin{equation}
+        \left[
+        \begin{array}{c}
+        \num{1} \\
+        \num{2} \\
+        \num{3} \\
+        \end{array}
+        \right]\;\unit{m}
+        \end{equation}
+        """,
+    )
+    unitfullatexifytest((1,2,3).*m,
+        raw"""
+        \begin{equation}
+        \left[
+        \begin{array}{c}
+        1 \\
+        2 \\
+        3 \\
+        \end{array}
+        \right]\;\mathrm{m}
+        \end{equation}
+        """,
+        raw"\qtylist{1;2;3}{\meter}",
+        raw"\qtylist{1;2;3}{m}",
+    )
+
+    @test latexify(24.7e9u"Gm/s^2"; fmt="%.1e") ==
+        L"$2.5e+10\;\mathrm{Gm}\,\mathrm{s}^{-2}$"
+    @test latexify(5.9722e24u"kg"; fmt=SiunitxNumberFormatter(version=2)) ==
+        raw"\SI{5.9722e24}{\kilo\gram}"
+    @test latexify(u"eV"; fmt=SiunitxNumberFormatter(version=2)) == raw"\si{\electronvolt}"
+end
+
+@testset "permode" begin
+    p = 5u"m^3*s^2/H/kg^4"
+    @test latexify(p) == LaTeXString(
+        raw"$5\;\mathrm{m}^{3}\,\mathrm{s}^{2}\,\mathrm{kg}^{-4}\,\mathrm{H}^{-1}$"
+    )
+    @test latexify(p; permode=:power) == LaTeXString(
+        raw"$5\;\mathrm{m}^{3}\,\mathrm{s}^{2}\,\mathrm{kg}^{-4}\,\mathrm{H}^{-1}$"
+    )
+    @test latexify(p; permode=:slash) == LaTeXString(
+        raw"$5\;\mathrm{m}^{3}\,\mathrm{s}^{2}\,/\,\mathrm{kg}^{4}\,\mathrm{H}$"
+    )
+    @test latexify(p; permode=:frac) == LaTeXString(
+        raw"$5\;\frac{\mathrm{m}^{3}\,\mathrm{s}^{2}}{\mathrm{kg}^{4}\,\mathrm{H}}$"
+    )
+    @test latexify(p; permode=:frac, fmt=SiunitxNumberFormatter()) ==
+        latexify(p; fmt=SiunitxNumberFormatter())
+    @test latexify(m; permode=:frac) == latexify(m)
+    @test latexify(u"m^-1"; permode=:frac) == LaTeXString(raw"$\frac{1}{\mathrm{m}}$")
+    @test_throws ErrorException latexify(p; permode=:wrong)
+end
+
+@testset "Labels" begin
+    @test latexify("x", m) == raw"$x\;\left/\;\mathrm{m}\right.$"
+    @test latexify("x", m; labelformat=:slash) == raw"$x\;\left/\;\mathrm{m}\right.$"
+    @test latexify("x", m; labelformat=:square) == raw"$x\;\left[\mathrm{m}\right]$"
+    @test latexify("x", m; labelformat=:round) == raw"$x\;\left(\mathrm{m}\right)$"
+    @test latexify("x", m; labelformat=:frac) == raw"$\frac{x}{\mathrm{m}}$"
+    Latexify.set_default(labelformat=:square)
+    @test latexify("x", m) == raw"$x\;\left[\mathrm{m}\right]$"
+    @test_throws "Unknown labelformat" latexify("x", m; labelformat=:wrong)
+end
+
+@testset "Parentheses" begin
+    @test @latexify($(3u"mm")^2 - 4 * $(2u"mm^2")) ==
+        raw"$\left( 3\;\mathrm{mm} \right)^{2} - 4 \cdot 2\;\mathrm{mm}^{2}$"
+end
+end
+
 
 @testset "DimensionError message" begin
     function errorstr(e)
@@ -2328,6 +2442,10 @@ end
     @test (1//2)Unitful.ϵ0 === (1//2)Unitful.ε0
     @test Unitful.Å === Unitful.angstrom
     @test 1.0Unitful.Å === 1.0Unitful.angstrom
+    @test Unitful.deg === Unitful.°
+    @test 2Unitful.° === 2Unitful.deg
+    @test u"deg" === u"°"
+    @test uparse("deg") === uparse("°")
 end
 
 module DocUnits
