@@ -6,14 +6,23 @@ ipf = CN.isprefixed
 idc = CN.isdocumented
 udc = CN.unitsdict
 nofu = CN.nameofunit
-ps = CN.public_string
+ps = CN.var_group_section
+vg = CN.var_group
+bvg = CN.both_var_groups
+cpf = CN.create_pub_file
 
-(;
-    uids, other_names, _internal_names, module_names, base_names, exported_names, private_fns,
-    nodims_units, phys_consts, basic_dims, compound_dims, unit_names, 
-    basic_units, compound_units, dim_abbreviations, quantities, unit_types,
-    log_units, abstract_types, concrete_types) = 
+(; other_data, private_names, public_names) = 
     nt = 
     cpb();
 
-; 
+(;uids, other_names, exported_names,) = other_data
+
+(; underline_prepended_names, module_names, base_names, private_fns,) = private_names 
+
+(; nodims_units, phys_consts, basic_dims, compound_dims, unit_names, 
+    basic_units, compound_units, dim_abbreviations, quantities, unit_types,
+    log_units, abstract_types, concrete_types,) = public_names
+
+cpf(private_names, public_names)
+
+;

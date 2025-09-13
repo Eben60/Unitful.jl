@@ -182,8 +182,8 @@ function collect_pubnames()
     base_names = fnm(x -> x in _basenames; assymbol=true)
     exported_names = fnm(x -> Base.isexported(Unitful, x); assymbol=true)
     
-    _internal_names = filter(x -> startswith(x |> string, "_"), uids)
-    setdiff!(other_names, _internal_names)
+    underline_prepended_names = filter(x -> startswith(x |> string, "_"), uids)
+    setdiff!(other_names, underline_prepended_names)
 
     module_names = fnm(x -> x isa Module)
 
@@ -215,13 +215,14 @@ function collect_pubnames()
 
 
     return (;
-    uids, other_names, _internal_names, module_names, base_names, exported_names, private_fns,
-    nodims_units, phys_consts, basic_dims, compound_dims, unit_names, 
-    basic_units, compound_units, dim_abbreviations, quantities, unit_types,
-    log_units, abstract_types, concrete_types)
+        other_data = (;uids, other_names, exported_names,), 
+        private_names = (; underline_prepended_names, module_names, base_names, private_fns,) ,
+        public_names = (; nodims_units, phys_consts, basic_dims, compound_dims, unit_names, 
+            basic_units, compound_units, dim_abbreviations, quantities, unit_types,
+            log_units, abstract_types, concrete_types,))
 end
 
-function public_string(a, publics=true; maxlength=90)
+function var_group_section(a; publics=true, maxlength=90)
     strings = String[]
     line = publics ? "public " : "    "
     for s in a
@@ -244,5 +245,32 @@ function public_string(a, publics=true; maxlength=90)
 
     return strings
 end
+
+function var_group_section(a, group_name; publics=true, maxlength=90) 
+    group_name = replace(group_name |> string, "_" => " ")
+
+    return vcat(["", "# $group_name"],
+        var_group_section(a; publics, maxlength),
+        )
+end
+function var_group(nt, publics)
+    strings = String[]
+    for k in keys(nt)
+        append!(strings, var_group_section(nt[k], k; publics))
+    end
+    return strings
+end
+
+both_var_groups(private_names, public_names) = vcat(var_group(private_names, false), var_group(public_names, true))
+
+function create_pub_file(private_names, public_names; fname = "public.julia")
+    strings = both_var_groups(private_names, public_names)
+    open(fname, "w") do io
+        for s in strings
+            println(io, s)
+        end
+    end
+end
+
 
 end # module
