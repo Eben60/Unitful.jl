@@ -1,9 +1,55 @@
-module CollectNames
+module CollectNames_bak
 
 using Unitful
 using ShareAdd
 @usingany OrderedCollections
 
+mdfile = "docs/src/defaultunits.md"
+mdheader = "docs/src/assets/defaultunits-header.md"
+mdfooter = "docs/src/assets/defaultunits-footer.md"
+mdlogunits = "docs/src/assets/defaultunits-logunits.md"
+vfile = "docs/src/assets/vfile.txt"
+
+"""
+# Examples
+```julia-repl
+julia> prefnamesvals()
+OrderedCollections.OrderedDict{String, Tuple{String, Int64}} with 20 entries:
+  "y"  => ("yocto", -24)
+  "z"  => ("zepto", -21)
+  ⋮    => ⋮
+"""
+function prefnamesvals()
+    prefixnames = Dict(
+        "Q"  => "quetta",
+        "R"  => "ronna",
+        "Y"  => "yotta",
+        "Z"  => "zetta",
+        "E"  => "exa",
+        "P"  => "peta",
+        "T"  => "tera",
+        "G"  => "giga",
+        "M"  => "mega",
+        "k"  => "kilo",
+        "h"  => "hecto",
+        "da" => "deca",
+        "d"  => "deci",
+        "c"  => "centi",
+        "m"  => "milli",
+        "μ"  => "micro",
+        "n"  => "nano",
+        "p"  => "pico",
+        "f"  => "femto",
+        "a"  => "atto",
+        "z"  => "zepto",
+        "y"  => "yocto",
+        "r"  => "ronto",
+        "q"  => "quecto")
+    pd = Unitful.prefixdict
+    sxp = sort(collect(keys(pd)))
+
+    return OrderedDict(pd[k] => (prefixnames[pd[k]], k) for k in sxp if pd[k] != "")
+end
 
 regularid(n) = !startswith(string(n), r"#|@")
 
@@ -116,10 +162,6 @@ function physconstants(uids)
     return ph_consts
 end
 
-physconstant(n) = isconst(Unitful, n) && 
-        (getproperty(Unitful, n) isa Quantity) &&
-        isdocumented(n)
-
 mutable struct PhysConst
     symbol::Symbol
     allsymbols::Set{Symbol}
@@ -153,10 +195,31 @@ isnodims(u::Symbol) = isnodims(getproperty(Unitful, u))
 
 nodimsunits(uids) = [n for n in uids if isnodims(n) && isdocumented(n) && !isprefixed(n) && n != :NoUnits]
 
-nodimsunit(n) = isnodims(n) && isdocumented(n) && !isprefixed(n) && n != :NoUnits
-
-
 removerefs(d) = replace(d, r"\[(`[\w\.]+\`)]\(@ref\)" => s"\1")
+
+"""
+    udoc(s::Symbol)
+Truncates documentation of a unit and removes references
+"""
+function udoc(s)
+    m = match(r"(?ms)(.+)\n\nDimension: ", docstr(s))
+    isnothing(m) && return nothing
+    return m.captures[1] |> removerefs
+end
+
+udoc(pc::PhysConst) = udoc(pc.symbol)
+
+"""
+    dimdoc(s::Symbol)
+    dimdoc(s::AbstractString)
+Truncates documentation of a dimension and removes references
+"""
+function dimdoc(s::Symbol) 
+    doctxt = match(r"(supertype for .+)with a value", docstr(s)).captures[1] |> removerefs |> strip |> uppercasefirst
+    return "```\nUnitful.$s\n```\n\n$(doctxt)\n\n"
+end
+
+dimdoc(s::AbstractString) = dimdoc(s |> Symbol)
 
 function nameofunit(u)
     special = Dict(u"ha" => "Hectare", u"kg" => "Kilogram", u"°F" => "Degree Fahrenheit", u"°C" => "Degree Celcius")
@@ -169,13 +232,86 @@ end
 
 nameofunit(s::Symbol) = nameofunit(getproperty(Unitful, s))
 
-function _nameofunit(::Unitful.Units{N}) where N
-    length(N) != 1 && return nothing
-    return _nameofunit(only(N))
-end
-
+_nameofunit(::Unitful.Units{N}) where N = _nameofunit(only(N))
 _nameofunit(::Unitful.Unit{U}) where U = U
 _nameofunit(::Any) = nothing
+
+function make_subsection_text(uvec; isunit=true)
+    s = ""
+    for u in uvec 
+        if isunit
+            n = nameofunit(u)
+        else
+            n = string(u)
+        end
+        d = udoc(u) 
+        s *= "#### $n\n\n$d\n\n"
+    end
+    return s
+end
+
+function make_simple_section_text(sectiontitle, uvec; isunit=true)
+    s = "## $sectiontitle\n\n"
+    s *= make_subsection_text(uvec; isunit)
+    return s
+end
+
+function make_structured_section_text(sectiontitle, sectiondict)
+    s = "## $sectiontitle\n\n" 
+    for (dim, uvec) in sectiondict 
+        s *= "### $dim\n\n"
+        s *= dimdoc(dim)
+        s *= make_subsection_text(uvec)
+    end
+    return s
+end
+
+function makeprefixsection(pnv)
+    s = """
+## Metric (SI) Prefixes
+
+| Prefix | Name | Power of Ten |
+|--------|--------|--------|
+"""
+    for (k,v) in pnv
+        s *= "| $k | $(v[1]) | $(v[2]) |\n"
+    end
+
+    return s
+end
+
+
+header() = read(mdheader, String) 
+footer() = read(mdfooter, String)
+logunits() = read(mdlogunits, String)
+
+function makefulltext(sections, nodims_units, phys_consts)
+    s = header() * "\n\n"
+    for (sectiontitle, sectiondict) in sections
+        s *= make_structured_section_text(sectiontitle, sectiondict)
+    end
+    s *= make_simple_section_text("Dimensionless units", nodims_units)
+    s *= logunits()
+    s *= make_simple_section_text("Physical constants", phys_consts |> merge_duplicate_constants; isunit=false)
+    s *= makeprefixsection(prefnamesvals())
+    s *= footer()
+    return s
+end
+
+function write_unitful_v(vfile)
+    open(vfile, "w") do io
+        println(io, pkgversion(Unitful))
+    end
+    return nothing
+end
+
+function savetext(fulltext, mdfile)
+    open(mdfile,"w") do io
+       write(io, fulltext)
+    end
+    write_unitful_v(vfile)
+    return nothing
+end
 
 function isquantity(s)
     x = getproperty(Unitful, s)
@@ -189,90 +325,34 @@ function isunittype(s)
         return x <: Unitful.Units
 end
 
-function filternames(f, other_names; m=Unitful, assymbol=false) 
-    filtered = assymbol ? 
-        filter(f, other_names) :
-        filter(x -> f(getproperty(m, x)), other_names)
-    setdiff!(other_names, filtered)
-    return filtered
-end
-
-
-const privatevars = [:BCAST_PROPAGATE_CALLS, :allowed_funcs, :basefactors, :prefixdict, :promotion, :si_no_prefix, :si_prefixes, :unitmodules]
-
+"""
+    make_chapter(wr = true; verbose = false)
+Generates the text of the `Pre-defined units and constants` documentation section 
+and writes it into the file if `wr==true`
+"""
 function collect_pubnames()
     uids = uful_ids()
-    other_names = copy(uids)
-    setdiff!(other_names, privatevars)
-
-    fnm(f; assymbol=false) = filternames(f, other_names; assymbol)
-
-    _basenames =  names(Base; all=true)
-    base_names = fnm(x -> x in _basenames; assymbol=true)
-    exported_names = fnm(x -> Base.isexported(Unitful, x); assymbol=true)
-    
-    _internal_names = filter(x -> startswith(x |> string, "_"), uids)
-    setdiff!(other_names, _internal_names)
-
-    module_names = fnm(x -> x isa Module)
-
-    nodims_units = fnm(nodimsunit; assymbol=true)
-    phys_consts = fnm(physconstant; assymbol=true)
-
-    (basic_dims, compound_dims, _) = uids |> getphysdims |> physdims_categories
-    setdiff!(other_names, union(basic_dims, compound_dims))
-
-    unit_names = fnm(x -> !isnothing(nameofunit(x)))
-
-    bu =  unitsdict(basic_dims, uids) |> values
-    basic_units = reduce(vcat, bu)
-
-    cu = unitsdict(compound_dims, uids) |> values
-    compound_units = reduce(vcat, cu)
-
-    setdiff!(other_names, union(basic_units, basic_units))
-
-    dim_abbreviations = fnm(x -> x isa Unitful.Dimensions)
-
-    quantities = fnm(isquantity,; assymbol=true)
-    unittypes = fnm(isunittype; assymbol=true)
-
-    log_units = fnm(x -> x isa Unitful.MixedUnits)
-    other_types = fnm(x -> x isa Type)
-    private_fns = fnm(x -> x isa Function)
-
-
-    return (;
-    uids, other_names, _internal_names, module_names, base_names, exported_names,
-    nodims_units, phys_consts, basic_dims, compound_dims, unit_names, 
-    basic_units, compound_units, dim_abbreviations, quantities, unittypes,
-    log_units, other_types, private_fns)
-end
-
-function collect_pubnames_bak()
-    uids = uful_ids()
     filter!(x -> !Base.isexported(Unitful, x), uids)
-    privatevars = [:BCAST_PROPAGATE_CALLS, :allowed_funcs, :basefactors, :prefixdict, :promotion, :si_no_prefix, :si_prefixes, :unitmodules]
+    privatevars = [:BCAST_PROPAGATE_CALLS, :DefaultSymbols, :allowed_funcs, :basefactors, :prefixdict, :promotion, :si_no_prefix, :si_prefixes, :unitmodules]
 
     basenames =  names(Base; all=true)
     base_names = filter(x -> x in basenames, uids)
     private_fns = filter(x -> getproperty(Unitful, x) isa Function, uids)
 
-    (basic_dims, compound_dims, _) = uids |> getphysdims |> physdims_categories
+    (;basicdims, compounddims) = uids |> getphysdims |> physdims_categories
 
-    bu =  unitsdict(basic_dims, uids) |> values
+    bu =  unitsdict(basicdims, uids) |> values
     basic_units = reduce(vcat, bu)
 
     unitnames = [nameofunit(x) for x in uids if !isnothing(nameofunit(x))] 
 
-    cu = unitsdict(compound_dims, uids) |> values
+    cu = unitsdict(compounddims, uids) |> values
     compound_units = reduce(vcat, cu)
-
     nodims_units = nodimsunits(uids) 
     phys_consts = physconstants(uids)
     # log_units = logunits()
     dim_abbreviations = filter(x -> getproperty(Unitful, x) isa Unitful.Dimensions, uids)
-    public_names = union(basic_units, compound_units, nodims_units, phys_consts, basic_dims, compound_dims, dim_abbreviations)
+    public_names = union(basic_units, compound_units, nodims_units, phys_consts, basicdims, compounddims, dim_abbreviations)
     other_names = setdiff(uids, union(public_names, privatevars, base_names, private_fns))
 
 
@@ -294,8 +374,7 @@ function collect_pubnames_bak()
     setdiff!(other_names, private_fns)
 
 
-    return (;uids, other_names, base_names, other_types, other_units, unitnames, dim_abbreviations, 
-        quantities, unittypes, basic_units, compound_units, nodims_units, phys_consts, basic_dims, compound_dims, log_units)
+    return (;uids, other_names, base_names, other_types, other_units, unitnames, dim_abbreviations, quantities, unittypes, basic_units, compound_units, nodims_units, phys_consts, basicdims, compounddims, log_units)
 end
 
 
