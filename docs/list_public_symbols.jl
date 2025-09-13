@@ -6,7 +6,7 @@ ipf = CN.isprefixed
 idc = CN.isdocumented
 udc = CN.unitsdict
 nofu = CN.nameofunit
-cpbb = CN.collect_pubnames_bak
+
 (;
     uids, other_names, _internal_names, module_names, base_names, exported_names,
     nodims_units, phys_consts, basic_dims, compound_dims, unit_names, 

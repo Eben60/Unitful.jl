@@ -120,31 +120,6 @@ physconstant(n) = isconst(Unitful, n) &&
         (getproperty(Unitful, n) isa Quantity) &&
         isdocumented(n)
 
-mutable struct PhysConst
-    symbol::Symbol
-    allsymbols::Set{Symbol}
-    mark4del::Bool
-end
-
-equiv(pc1::PhysConst, pc2::PhysConst) = getproperty(Unitful, pc1.symbol) === getproperty(Unitful, pc2.symbol)
-
-Base.string(pc::PhysConst) = join((pc.allsymbols |> collect .|> string |> sort), ", ")
-
-function merge_duplicate_constants(ph_consts)
-    pcarr = [PhysConst(s, Set([s]), false) for s in ph_consts]
-    for i in 1:lastindex(pcarr)-1
-        pcarr[i].mark4del && continue
-        for j in i+1:lastindex(pcarr)
-            pcarr[j].mark4del && continue
-            if equiv(pcarr[i], pcarr[j])
-                push!(pcarr[i].allsymbols, pcarr[j].symbol)
-                pcarr[j].mark4del=true
-            end
-        end
-    end
-    filter!(pc -> !pc.mark4del, pcarr)
-end
-
 function isnodims(u) 
     u isa Unitful.FreeUnits || return false
     return dimension(u) == NoDims
@@ -154,9 +129,6 @@ isnodims(u::Symbol) = isnodims(getproperty(Unitful, u))
 nodimsunits(uids) = [n for n in uids if isnodims(n) && isdocumented(n) && !isprefixed(n) && n != :NoUnits]
 
 nodimsunit(n) = isnodims(n) && isdocumented(n) && !isprefixed(n) && n != :NoUnits
-
-
-removerefs(d) = replace(d, r"\[(`[\w\.]+\`)]\(@ref\)" => s"\1")
 
 function nameofunit(u)
     special = Dict(u"ha" => "Hectare", u"kg" => "Kilogram", u"°F" => "Degree Fahrenheit", u"°C" => "Degree Celcius")
@@ -196,7 +168,6 @@ function filternames(f, other_names; m=Unitful, assymbol=false)
     setdiff!(other_names, filtered)
     return filtered
 end
-
 
 const privatevars = [:BCAST_PROPAGATE_CALLS, :allowed_funcs, :basefactors, :prefixdict, :promotion, :si_no_prefix, :si_prefixes, :unitmodules]
 
@@ -248,56 +219,5 @@ function collect_pubnames()
     basic_units, compound_units, dim_abbreviations, quantities, unittypes,
     log_units, other_types, private_fns)
 end
-
-function collect_pubnames_bak()
-    uids = uful_ids()
-    filter!(x -> !Base.isexported(Unitful, x), uids)
-    privatevars = [:BCAST_PROPAGATE_CALLS, :allowed_funcs, :basefactors, :prefixdict, :promotion, :si_no_prefix, :si_prefixes, :unitmodules]
-
-    basenames =  names(Base; all=true)
-    base_names = filter(x -> x in basenames, uids)
-    private_fns = filter(x -> getproperty(Unitful, x) isa Function, uids)
-
-    (basic_dims, compound_dims, _) = uids |> getphysdims |> physdims_categories
-
-    bu =  unitsdict(basic_dims, uids) |> values
-    basic_units = reduce(vcat, bu)
-
-    unitnames = [nameofunit(x) for x in uids if !isnothing(nameofunit(x))] 
-
-    cu = unitsdict(compound_dims, uids) |> values
-    compound_units = reduce(vcat, cu)
-
-    nodims_units = nodimsunits(uids) 
-    phys_consts = physconstants(uids)
-    # log_units = logunits()
-    dim_abbreviations = filter(x -> getproperty(Unitful, x) isa Unitful.Dimensions, uids)
-    public_names = union(basic_units, compound_units, nodims_units, phys_consts, basic_dims, compound_dims, dim_abbreviations)
-    other_names = setdiff(uids, union(public_names, privatevars, base_names, private_fns))
-
-
-    quantities = filter(isquantity, other_names)
-    unittypes = filter(isunittype, other_names)
-    union!(public_names, quantities, unittypes)
-    setdiff!(other_names, public_names)
-    other_units = [x for x in other_names if nameofunit(x) in unitnames]
-    setdiff!(other_names, other_units)
-    log_units = filter(x -> getproperty(Unitful, x) isa Unitful.MixedUnits, other_names)
-    setdiff!(other_names, log_units)
-    other_types = filter(x -> getproperty(Unitful, x) isa Type, other_names)
-    setdiff!(other_names, other_types)
-
-    basenames =  names(Base; all=true)
-    base_names = filter(x -> x in basenames, other_names)
-    setdiff!(other_names, base_names)
-    private_fns = filter(x -> getproperty(Unitful, x) isa Function, other_names)
-    setdiff!(other_names, private_fns)
-
-
-    return (;uids, other_names, base_names, other_types, other_units, unitnames, dim_abbreviations, 
-        quantities, unittypes, basic_units, compound_units, nodims_units, phys_consts, basic_dims, compound_dims, log_units)
-end
-
-
 
 end # module
