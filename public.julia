@@ -31,7 +31,7 @@
 """
 
 # nodims units
-public pcm, percent, permille, pertenthousand, ppb, ppm, ppq, ppt, rad, sr, °
+public deg, pcm, percent, permille, pertenthousand, ppb, ppm, ppq, ppt, rad, sr, °
 
 # phys consts
 public G, Na, R, R∞, Z0, c0, gn, h, k, me, mn, mp, q, ħ, Φ0, ε0, μ0, μB, σ, ϵ0
