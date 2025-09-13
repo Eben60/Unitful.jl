@@ -209,15 +209,16 @@ function collect_pubnames()
     unit_types = fnm(isunittype; assymbol=true)
 
     log_units = fnm(x -> x isa Unitful.MixedUnits)
-    other_types = fnm(x -> x isa Type)
+    abstract_types = fnm(isabstracttype)
+    concrete_types = fnm(x -> x isa Type)
     private_fns = fnm(x -> x isa Function)
 
 
     return (;
-    uids, other_names, _internal_names, module_names, base_names, exported_names,
+    uids, other_names, _internal_names, module_names, base_names, exported_names, private_fns,
     nodims_units, phys_consts, basic_dims, compound_dims, unit_names, 
     basic_units, compound_units, dim_abbreviations, quantities, unit_types,
-    log_units, other_types, private_fns)
+    log_units, abstract_types, concrete_types)
 end
 
 function public_string(a, publics=true; maxlength=90)
