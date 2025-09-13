@@ -1,0 +1,10 @@
+base_names = 
+[:GC, :TP, :_colon, :cd, :cot, :csc, :eval, :include, :sec, :slug, :≤]
+
+module_names =
+[:DefaultSymbols]
+
+private_fns= 
+[:abbr, :abs2_fast, :abs_fast, :affinetranslation, :affineunit, :base, :basefactor, :basefactors_expr, :colon, :colonstartstop, :conj_fast, :convfact, :convfact_floattype, :dimtype, :expfn, :fp_overflow_underflow, :fromlog, :gaintype, :genericunit, :get_T, :has_unit_spacing, :inv_fast, :isrootpower, :isrootpower_dim, :isunitless, :leveltype, :logfn, :lookup_units, :name, :numtype, :power, :prefactor, :preferunits, :prefix, :print_closing_bracket, :print_opening_bracket, :printed_length, :promote_to_derived, :promote_unit, :quantitytype, :register, :showrep, :showval, :sign_fast, :sortexp, :superscript, :tens, :tensfactor, :tolog, :try_uconvert, :uconvert_affine, :unwrap, :ustrcheck_bool]
+
+privatevars = [:BCAST_PROPAGATE_CALLS, :allowed_funcs, :basefactors, :prefixdict, :promotion, :si_no_prefix, :si_prefixes, :unitmodules]
