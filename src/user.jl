@@ -105,7 +105,7 @@ macro dimension(symb, abbr, name, autodocs=false, makepublic=autodocs)
             @doc $unit_doc $uname
             @doc $funit_doc $funame
         end
-        $s
+        $s # this should be returned in each case
     end
     makepublic || return esc(expr1)
     expr2 = Expr(:public, name, uname, funame)
@@ -171,6 +171,10 @@ macro derived_dimension(name, dims, autodocs=false)
         end
         nothing
     end)
+
+        makepublic || return esc(expr1)
+    expr2 = Expr(:public, name, uname, funame)
+    esc(Expr(:block, expr1, expr2))
 end
 
 
