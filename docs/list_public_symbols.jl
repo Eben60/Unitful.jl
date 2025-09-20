@@ -23,6 +23,7 @@ cpf = CN.create_pub_file
     basic_units, compound_units, dim_abbreviations, quantities, unit_types,
     log_units, abstract_types, concrete_types,) = publicable_names
 
-# cpf(private_names, public_names)
+pn = public_names
+# cpf(private_names, publicable_names)
 
 ;
