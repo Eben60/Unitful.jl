@@ -181,7 +181,7 @@ function collect_pubnames()
     _basenames =  names(Base; all=true)
     base_names = fnm(x -> x in _basenames; assymbol=true)
     exported_names = fnm(x -> Base.isexported(Unitful, x); assymbol=true)
-    
+    public_names = fnm(x -> Base.ispublic(Unitful, x); assymbol=true) 
     underline_prepended_names = filter(x -> startswith(x |> string, "_"), uids)
     setdiff!(other_names, underline_prepended_names)
 
@@ -215,9 +215,9 @@ function collect_pubnames()
 
 
     return (;
-        other_data = (;uids, other_names, exported_names,), 
+        other_data = (;uids, other_names, exported_names, public_names,), 
         private_names = (; underline_prepended_names, module_names, base_names, private_fns,) ,
-        public_names = (; nodims_units, phys_consts, basic_dims, compound_dims, unit_names, 
+        publicable_names = (; nodims_units, phys_consts, basic_dims, compound_dims, unit_names, 
             basic_units, compound_units, dim_abbreviations, quantities, unit_types,
             log_units, abstract_types, concrete_types,))
 end

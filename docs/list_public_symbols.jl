@@ -11,18 +11,18 @@ vg = CN.var_group
 bvg = CN.both_var_groups
 cpf = CN.create_pub_file
 
-(; other_data, private_names, public_names) = 
+(; other_data, private_names, publicable_names) = 
     nt = 
     cpb();
 
-(;uids, other_names, exported_names,) = other_data
+(;uids, other_names, exported_names, public_names,) = other_data
 
 (; underline_prepended_names, module_names, base_names, private_fns,) = private_names 
 
 (; nodims_units, phys_consts, basic_dims, compound_dims, unit_names, 
     basic_units, compound_units, dim_abbreviations, quantities, unit_types,
-    log_units, abstract_types, concrete_types,) = public_names
+    log_units, abstract_types, concrete_types,) = publicable_names
 
-cpf(private_names, public_names)
+# cpf(private_names, public_names)
 
 ;
