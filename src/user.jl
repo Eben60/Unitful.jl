@@ -26,7 +26,7 @@ function register(unit_module::Module)
 end
 
 """
-    @dimension(symb, abbr, name, autodocs=false)
+    @dimension(symb, abbr, name, autodocs=false, makepublic=autodocs)
 Creates new dimensions. `name` will be used like an identifier in the type
 parameter for a [`Unitful.Dimension`](@ref) object. `symb` will be a symbol
 defined in the namespace from which this macro is called that is bound to a
@@ -59,7 +59,7 @@ Returns the `Dimensions` object to which `symb` is bound.
 
 Usage example from `src/pkgdefaults.jl`: `@dimension 𝐋 "𝐋" Length`
 """
-macro dimension(symb, abbr, name, autodocs=false)
+macro dimension(symb, abbr, name, autodocs=false, makepublic=autodocs)
     s = Symbol(symb)
     x = Expr(:quote, name)
     uname = Symbol(name,"Units")
@@ -91,7 +91,7 @@ macro dimension(symb, abbr, name, autodocs=false)
 
                 See also: [`$__module__.$s`](@ref).
                 """
-    esc(quote
+    expr1 = quote
         $Unitful.abbr(::$Dimension{$x}) = $abbr
         Base.@__doc__ const global $s = $Dimensions{($Dimension{$x}(1),)}()
         const global ($name){T,U} = Union{
@@ -99,13 +99,17 @@ macro dimension(symb, abbr, name, autodocs=false)
             $Level{L,S,$Quantity{T,$s,U}} where {L,S}}
         const global ($uname){U} = $Units{U,$s}
         const global ($funame){U} = $FreeUnits{U,$s}
+
         if $autodocs
             @doc $name_doc $name
             @doc $unit_doc $uname
             @doc $funit_doc $funame
         end
         $s
-    end)
+    end
+    makepublic || return esc(expr1)
+    expr2 = Expr(:public, name, uname, funame)
+    esc(Expr(:block, expr1, expr2))
 end
 
 """
