@@ -363,7 +363,7 @@ confusion with Euler's number.
 \nDimension: 𝐈 𝐓.
 \nSee Also: [`Unitful.C`](@ref)."
 const q = 1.602_176_634e-19*C        # CODATA 2018; `e` means 2.718...
-public q
+VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public q"))
 "    Unitful.eV
 \nThe electron-volt, a unit of energy, defined as q*V.
 \nDimension: 𝐋^2 𝐌 𝐓^-2.
@@ -400,7 +400,7 @@ public q
 \nDimension: 𝐋 𝐓^-1.
 \nSee also: [`Unitful.m`](@ref), [`Unitful.s`](@ref)."
 const c0 = 299_792_458*m/s              # exact
-public c0
+VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public c0"))
 "    Unitful.c
 \nThe speed of light in a vacuum, a unit of speed, defined as exactly
 2.997,924,58 × 10^8 m/s.
@@ -413,27 +413,27 @@ public c0
 \nDimension: 𝐋 𝐌 𝐈^-2 𝐓^-2.
 \nSee also: [`Unitful.H`](@ref), [`Unitful.m`](@ref)."
 const μ0 = 4π*(1//10)^7*H/m         # exact (but gets promoted to Float64...), magnetic constant
-public μ0
+VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public μ0"))
 "    Unitful.ε0
     Unitful.ϵ0
 \nA quantity representing the vacuum permittivity constant, defined as 1 / (μ0 × c^2).
 \nDimension: 𝐈^2 𝐓^4 𝐋^-3 𝐌^-1.
 \nSee also: [`Unitful.μ0`](@ref), [`Unitful.c`](@ref)."
 ((const ε0 = 1/(μ0*c^2)), const ϵ0 = ε0) # exact, electric constant; changes here may affect test of issue 79.
-public ε0, ϵ0
+VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public ε0, ϵ0"))
 "    Unitful.Z0
 \nA quantity representing the impedance of free space, a constant defined as μ0 × c.
 \nDimension: 𝐋^2 𝐌 𝐈^-2 𝐓^-3.
 \nSee also: [`Unitful.μ0`](@ref), [`Unitful.c`](@ref)."
 const Z0 = μ0*c                     # exact, impedance of free space
-public Z0
+VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public Z0"))
 "    Unitful.G
 \nA quantity representing the universal gravitational constant, equal to
 6.674,30 × 10^-11 m^3 / (kg × s^2) (the CODATA 2018 recommended value).
 \nDimension: 𝐋^3 𝐌^-1 𝐓^-2.
 \nSee also: [`Unitful.m`](@ref), [`Unitful.kg`](@ref), [`Unitful.s`](@ref)."
 const G  = 6.674_30e-11*m^3/kg/s^2  # (15) gravitational constant
-public G 
+VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public G "))
 "    Unitful.gn
 \nA quantity representing the nominal acceleration due to gravity in a vacuum
 near the surface of the earth, defined by standard to be exactly 9.806,65 m / s^2.
@@ -441,89 +441,89 @@ near the surface of the earth, defined by standard to be exactly 9.806,65 m / s^
 \nDimension: 𝐋 𝐓^-2.
 \nSee also: [`Unitful.m`](@ref), [`Unitful.s`](@ref)."
 const gn = 9.80665*m/s^2            # exact, standard acceleration of gravity
-public gn
+VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public gn"))
 "    Unitful.h
 \nA quantity representing Planck's constant, defined as exactly
 6.626,070,15 × 10^-34 J × s.
 \nDimension: 𝐋^2 𝐌 𝐓^-1.
 \nSee also: [`Unitful.J`](@ref), [`Unitful.s`](@ref)."
 const h  = 6.626_070_15e-34*J*s     # exact, Planck constant
-public h 
+VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public h "))
 "    Unitful.ħ
 \nA quantity representing the reduced Planck constant, defined as h / 2π.
 \nDimension: 𝐋^2 𝐌 𝐓^-1.
 \nSee also: [`Unitful.h`](@ref)."
 const ħ  = h/2π                     # hbar
-public ħ 
+VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public ħ "))
 "    Unitful.Φ0
 \nA quantity representing the superconducting magnetic flux quantum, defined as
 h / (2 × q).
 \nDimension: 𝐋^2 𝐌 𝐈^-1 𝐓^-2.
 \nSee also: [`Unitful.h`](@ref), [`Unitful.q`](@ref)."
 const Φ0 = h/(2q)                   # Superconducting magnetic flux quantum
-public Φ0
+VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public Φ0"))
 "    Unitful.me
 \nA quantity representing the rest mass of an electron, equal to 9.109,383,7015
 × 10^-31 kg (the CODATA 2018 recommended value).
 \nDimension: [`Unitful.𝐌`](@ref).
 \nSee also: [`Unitful.kg`](@ref)."
 const me = 9.109_383_7015e-31*kg    # (28) electron rest mass
-public me
+VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public me"))
 "    Unitful.mn
 \nA quantity representing the rest mass of a neutron, equal to 1.674,927,498,04
 × 10^-27 kg (the CODATA 2018 recommended value).
 \nDimension: [`Unitful.𝐌`](@ref).
 \nSee also: [`Unitful.kg`](@ref)."
 const mn = 1.674_927_498_04e-27*kg  # (95) neutron rest mass
-public mn
+VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public mn"))
 "    Unitful.mp
 \nA quantity representing the rest mass of a proton, equal to 1.672,621,923,69
 × 10^-27 kg (the CODATA 2018 recommended value).
 \nDimension: [`Unitful.𝐌`](@ref).
 \nSee also: [`Unitful.kg`](@ref)."
 const mp = 1.672_621_923_69e-27*kg  # (51) proton rest mass
-public mp
+VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public mp"))
 "    Unitful.μB
 \nA quantity representing the Bohr magneton, equal to q × ħ / (2 × me).
 \nDimension: 𝐈 𝐋^2.
 \nSee also: [`Unitful.q`](@ref), [`Unitful.ħ`](@ref), [`Unitful.me`](@ref)."
 const μB = q*ħ/(2*me)               # Bohr magneton
-public μB
+VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public μB"))
 "    Unitful.Na
 \nA quantity representing Avogadro's constant, defined as exactly
 6.022,140,76 × 10^23 / mol.
 \nDimension: 𝐍^-1.
 \nSee also: [`Unitful.mol`](@ref)."
 const Na = 6.022_140_76e23/mol      # exact, Avogadro constant
-public Na
+VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public Na"))
 "    Unitful.k
 \nA quantity representing the Boltzmann constant, defined as exactly
 1.380,649 × 10^-23 J / K.
 \nDimension: 𝐋^2 𝐌 𝚯^-1 𝐓^-2.
 \nSee also: [`Unitful.J`](@ref), [`Unitful.K`](@ref)."
 const k  = 1.380_649e-23*(J/K)      # exact, Boltzmann constant
-public k 
+VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public k "))
 "    Unitful.R
 \nA quantity representing the molar gas constant, defined as
 Na × k.
 \nDimension: 𝐋^2 𝐌 𝐍^-1 𝚯^-1 𝐓^-2.
 \nSee also: [`Unitful.Na`](@ref), [`Unitful.k`](@ref)."
 const R  = Na*k                     # molar gas constant
-public R 
+VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public R "))
 "    Unitful.σ
 \nA quantity representing the Stefan-Boltzmann constant, defined as
 π^2 × k^4 / (60 × ħ^3 × c^2).
 \nDimension: 𝐌 𝚯^-4 𝐓^-3.
 \nSee also: [`Unitful.k`](@ref), [`Unitful.ħ`](@ref), [`Unitful.c`](@ref)."
 const σ  = π^2*k^4/(60*ħ^3*c^2)     # Stefan-Boltzmann constant
-public σ 
+VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public σ "))
 "    Unitful.R∞
 \nA quantity representing the Rydberg constant, equal to 1.097,373,156,8160 × 10^-7 / m
 (the CODATA 2018 recommended value).
 \nDimension: 𝐋^-1.
 \nSee also: [`Unitful.m`](@ref)."
 const R∞ = 10_973_731.568_160/m     # (21) Rydberg constant
-public R∞
+VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public R∞"))
 "    Unitful.u
 \nThe unified atomic mass unit, or dalton, a unit of mass defined as 1/12 the
 mass of an unbound neutral atom of carbon-12, equal to 1.660,539,066,60 × 10^-27 kg
