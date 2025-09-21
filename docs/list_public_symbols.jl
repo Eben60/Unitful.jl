@@ -10,12 +10,13 @@ ps = CN.var_group_section
 vg = CN.var_group
 bvg = CN.both_var_groups
 cpf = CN.create_pub_file
+pl = CN.publicity_level
 
 (; other_data, private_names, publicable_names) = 
     nt = 
     cpb();
 
-(;uids, other_names, exported_names, public_names,) = other_data
+(;uids, other_names, exported_names, public_names, other_nonpublic,) = other_data
 
 (; underline_prepended_names, module_names, base_names, private_fns,) = private_names 
 

@@ -169,6 +169,11 @@ function filternames(f, other_names; m=Unitful, assymbol=false)
     return filtered
 end
 
+function collectunits(u)
+    isempty(u) && return Symbol[]
+    return reduce(vcat, u)
+end
+
 const privatevars = [:BCAST_PROPAGATE_CALLS, :allowed_funcs, :basefactors, :prefixdict, :promotion, :si_no_prefix, :si_prefixes, :unitmodules]
 
 function collect_pubnames()
@@ -182,24 +187,26 @@ function collect_pubnames()
     base_names = fnm(x -> x in _basenames; assymbol=true)
     exported_names = fnm(x -> Base.isexported(Unitful, x); assymbol=true)
     public_names = fnm(x -> Base.ispublic(Unitful, x); assymbol=true) 
-    underline_prepended_names = filter(x -> startswith(x |> string, "_"), uids)
+    underline_prepended_names = filter(x -> startswith(x |> string, "_"), other_names)
     setdiff!(other_names, underline_prepended_names)
 
     module_names = fnm(x -> x isa Module)
 
+    other_nonpublic = copy(other_names)
+
     nodims_units = fnm(nodimsunit; assymbol=true)
     phys_consts = fnm(physconstant; assymbol=true)
 
-    (basic_dims, compound_dims, _) = uids |> getphysdims |> physdims_categories
+    (basic_dims, compound_dims, _) = other_names |> getphysdims |> physdims_categories
     setdiff!(other_names, union(basic_dims, compound_dims))
 
     unit_names = fnm(x -> !isnothing(nameofunit(x)))
 
-    bu =  unitsdict(basic_dims, uids) |> values
-    basic_units = reduce(vcat, bu)
+    bu =  unitsdict(basic_dims, other_names) |> values
+    basic_units = collectunits(bu)
 
-    cu = unitsdict(compound_dims, uids) |> values
-    compound_units = reduce(vcat, cu)
+    cu = unitsdict(compound_dims, other_names) |> values
+    compound_units = collectunits(cu)
 
     setdiff!(other_names, union(basic_units, basic_units))
 
@@ -215,7 +222,7 @@ function collect_pubnames()
 
 
     return (;
-        other_data = (;uids, other_names, exported_names, public_names,), 
+        other_data = (;uids, other_names, exported_names, public_names, other_nonpublic,), 
         private_names = (; underline_prepended_names, module_names, base_names, private_fns,) ,
         publicable_names = (; nodims_units, phys_consts, basic_dims, compound_dims, unit_names, 
             basic_units, compound_units, dim_abbreviations, quantities, unit_types,
@@ -272,5 +279,11 @@ function create_pub_file(private_names, public_names; fname = "public.julia")
     end
 end
 
+function publicity_level(s)
+    s isa Symbol || (s = Symbol(s))
+    Base.isexported(Unitful, s) && return 2
+    Base.ispublic(Unitful, s) && return 1
+    return 0
+end
 
 end # module

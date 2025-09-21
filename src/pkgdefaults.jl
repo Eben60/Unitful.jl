@@ -228,35 +228,35 @@ substrate per s.
 "    Unitful.percent
 \nPercent, a unit meaning parts per hundred. Printed as \"%\".
 \nDimension: [`Unitful.NoDims`](@ref)."
-@unit percent         "%"    Percent         1//100             false
+@unit percent         "%"    Percent         1//100             false false true
 "    Unitful.permille
 \nPermille, a unit meaning parts per thousand. Printed as \"‰\".
 \nDimension: [`Unitful.NoDims`](@ref)."
-@unit permille        "‰"    Permille        1//1000            false
+@unit permille        "‰"    Permille        1//1000            false false true
 "    Unitful.pertenthousand
 \nPermyriad, a unit meaning parts per ten thousand. Printed as \"‱\".
 \nDimension: [`Unitful.NoDims`](@ref)."
-@unit pertenthousand  "‱"    Pertenthousand  1//10000           false
+@unit pertenthousand  "‱"    Pertenthousand  1//10000           false false true
 "    Unitful.pcm
 \nPercentmille, a unit meaning parts per hundred thousand.
 \nDimension: [`Unitful.NoDims`](@ref)."
-@unit pcm             "pcm"  Percentmille    1//100000          false
+@unit pcm             "pcm"  Percentmille    1//100000          false false true
 "    Unitful.ppm
 \nPermillion, a unit meaning parts per million.
 \nDimension: [`Unitful.NoDims`](@ref)."
-@unit ppm             "ppm"  Permillion      1//1000000         false
+@unit ppm             "ppm"  Permillion      1//1000000         false false true
 "    Unitful.ppb
 \nPerbillion, a unit meaning parts per billion (in the short-scale sense), i.e., 10^-9.
 \nDimension: [`Unitful.NoDims`](@ref)."
-@unit ppb             "ppb"  Perbillion      1//1000000000      false
+@unit ppb             "ppb"  Perbillion      1//1000000000      false false true
 "    Unitful.ppt
 \nPertrillion, a unit meaning parts per trillion (in the short-scale sense), i.e., 10^-12.
 \nDimension: [`Unitful.NoDims`](@ref)."
-@unit ppt             "ppt"  Pertrillion     1//1000000000000   false
+@unit ppt             "ppt"  Pertrillion     1//1000000000000   false false true
 "    Unitful.ppq
 \nPerquadrillion, a unit meaning parts per quadrillion (in the short-scale sense), i.e., 10^-15.
 \nDimension: [`Unitful.NoDims`](@ref)."
-@unit ppq             "ppq"  Perquadrillion  1//1000000000000000  false
+@unit ppq             "ppq"  Perquadrillion  1//1000000000000000  false false true
 
 # Temperature
 "    Unitful.°C
@@ -271,22 +271,22 @@ substrate per s.
 to avoid confusion with the Julia function `min`.
 \nDimension: [`Unitful.𝐓`](@ref).
 \nSee Also: [`Unitful.s`](@ref)."
-@unit minute "minute"   Minute                60s           false
+@unit minute "minute"   Minute                60s           false false true
 "    Unitful.hr
 \nThe hour, a unit of time defined as 60 minutes.
 \nDimension: [`Unitful.𝐓`](@ref).
 \nSee Also: [`Unitful.minute`](@ref)."
-@unit hr     "hr"       Hour                  3600s         false
+@unit hr     "hr"       Hour                  3600s         false false true
 "    Unitful.d
 \nThe day, a unit of time defined as 24 hr.
 \nDimension: [`Unitful.𝐓`](@ref).
 \nSee Also: [`Unitful.hr`](@ref)."
-@unit d      "d"        Day                   86400s        false
+@unit d      "d"        Day                   86400s        false false true
 "    Unitful.wk
 \nThe week, a unit of time, defined as 7 d.
 \nDimension: [`Unitful.𝐓`](@ref).
 \nSee Also: [`Unitful.d`](@ref)."
-@unit wk     "wk"       Week                  604800s       false
+@unit wk     "wk"       Week                  604800s       false false true
 "    Unitful.yr
 \nThe year, a unit of time, defined as 365.25 d.
 \nDimension: [`Unitful.𝐓`](@ref).
@@ -296,12 +296,12 @@ to avoid confusion with the Julia function `min`.
 \nRevolutions per second, a unit of rotational speed, defined as 2π rad / s.
 \nDimension: 𝐓^-1.
 \nSee Also: [`Unitful.rad`](@ref), [`Unitful.s`](@ref)."
-@unit rps    "rps"      RevolutionsPerSecond  2π*rad/s      false
+@unit rps    "rps"      RevolutionsPerSecond  2π*rad/s      false false true
 "    Unitful.rpm
 \nRevolutions per minute, a unit of rotational speed, defined as 2π rad / minute.
 \nDimension: 𝐓^-1.
 \nSee Also: [`Unitful.minute`](@ref), [`Unitful.rad`](@ref)."
-@unit rpm    "rpm"      RevolutionsPerMinute  2π*rad/minute false
+@unit rpm    "rpm"      RevolutionsPerMinute  2π*rad/minute false false true
 
 # Area
 # The hectare is used more frequently than any other power-of-ten of an are.
@@ -309,7 +309,7 @@ to avoid confusion with the Julia function `min`.
 \nThe are, a metric unit of area, defined as 100 m^2.
 \nDimension: 𝐋^2.
 \nSee Also: [`Unitful.m`](@ref)."
-@unit a      "a"        Are         100m^2                  false
+@unit a      "a"        Are         100m^2                  false false true
 "    Unitful.ha
 \nThe hectare, a metric unit of area, defined as 100 a.
 \nDimension: 𝐋^2.
@@ -407,7 +407,7 @@ VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public c0"))
 \n[`Unitful.c0`](@ref) is a quantity (with units `m/s`) whereas `Unitful.c` is a unit equal to `c0`.
 \nDimension: 𝐋 𝐓^-1.
 \nSee also: [`Unitful.m`](@ref), [`Unitful.s`](@ref)."
-@unit c      "c"        SpeedOfLight 1c0                    false
+@unit c      "c"        SpeedOfLight 1c0                    false false true
 "    Unitful.μ0
 \nA quantity representing the vacuum permeability constant, defined as 4π × 10^-7 H / m.
 \nDimension: 𝐋 𝐌 𝐈^-2 𝐓^-2.
@@ -539,7 +539,7 @@ earth, a unit of acceleration, defined by standard to be exactly 9.806,65 m / s^
 \n[`Unitful.gn`](@ref) is a quantity (with units `m/s^2`) whereas `Unitful.ge` is a unit equal to `gn`.
 \nDimension: 𝐋 𝐓^-2.
 \nSee also: [`Unitful.m`](@ref), [`Unitful.s`](@ref)."
-@unit ge     "ge"       EarthGravity gn                     false
+@unit ge     "ge"       EarthGravity gn                     false false true
 
 
 # CGS units
@@ -599,27 +599,27 @@ earth, a unit of acceleration, defined by standard to be exactly 9.806,65 m / s^
 \nThe inch, a US customary unit of length defined as 2.54 cm.
 \nDimension: [`Unitful.𝐋`](@ref).
 \nSee Also: [`Unitful.cm`](@ref)."
-@unit inch      "inch"     Inch                 (254//10000)*m          false
+@unit inch      "inch"     Inch                 (254//10000)*m          false false true
 "    Unitful.mil
 \nThe mil, a US customary unit of length defined as 1/1000 inch.
 \nDimension: [`Unitful.𝐋`](@ref).
 \nSee Also: [`Unitful.inch`](@ref)."
-@unit mil       "mil"      Mil                  (1//1000)*inch          false
+@unit mil       "mil"      Mil                  (1//1000)*inch          false false true
 "    Unitful.ft
 \nThe foot, a US customary unit of length defined as 12 inch.
 \nDimension: [`Unitful.𝐋`](@ref).
 \nSee Also: [`Unitful.inch`](@ref)."
-@unit ft        "ft"       Foot                 12inch                  false
+@unit ft        "ft"       Foot                 12inch                  false false true
 "    Unitful.yd
 \nThe yard, a US customary unit of length defined as 3 ft.
 \nDimension: [`Unitful.𝐋`](@ref).
 \nSee Also: [`Unitful.ft`](@ref)."
-@unit yd        "yd"       Yard                 3ft                     false
+@unit yd        "yd"       Yard                 3ft                     false false true
 "    Unitful.mi
 \nThe mile, a US customary unit of length defined as 1760 yd.
 \nDimension: [`Unitful.𝐋`](@ref).
 \nSee Also: [`Unitful.yd`](@ref)."
-@unit mi        "mi"       Mile                 1760yd                  false
+@unit mi        "mi"       Mile                 1760yd                  false false true
 "    Unitful.angstrom
     Unitful.Å
 \nThe angstrom, a metric unit of length defined as 1/10 nm.
@@ -632,14 +632,14 @@ earth, a unit of acceleration, defined by standard to be exactly 9.806,65 m / s^
 \nThe acre, a US customary unit of area defined as 4840 yd^2.
 \nDimension: 𝐋^2.
 \nSee Also: [`Unitful.yd`](@ref)."
-@unit ac        "ac"       Acre                 (316160658//78125)*m^2  false
+@unit ac        "ac"       Acre                 (316160658//78125)*m^2  false false true
 
 # Temperatures
 "    Unitful.Ra
 \nThe rankine, a US customary unit of temperature defined as 5/9 K.
 \nDimension: [`Unitful.𝚯`](@ref).
 \nSee Also: [`Unitful.K`](@ref)."
-@unit Ra        "Ra"      Rankine               (5//9)*K                false
+@unit Ra        "Ra"      Rankine               (5//9)*K                false false true
 "    Unitful.°F
 \nThe degree Fahrenheit, a US customary unit of temperature, defined such that 0 °F = 459.67 Ra.
 \nDimension: [`Unitful.𝚯`](@ref).
@@ -656,29 +656,29 @@ earth, a unit of acceleration, defined by standard to be exactly 9.806,65 m / s^
 \nThe ounce, a US customary unit of mass defined as 1/16 lb.
 \nDimension: [`Unitful.𝐌`](@ref).
 \nSee Also: [`Unitful.lb`](@ref)."
-@unit oz        "oz"       Ounce                lb//16                  false
+@unit oz        "oz"       Ounce                lb//16                  false false true
 "    Unitful.slug
 \nThe slug, a US customary unit of mass defined as 1 lbf × s^2 / ft.
 \nDimension: [`Unitful.𝐌`](@ref).
 \nSee Also: [`Unitful.lbf`](@ref), [`Unitful.s`](@ref), [`Unitful.ft`](@ref)."
-@unit slug      "slug"     Slug                 1lb*ge*s^2/ft           false
+@unit slug      "slug"     Slug                 1lb*ge*s^2/ft           false false true
 "    Unitful.dr
 \nThe dram, a US customary unit of mass defined as 1/16 oz.
 \nDimension: [`Unitful.𝐌`](@ref).
 \nSee Also: [`Unitful.oz`](@ref)."
-@unit dr        "dr"       Dram                 oz//16                  false
+@unit dr        "dr"       Dram                 oz//16                  false false true
 "    Unitful.gr
 \nThe grain, a US customary unit of mass defined as 1/7000 lb.
 \nDimension: [`Unitful.𝐌`](@ref).
 \nSee Also: [`Unitful.lb`](@ref)."
-@unit gr        "gr"       Grain                (32//875)*dr            false
+@unit gr        "gr"       Grain                (32//875)*dr            false false true
 
 # Force
 "    Unitful.lbf
 \nThe pound-force, a US customary unit of force defined as 1 lb × ge.
 \nDimension: 𝐋 𝐌 𝐓^-2.
 \nSee Also: [`Unitful.lb`](@ref), [`Unitful.ge`](@ref)."
-@unit lbf       "lbf"      PoundsForce          1lb*ge                  false
+@unit lbf       "lbf"      PoundsForce          1lb*ge                  false false true
 
 # Energy
 # Use ISO 31-4 for BTU definition
@@ -691,14 +691,14 @@ earth, a unit of acceleration, defined by standard to be exactly 9.806,65 m / s^
 \nThe British thermal unit, a US customary unit of heat defined by ISO 31-4 as exactly 1055.06 J.
 \nDimension: 𝐋^2 𝐌 𝐓^-2.
 \nSee Also: [`Unitful.J`](@ref)."
-@unit btu       "btu"      BritishThermalUnit   1055.06J                false
+@unit btu       "btu"      BritishThermalUnit   1055.06J                false false true
 
 # Pressure
 "    Unitful.psi
 \nPounds per square inch, a US customary unit of pressure defined as 1 lbf / inch^2.
 \nDimension: 𝐌 𝐋^-1 𝐓^-2.
 \nSee Also: [`Unitful.lbf`](@ref), [`Unitful.inch`](@ref)."
-@unit psi       "psi"      PoundsPerSquareInch  1lbf/inch^2             false
+@unit psi       "psi"      PoundsPerSquareInch  1lbf/inch^2             false false true
 
 #########
 # Logarithmic scales and units

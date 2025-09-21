@@ -105,11 +105,11 @@ macro dimension(symb, abbr, name, autodocs=false, makepublic=autodocs)
             @doc $unit_doc $uname
             @doc $funit_doc $funame
         end
-        $s # this should be returned in each case
+        $s
     end
     makepublic || return esc(expr1)
     expr2 = Expr(:public, name, uname, funame)
-    esc(Expr(:block, expr1, expr2))
+    esc(Expr(:block, expr1, expr2, s))
 end
 
 """
@@ -131,7 +131,7 @@ Usage examples:
 - `@derived_dimension Area 𝐋^2` gives `Area` and `AreaUnit` type aliases
 - `@derived_dimension Speed 𝐋/𝐓` gives `Speed` and `SpeedUnit` type aliases
 """
-macro derived_dimension(name, dims, autodocs=false)
+macro derived_dimension(name, dims, autodocs=false, makepublic=autodocs)
     uname = Symbol(name,"Units")
     funame = Symbol(name,"FreeUnits")
     name_links = __module__ == Unitful ? "[`Unitful.Quantity`](@ref), [`Unitful.Level`](@ref)" : "`Unitful.Quantity`, `Unitful.Level`"
@@ -158,7 +158,7 @@ macro derived_dimension(name, dims, autodocs=false)
                 A supertype for $funit_links of dimension `$dims`. Equivalent to
                 `Unitful.FreeUnits{U, $dims}`.
                 """
-    esc(quote
+    expr1 = quote
         const global ($name){T,U} = Union{
             $Quantity{T,$dims,U},
             $Level{L,S,$Quantity{T,$dims,U}} where {L,S}}
@@ -170,11 +170,11 @@ macro derived_dimension(name, dims, autodocs=false)
             @doc $funit_doc $funame
         end
         nothing
-    end)
+    end
 
         makepublic || return esc(expr1)
     expr2 = Expr(:public, name, uname, funame)
-    esc(Expr(:block, expr1, expr2))
+    esc(Expr(:block, expr1, expr2, nothing))
 end
 
 
@@ -212,7 +212,7 @@ Usage example: `@refunit m "m" Meter 𝐋 true`
 
 This example, found in `src/pkgdefaults.jl`, generates `km`, `m`, `cm`, ...
 """
-macro refunit(symb, abbr, name, dimension, tf, autodocs=false)
+macro refunit(symb, abbr, name, dimension, tf, autodocs=false, makepublic=autodocs)
     expr = Expr(:block)
     n = Meta.quot(Symbol(name))
 
@@ -222,13 +222,15 @@ macro refunit(symb, abbr, name, dimension, tf, autodocs=false)
 
     if tf
         push!(expr.args, quote
-            Base.@__doc__ $Unitful.@prefixed_unit_symbols $symb $name $dimension (1.0, 1) $autodocs
+            Base.@__doc__ $Unitful.@prefixed_unit_symbols $symb $name $dimension (1.0, 1) $autodocs $makepublic
         end)
     else
         push!(expr.args, quote
-            Base.@__doc__ $Unitful.@unit_symbols $symb $name $dimension (1.0, 1)
+            Base.@__doc__ $Unitful.@unit_symbols $symb $name $dimension (1.0, 1)  $makepublic
         end)
     end
+
+    makepublic && push!(expr.args, Expr(:public, symb))
 
     push!(expr.args, quote
         $preferunits($symb)
@@ -256,7 +258,7 @@ Usage example: `@unit mi "mi" Mile (201168//125)*m false`
 
 This example will *not* generate `kmi` (kilomiles).
 """
-macro unit(symb,abbr,name,equals,tf,autodocs=false)
+macro unit(symb,abbr,name,equals,tf,autodocs=false, makepublic=autodocs)
     expr = Expr(:block)
     n = Meta.quot(Symbol(name))
 
@@ -270,13 +272,15 @@ macro unit(symb,abbr,name,equals,tf,autodocs=false)
 
     if tf
         push!(expr.args, quote
-            Base.@__doc__ $Unitful.@prefixed_unit_symbols $symb $name $d $basef $autodocs
+            Base.@__doc__ $Unitful.@prefixed_unit_symbols $symb $name $d $basef $autodocs $makepublic
         end)
     else
         push!(expr.args, quote
-            Base.@__doc__ $Unitful.@unit_symbols $symb $name $d $basef
+            Base.@__doc__ $Unitful.@unit_symbols $symb $name $d $basef $makepublic
         end)
     end
+
+    makepublic && push!(expr.args, Expr(:public, symb))
 
     push!(expr.args, quote
         $symb
@@ -295,12 +299,15 @@ in terms of an absolute scale; the scaling is the same as the absolute scale. Ex
     Documenting the resulting unit by adding a docstring before the `@affineunit` call
     requires Unitful 1.10 or later.
 """
-macro affineunit(symb, abbr, offset)
+macro affineunit(symb, abbr, offset, makepublic=true)
     s = Symbol(symb)
-    return esc(quote
+    expr1 = quote
         Base.@__doc__ const global $s = $affineunit($offset)
         $Base.show(io::$IO, ::$genericunit($s)) = $print(io, $abbr)
-    end)
+    end
+    makepublic || return esc(expr1)
+    expr2 = Expr(:public, s)
+    esc(Expr(:block, expr1, expr2, s))
 end
 
 function basefactors_expr(m::Module, n, basefactor)
@@ -331,7 +338,7 @@ will define units for each possible SI power-of-ten prefix on that unit. If
 Example: `@prefixed_unit_symbols m Meter 𝐋 (1.0,1) true` results in `nm`, `cm`, `m`, `km`, ...
 all getting defined in the calling namespace, with docstrings automatically defined for SI-prefixed units.
 """
-macro prefixed_unit_symbols(symb,name,user_dimension,basefactor,autodocs=false)
+macro prefixed_unit_symbols(symb,name,user_dimension,basefactor,autodocs=false,makepublic=autodocs)
     expr = Expr(:block)
     n = Meta.quot(Symbol(name))
 
@@ -359,6 +366,7 @@ macro prefixed_unit_symbols(symb,name,user_dimension,basefactor,autodocs=false)
                 end
             end
         end
+        makepublic && push!(expr.args, Expr(:public, s))
         push!(expr.args, ea)
     end
 
@@ -376,14 +384,17 @@ will define units without SI power-of-ten prefixes.
 
 Example: `@unit_symbols ft Foot 𝐋` results in `ft` getting defined but not `kft`.
 """
-macro unit_symbols(symb,name,user_dimension,basefactor)
+macro unit_symbols(symb,name,user_dimension,basefactor,makepublic=false)
     s = Symbol(symb)
     n = Meta.quot(Symbol(name))
     u = :($Unit{$n, $user_dimension}(0,1//1))
-    esc(quote
+    expr1 = quote
         $(basefactors_expr(__module__, n, basefactor))
         Base.@__doc__ const global $s = $FreeUnits{($u,), $dimension($u), $nothing}()
-    end)
+    end
+    makepublic || return esc(expr1)
+    expr2 = Expr(:public, s)
+    esc(Expr(:block, expr1, expr2, s))
 end
 
 """

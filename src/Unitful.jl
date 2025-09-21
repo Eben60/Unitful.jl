@@ -74,6 +74,6 @@ if !isdefined(Base, :get_extension)
     include("../ext/InverseFunctionsUnitfulExt.jl")
 end
 
-public Area, Velocity
+# public Area, Velocity
 
 end
