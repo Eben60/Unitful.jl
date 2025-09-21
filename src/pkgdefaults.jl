@@ -89,7 +89,7 @@ const AbsoluteScaleTemperature = Quantity{T, 𝚯, <:ScalarUnits} where T
 \nDimension: [`Unitful.𝐉`](@ref)."
 @refunit  cd      "cd"     Candela   𝐉            true true
 # the docs for all gram-based units are defined later, to ensure kg is the base unit.
-@refunit  g       "g"      Gram      𝐌           true
+@refunit  g       "g"      Gram      𝐌           true false true
 "    Unitful.mol
 \nThe mole, the SI base unit for amount of substance.
 \nDimension: [`Unitful.𝐍`](@ref)."
@@ -108,7 +108,8 @@ const AbsoluteScaleTemperature = Quantity{T, 𝚯, <:ScalarUnits} where T
     Unitful.deg
 \nThe degree, a unit of angle. There are 360° in a circle.
 \nDimension: [`Unitful.NoDims`](@ref)."
-((@unit °       "°"       Degree      pi/180                  false), const deg = °)
+((@unit °       "°"       Degree      pi/180                  false false true), const deg = °)
+VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public deg"))
 # For numerical accuracy, specific to the degree
 import Base: sind, cosd, sincosd, tand, secd, cscd, cotd
 for (_x,_y) in ((:sin,:sind), (:cos,:cosd), (:sincos,:sincosd), (:tan,:tand),
@@ -315,6 +316,7 @@ to avoid confusion with the Julia function `min`.
 \nDimension: 𝐋^2.
 \nSee Also: [`Unitful.a`](@ref)."
 const ha = Unitful.FreeUnits{(Unitful.Unit{:Are, 𝐋^2}(2, 1//1),), 𝐋^2}()
+VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public ha"))
 "    Unitful.b
 \nThe barn, a metric unit of area, defined as 100 fm^2.
 \nDimension: 𝐋^2.
@@ -328,7 +330,7 @@ const ha = Unitful.FreeUnits{(Unitful.Unit{:Are, 𝐋^2}(2, 1//1),), 𝐋^2}()
 \nThe liter, a metric unit of volume, defined as 1000 cm^3.
 \nDimension: 𝐋^3.
 \nSee Also: [`Unitful.cm`](@ref)."
-((@unit L    "L"        Liter       m^3//1000               true), const l = L)
+((@unit L    "L"        Liter       m^3//1000               true false true), const l = L)
 for (k,v) in prefixdict
     if k != 0
         sym_L = Symbol(v,:L)
@@ -343,7 +345,7 @@ for (k,v) in prefixdict
 
                     See also: [`Unitful.L`](@ref).
                     """
-        run = quote @doc $docstring ((const $sym_l = $sym_L), $sym_L) end
+        run = quote @doc $docstring ((const $sym_l = $sym_L), $sym_L) end #TODO
         eval(run)
     end
 end
@@ -531,6 +533,7 @@ mass of an unbound neutral atom of carbon-12, equal to 1.660,539,066,60 × 10^-2
 \nDimension: [`Unitful.𝐌`](@ref).
 \nSee Also: [`Unitful.kg`](@ref)."
 @unit u      "u" UnifiedAtomicMassUnit 1.660_539_066_60e-27*kg false # (50)
+VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public u"))
 
 # Acceleration
 "    Unitful.ge
@@ -625,7 +628,8 @@ earth, a unit of acceleration, defined by standard to be exactly 9.806,65 m / s^
 \nThe angstrom, a metric unit of length defined as 1/10 nm.
 \nDimension: [`Unitful.𝐋`](@ref).
 \nSee Also: [`Unitful.nm`](@ref)."
-((@unit angstrom "Å"       Angstrom             (1//10)*nm              false), const Å = angstrom)
+((@unit angstrom "Å"       Angstrom             (1//10)*nm              false false true), const Å = angstrom)
+VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public Å"))
 
 # Area
 "    Unitful.ac
