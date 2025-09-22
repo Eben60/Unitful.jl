@@ -1705,7 +1705,10 @@ end
 
 @testset "Display" begin
     withenv("UNITFUL_FANCY_EXPONENTS" => false) do
-    # Declaring VelocityFreeUnits as public (or exported) results in change of velocity type from FreeUnits to VelocityFreeUnits
+    # Declaring VelocityFreeUnits as public (or exported) results in change of displayed velocity type from FreeUnits to VelocityFreeUnits
+    # The same with other units, e.g. typeof(Unitful.L) would be displayed, if VolumeFreeUnits is declared as public, as 
+    # VolumeFreeUnits{(L,), nothing} (alias for Unitful.FreeUnits{(L,), 𝐋³, nothing})
+    # vs. Unitful.FreeUnits{(L,), 𝐋³, nothing}
         if VERSION >= v"1.11.0-DEV.469"  
             @test_broken string(typeof(1.0m/s)) == "Quantity{Float64, 𝐋 𝐓^-1, FreeUnits{(m, s^-1), 𝐋 𝐓^-1, nothing}}"
             @test_broken string(typeof(m/s)) == "FreeUnits{(m, s^-1), 𝐋 𝐓^-1, nothing}"
