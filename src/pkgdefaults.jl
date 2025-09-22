@@ -317,7 +317,6 @@ to avoid confusion with the Julia function `min`.
 \nSee Also: [`Unitful.a`](@ref)."
 const ha = Unitful.FreeUnits{(Unitful.Unit{:Are, 𝐋^2}(2, 1//1),), 𝐋^2}()
 @public ha
-# @public ha
 "    Unitful.b
 \nThe barn, a metric unit of area, defined as 100 fm^2.
 \nDimension: 𝐋^2.
@@ -331,9 +330,8 @@ const ha = Unitful.FreeUnits{(Unitful.Unit{:Are, 𝐋^2}(2, 1//1),), 𝐋^2}()
 \nThe liter, a metric unit of volume, defined as 1000 cm^3.
 \nDimension: 𝐋^3.
 \nSee Also: [`Unitful.cm`](@ref)."
-((@unit L    "L"        Liter       m^3//1000               true false true), 
-    const l = L, 
-    @public l)
+((@unit L    "L"        Liter       m^3//1000               true false true), const l = L)
+@public l
 for (k,v) in prefixdict
     if k != 0
         sym_L = Symbol(v,:L)
