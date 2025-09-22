@@ -1705,8 +1705,13 @@ end
 
 @testset "Display" begin
     withenv("UNITFUL_FANCY_EXPONENTS" => false) do
-        @test string(typeof(1.0m/s)) == "Quantity{Float64, 𝐋 𝐓^-1, FreeUnits{(m, s^-1), 𝐋 𝐓^-1, nothing}}"
-        @test string(typeof(m/s)) == "FreeUnits{(m, s^-1), 𝐋 𝐓^-1, nothing}"
+        if VERSION >= v"1.11.0-DEV.469"
+            @test_broken string(typeof(1.0m/s)) == "Quantity{Float64, 𝐋 𝐓^-1, FreeUnits{(m, s^-1), 𝐋 𝐓^-1, nothing}}"
+            @test_broken string(typeof(m/s)) == "FreeUnits{(m, s^-1), 𝐋 𝐓^-1, nothing}"
+        else
+            @test string(typeof(1.0m/s)) == "Quantity{Float64, 𝐋 𝐓^-1, FreeUnits{(m, s^-1), 𝐋 𝐓^-1, nothing}}"
+            @test string(typeof(m/s)) == "FreeUnits{(m, s^-1), 𝐋 𝐓^-1, nothing}"
+        end
         @test string(dimension(1u"m/s")) == "𝐋 𝐓^-1"
         @test string(NoDims) == "NoDims"
     end
