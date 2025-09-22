@@ -1709,9 +1709,9 @@ end
     # The same with other units, e.g. typeof(Unitful.L) would be displayed, if VolumeFreeUnits is declared as public, as 
     # VolumeFreeUnits{(L,), nothing} (alias for Unitful.FreeUnits{(L,), 𝐋³, nothing})
     # vs. Unitful.FreeUnits{(L,), 𝐋³, nothing}
-        if VERSION >= v"1.11.0-DEV.469"  
-            @test_broken string(typeof(1.0m/s)) == "Quantity{Float64, 𝐋 𝐓^-1, FreeUnits{(m, s^-1), 𝐋 𝐓^-1, nothing}}"
-            @test_broken string(typeof(m/s)) == "FreeUnits{(m, s^-1), 𝐋 𝐓^-1, nothing}"
+        if Base.ispublic(Unitful, :VelocityFreeUnits)  
+            @test string(typeof(1.0m/s)) == "Quantity{Float64, 𝐋 𝐓^-1, Unitful.VelocityFreeUnits{(m, s^-1), nothing}}"
+            @test string(typeof(m/s)) == "Unitful.VelocityFreeUnits{(m, s^-1), nothing}"
         else
             @test string(typeof(1.0m/s)) == "Quantity{Float64, 𝐋 𝐓^-1, FreeUnits{(m, s^-1), 𝐋 𝐓^-1, nothing}}"
             @test string(typeof(m/s)) == "FreeUnits{(m, s^-1), 𝐋 𝐓^-1, nothing}"
