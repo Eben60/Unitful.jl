@@ -108,7 +108,7 @@ macro dimension(symb, abbr, name, autodocs=false, makepublic=autodocs)
         $s
     end
     makepublic || return esc(expr1)
-    expr2 = Expr(:public, name, uname, funame)
+    expr2 = Expr(:public, Symbol(abbr), name, uname, funame)
     esc(Expr(:block, expr1, expr2, s))
 end
 
