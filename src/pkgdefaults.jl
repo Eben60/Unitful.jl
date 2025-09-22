@@ -330,7 +330,9 @@ VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public ha"))
 \nThe liter, a metric unit of volume, defined as 1000 cm^3.
 \nDimension: 𝐋^3.
 \nSee Also: [`Unitful.cm`](@ref)."
-((@unit L    "L"        Liter       m^3//1000               true false true), const l = L)
+((@unit L    "L"        Liter       m^3//1000               true false true), 
+    const l = L, 
+    VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public l")))
 for (k,v) in prefixdict
     if k != 0
         sym_L = Symbol(v,:L)
@@ -345,7 +347,9 @@ for (k,v) in prefixdict
 
                     See also: [`Unitful.L`](@ref).
                     """
-        run = quote @doc $docstring ((const $sym_l = $sym_L), $sym_L) end #TODO
+        expr1 = quote @doc $docstring ((const $sym_l = $sym_L), $sym_L) end 
+        expr2 = Expr(:public, sym_L, sym_l)
+        run = Expr(:block, expr1, expr2, nothing)
         eval(run)
     end
 end
@@ -655,7 +659,7 @@ VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public Å"))
 \nThe pound-mass, a US customary unit of mass defined as exactly 0.453,592,37 kg.
 \nDimension: [`Unitful.𝐌`](@ref).
 \nSee Also: [`Unitful.kg`](@ref)."
-@unit lb        "lb"       Pound                0.45359237kg            false # is exact
+@unit lb        "lb"       Pound                0.45359237kg            false false true # is exact
 "    Unitful.oz
 \nThe ounce, a US customary unit of mass defined as 1/16 lb.
 \nDimension: [`Unitful.𝐌`](@ref).
